@@ -1,0 +1,1591 @@
+{
+  "metadata": {
+    "project": "TERRA-X",
+    "subtitle": "Planetary Intelligence & Earth Analogs Discovery",
+    "challenge": "NASA Space Apps Challenge 2026 — Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars",
+    "version": "1.0.0-poc"
+  },
+  "datasets": [
+    {
+      "id": "mola_dem",
+      "body": "mars",
+      "name": "MOLA MEGDR Digital Elevation Model",
+      "source": "NASA PDS Geosciences Node",
+      "product": "MGS-M-MOLA-5-MEGDR-L3-V1.0",
+      "resolution": "463 m/px",
+      "units": "m (areoid)",
+      "layer": "altimetry",
+      "date": "2001–2003",
+      "url": "https://pds.nasa.gov/",
+      "notes": "Global Mars laser altimetry elevation baseline."
+    },
+    {
+      "id": "ctx_hirise_slope",
+      "body": "mars",
+      "name": "CTX / HiRISE Derived Slope & Roughness",
+      "source": "NASA PDS / USGS Astrogeology",
+      "product": "MRO-M-CTX-2-EDR / HiRISE DTM",
+      "resolution": "1–20 m/px",
+      "units": "degrees / RMS m",
+      "layer": "slope_roughness",
+      "date": "2006–2025",
+      "url": "https://pds.nasa.gov/",
+      "notes": "High-resolution local rover traversability derivatives."
+    },
+    {
+      "id": "themis_ir",
+      "body": "mars",
+      "name": "THEMIS Thermal Inertia & Surface Temp",
+      "source": "NASA PDS / ASU Mars Space Flight Facility",
+      "product": "ODY-M-THM-3-IRRDR",
+      "resolution": "100 m/px",
+      "units": "°C / J m⁻² K⁻¹ s⁻¹/²",
+      "layer": "temperature",
+      "date": "2002–2024",
+      "url": "https://pds.nasa.gov/",
+      "notes": "Diurnal thermal regime for cold/arid comparison."
+    },
+    {
+      "id": "crism_omega",
+      "body": "mars",
+      "name": "CRISM & OMEGA Hydrated Mineralogy",
+      "source": "NASA PDS / ESA Mars Express",
+      "product": "MRO-M-CRISM-3-RDR-TARGETED",
+      "resolution": "18–200 m/px",
+      "units": "spectral band depth / mineral class",
+      "layer": "mineralogy",
+      "date": "2006–2022",
+      "url": "https://pds.nasa.gov/",
+      "notes": "Detects phyllosilicates, sulfates, carbonates, and chlorides."
+    },
+    {
+      "id": "lola_dem",
+      "body": "moon",
+      "name": "LOLA Lunar South Pole Elevation & Slope",
+      "source": "NASA PDS / LRO Science Team",
+      "product": "LRO-L-LOLA-4-GDR-V1.0",
+      "resolution": "5–20 m/px (polar)",
+      "units": "m / degrees",
+      "layer": "altimetry",
+      "date": "2009–2024",
+      "url": "https://trek.nasa.gov/moon/",
+      "notes": "Primary topographic reference for Artemis permanent base candidates."
+    },
+    {
+      "id": "lroc_nac",
+      "body": "moon",
+      "name": "LROC NAC Surface Roughness & PSR Illumination",
+      "source": "NASA PDS / Moon Trek WMTS",
+      "product": "LRO-L-LROC-3-CDR",
+      "resolution": "0.5–2 m/px",
+      "units": "RMS m / % illumination",
+      "layer": "slope_roughness",
+      "date": "2009–2025",
+      "url": "https://trek.nasa.gov/moon/",
+      "notes": "Boulder distribution, crater rim hazards, and solar illumination."
+    },
+    {
+      "id": "copernicus_dem",
+      "body": "earth",
+      "name": "Copernicus GLO-30 Digital Elevation Model",
+      "source": "Copernicus / ESA",
+      "product": "COP-DEM_GLO-30",
+      "resolution": "30 m/px",
+      "units": "m (EGM2008)",
+      "layer": "altimetry",
+      "date": "2021–2024",
+      "url": "https://dataspace.copernicus.eu/",
+      "notes": "Harmonized global Earth terrain baseline for slope and roughness."
+    },
+    {
+      "id": "landsat_sentinel",
+      "body": "earth",
+      "name": "Landsat 8/9 & Sentinel-2 Surface Reflectance / LST",
+      "source": "NASA Earthdata / USGS / Copernicus",
+      "product": "HLS L30 / S30",
+      "resolution": "10–30 m/px",
+      "units": "°C / SWIR mineral indices",
+      "layer": "mineralogy",
+      "date": "2018–2025",
+      "url": "https://earthdata.nasa.gov/",
+      "notes": "Evaporite, clay, and iron-oxide spectral mapping + land surface temperature."
+    },
+    {
+      "id": "terra_climate",
+      "body": "earth",
+      "name": "NASA Earthdata / TerraClimate Aridity & Water Balance",
+      "source": "NASA Earthdata / Climatology Lab",
+      "product": "TERRACLIMATE-V1",
+      "resolution": "4 km/px",
+      "units": "UNEP Aridity Index (P/PET)",
+      "layer": "aridity",
+      "date": "1991–2023",
+      "url": "https://earthdata.nasa.gov/",
+      "notes": "Hyperarid classification (AI < 0.05) used as water-limited proxy."
+    },
+    {
+      "id": "field_geochem_lit",
+      "body": "earth",
+      "name": "Peer-Reviewed In-Situ Geochemistry & Biosignatures",
+      "source": "Published Literature (e.g., Oberlin et al., 2018)",
+      "product": "CURATED-LIT-V1",
+      "resolution": "Point / Basin samples",
+      "units": "wt% soluble salts / perchlorate / pH",
+      "layer": "geochemistry",
+      "date": "2003–2023",
+      "url": "https://doi.org/10.1089/ast.2016.1557",
+      "notes": "In-situ laboratory measurements; orbital signatures never replace ground assays."
+    }
+  ],
+  "criteria": [
+    {
+      "id": "altimetry",
+      "label_en": "Altimetry & Macro-Relief",
+      "label_fr": "Altimétrie & Macro-Relief",
+      "unit": "m relief",
+      "scale_max": 2500.0,
+      "comparable_mars": true,
+      "comparable_moon": true,
+      "description": "Local elevation range (max - min within AOI) representing basin vs. crater-rim topography."
+    },
+    {
+      "id": "slope_roughness",
+      "label_en": "Slope & Surface Roughness",
+      "label_fr": "Pente & Rugosité",
+      "unit": "deg / RMS",
+      "scale_max": 35.0,
+      "comparable_mars": true,
+      "comparable_moon": true,
+      "description": "Mean terrain slope (degrees) derived from DEM; critical for rover mobility and landing safety."
+    },
+    {
+      "id": "temperature",
+      "label_en": "Thermal Regime",
+      "label_fr": "Régime Thermique",
+      "unit": "°C",
+      "scale_max": 120.0,
+      "comparable_mars": true,
+      "comparable_moon": true,
+      "description": "Mean / seasonal minimum surface temperature proxy (with explicit planetary atmosphere caveats)."
+    },
+    {
+      "id": "aridity",
+      "label_en": "Aridity & Water Limitation",
+      "label_fr": "Aridité & Déficit Hydrique",
+      "unit": "Hyperaridity Index (0-1)",
+      "scale_max": 1.0,
+      "comparable_mars": true,
+      "comparable_moon": false,
+      "description": "Atmospheric water limitation proxy (1 - P/PET). Marked non-comparable for airless Lunar targets."
+    },
+    {
+      "id": "mineralogy",
+      "label_en": "Mineralogy & Spectral Match",
+      "label_fr": "Minéralogie & Signature Spectrale",
+      "unit": "mineral assemblage overlap",
+      "scale_max": 1.0,
+      "comparable_mars": true,
+      "comparable_moon": true,
+      "description": "Jaccard + abundance overlap of dominant mineral groups (clays, sulfates, chlorides, basalts, oxides)."
+    },
+    {
+      "id": "geochemistry",
+      "label_en": "Soluble Salts & Geochemistry",
+      "label_fr": "Sels Solubles & Géochimie",
+      "unit": "geochemical index (0-1)",
+      "scale_max": 1.0,
+      "comparable_mars": true,
+      "comparable_moon": true,
+      "description": "Soluble salts, perchlorates/chlorides, pH, and redox chemistry from in-situ or rover measurements."
+    }
+  ],
+  "planetary_aois": [
+    {
+      "id": "jezero_crater",
+      "body": "mars",
+      "name": "Jezero Crater — Western Delta & Margin",
+      "region": "Isidis Planitia Rim, Mars",
+      "lat": 18.38,
+      "lon": 77.58,
+      "area_km2": 145.0,
+      "target_crs": "IAU_2015:49900 (Mars 2000 Equirectangular)",
+      "polygon": [
+        [
+          18.25,
+          77.35
+        ],
+        [
+          18.52,
+          77.35
+        ],
+        [
+          18.52,
+          77.8
+        ],
+        [
+          18.25,
+          77.8
+        ]
+      ],
+      "summary": "Ancient paleolake basin and river delta investigated by NASA Perseverance; hosts Mg-carbonates, Fe/Mg smectites, sulfates, and evaporitic salts.",
+      "datasets": [
+        "mola_dem",
+        "ctx_hirise_slope",
+        "themis_ir",
+        "crism_omega"
+      ],
+      "terrain_seed": 42,
+      "terrain_style": "delta_crater",
+      "features": {
+        "altimetry": {
+          "value": 680,
+          "unit": "m relief",
+          "uncertainty": 35,
+          "provenance": "MOLA + CTX DTM",
+          "resolution_m": 20
+        },
+        "slope_roughness": {
+          "value": 8.4,
+          "unit": "deg mean slope",
+          "uncertainty": 1.2,
+          "provenance": "HiRISE DTM",
+          "resolution_m": 2
+        },
+        "temperature": {
+          "value": -58.0,
+          "unit": "°C mean",
+          "uncertainty": 8.0,
+          "provenance": "THEMIS IR",
+          "resolution_m": 100
+        },
+        "aridity": {
+          "value": 0.99,
+          "unit": "hyperarid proxy",
+          "uncertainty": 0.01,
+          "provenance": "Mars surface water-activity limit",
+          "resolution_m": 1000
+        },
+        "mineralogy": {
+          "value": 0.85,
+          "tags": [
+            "smectite",
+            "carbonate",
+            "sulfate",
+            "chloride",
+            "basalt"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.1,
+          "provenance": "CRISM / Perseverance PIXL-SHERLOC",
+          "resolution_m": 18
+        },
+        "geochemistry": {
+          "value": 0.82,
+          "tags": [
+            "soluble_salts",
+            "sulfate_brine",
+            "perchlorate",
+            "neutral_alkaline_pH"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.12,
+          "provenance": "Perseverance & Curiosity Gale baseline",
+          "resolution_m": 1
+        }
+      }
+    },
+    {
+      "id": "oxia_planum",
+      "body": "mars",
+      "name": "Oxia Planum — Clay-Bearing Plain",
+      "region": "Chryse Planitia Margin, Mars",
+      "lat": 18.27,
+      "lon": -24.37,
+      "area_km2": 210.0,
+      "target_crs": "IAU_2015:49900 (Mars 2000 Equirectangular)",
+      "polygon": [
+        [
+          18.05,
+          -24.75
+        ],
+        [
+          18.5,
+          -24.75
+        ],
+        [
+          18.5,
+          -23.95
+        ],
+        [
+          18.05,
+          -23.95
+        ]
+      ],
+      "summary": "ESA ExoMars Rosalind Franklin landing site; extensive Fe/Mg smectite-vermiculite and hydrated silica plains formed by ancient aqueous alteration.",
+      "datasets": [
+        "mola_dem",
+        "ctx_hirise_slope",
+        "themis_ir",
+        "crism_omega"
+      ],
+      "terrain_seed": 108,
+      "terrain_style": "clay_plain",
+      "features": {
+        "altimetry": {
+          "value": 340,
+          "unit": "m relief",
+          "uncertainty": 25,
+          "provenance": "MOLA + CaSSIS/HiRISE",
+          "resolution_m": 20
+        },
+        "slope_roughness": {
+          "value": 4.2,
+          "unit": "deg mean slope",
+          "uncertainty": 0.8,
+          "provenance": "HiRISE DTM",
+          "resolution_m": 2
+        },
+        "temperature": {
+          "value": -52.0,
+          "unit": "°C mean",
+          "uncertainty": 7.0,
+          "provenance": "THEMIS IR",
+          "resolution_m": 100
+        },
+        "aridity": {
+          "value": 0.99,
+          "unit": "hyperarid proxy",
+          "uncertainty": 0.01,
+          "provenance": "Mars surface water-activity limit",
+          "resolution_m": 1000
+        },
+        "mineralogy": {
+          "value": 0.9,
+          "tags": [
+            "smectite",
+            "hydrated_silica",
+            "phyllosilicate",
+            "iron_oxide",
+            "basalt"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.08,
+          "provenance": "CRISM / OMEGA (ESA)",
+          "resolution_m": 18
+        },
+        "geochemistry": {
+          "value": 0.74,
+          "tags": [
+            "soluble_salts",
+            "fe_mg_clay",
+            "oxidizing_regolith"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.18,
+          "provenance": "Orbital inference (no in-situ rover yet)",
+          "resolution_m": 18
+        }
+      }
+    },
+    {
+      "id": "gale_crater",
+      "body": "mars",
+      "name": "Gale Crater — Mount Sharp Sulfate Unit",
+      "region": "Aeolis Quadrangle, Mars",
+      "lat": -5.4,
+      "lon": 137.8,
+      "area_km2": 180.0,
+      "target_crs": "IAU_2015:49900 (Mars 2000 Equirectangular)",
+      "polygon": [
+        [
+          -5.65,
+          137.55
+        ],
+        [
+          -5.15,
+          137.55
+        ],
+        [
+          -5.15,
+          138.05
+        ],
+        [
+          -5.65,
+          138.05
+        ]
+      ],
+      "summary": "Curiosity rover field site transitioning from ancient lacustrine mudstones to sulfate-bearing and chloride-rich evaporitic strata.",
+      "datasets": [
+        "mola_dem",
+        "ctx_hirise_slope",
+        "themis_ir",
+        "crism_omega"
+      ],
+      "terrain_seed": 77,
+      "terrain_style": "mound_basin",
+      "features": {
+        "altimetry": {
+          "value": 1450,
+          "unit": "m relief",
+          "uncertainty": 40,
+          "provenance": "MOLA + CTX",
+          "resolution_m": 20
+        },
+        "slope_roughness": {
+          "value": 11.5,
+          "unit": "deg mean slope",
+          "uncertainty": 1.5,
+          "provenance": "HiRISE DTM",
+          "resolution_m": 2
+        },
+        "temperature": {
+          "value": -55.0,
+          "unit": "°C mean",
+          "uncertainty": 6.0,
+          "provenance": "REMS / THEMIS",
+          "resolution_m": 100
+        },
+        "aridity": {
+          "value": 0.99,
+          "unit": "hyperarid proxy",
+          "uncertainty": 0.01,
+          "provenance": "REMS RH + surface limit",
+          "resolution_m": 100
+        },
+        "mineralogy": {
+          "value": 0.88,
+          "tags": [
+            "sulfate",
+            "smectite",
+            "chloride",
+            "iron_oxide",
+            "basalt"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.07,
+          "provenance": "CRISM + CheMin XRD",
+          "resolution_m": 18
+        },
+        "geochemistry": {
+          "value": 0.91,
+          "tags": [
+            "soluble_salts",
+            "perchlorate",
+            "sulfate_brine",
+            "acidic_to_neutral"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.06,
+          "provenance": "Curiosity SAM / APXS in-situ",
+          "resolution_m": 1
+        }
+      }
+    },
+    {
+      "id": "shackleton_rim",
+      "body": "moon",
+      "name": "Shackleton Crater Rim — South Pole Base AOI",
+      "region": "Lunar South Pole",
+      "lat": -89.65,
+      "lon": 129.2,
+      "area_km2": 64.0,
+      "target_crs": "IAU_2015:30135 (Moon South Pole Stereographic)",
+      "polygon": [
+        [
+          -89.8,
+          120.0
+        ],
+        [
+          -89.5,
+          120.0
+        ],
+        [
+          -89.5,
+          138.0
+        ],
+        [
+          -89.8,
+          138.0
+        ]
+      ],
+      "summary": "High-illumination ridge bordering a Permanently Shadowed Region (PSR) with potential water-ice traps; primary candidate for a permanent Moon base.",
+      "datasets": [
+        "lola_dem",
+        "lroc_nac"
+      ],
+      "terrain_seed": 2026,
+      "terrain_style": "polar_rim",
+      "features": {
+        "altimetry": {
+          "value": 2100,
+          "unit": "m relief",
+          "uncertainty": 15,
+          "provenance": "LOLA Polar GDR",
+          "resolution_m": 5
+        },
+        "slope_roughness": {
+          "value": 18.2,
+          "unit": "deg mean slope",
+          "uncertainty": 2.0,
+          "provenance": "LOLA + LROC NAC",
+          "resolution_m": 2
+        },
+        "temperature": {
+          "value": -135.0,
+          "unit": "°C mean ridge",
+          "uncertainty": 25.0,
+          "provenance": "LRO Diviner",
+          "resolution_m": 200
+        },
+        "aridity": null,
+        "mineralogy": {
+          "value": 0.65,
+          "tags": [
+            "anorthosite",
+            "impact_breccia",
+            "regolith",
+            "water_ice_psr"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.14,
+          "provenance": "M3 / LROC / LCROSS",
+          "resolution_m": 140
+        },
+        "geochemistry": {
+          "value": 0.35,
+          "tags": [
+            "silicate_regolith",
+            "volatiles_psr",
+            "low_salts"
+          ],
+          "unit": "regolith index",
+          "uncertainty": 0.22,
+          "provenance": "Apollo highlands + LCROSS plume",
+          "resolution_m": 500
+        }
+      }
+    },
+    {
+      "id": "mare_tranquillitatis",
+      "body": "moon",
+      "name": "Mare Tranquillitatis — Basalt Pit & Regolith",
+      "region": "Equatorial Mare, Moon",
+      "lat": 8.33,
+      "lon": 33.22,
+      "area_km2": 95.0,
+      "target_crs": "IAU_2015:30100 (Moon 2000 Equirectangular)",
+      "polygon": [
+        [
+          8.1,
+          32.95
+        ],
+        [
+          8.55,
+          32.95
+        ],
+        [
+          8.55,
+          33.5
+        ],
+        [
+          8.1,
+          33.5
+        ]
+      ],
+      "summary": "High-titanium mare basalt plain featuring skylight pits linked to subsurface lava tubes, offering natural radiation and thermal shielding.",
+      "datasets": [
+        "lola_dem",
+        "lroc_nac"
+      ],
+      "terrain_seed": 314,
+      "terrain_style": "lava_pit",
+      "features": {
+        "altimetry": {
+          "value": 280,
+          "unit": "m relief",
+          "uncertainty": 10,
+          "provenance": "LOLA GDR",
+          "resolution_m": 20
+        },
+        "slope_roughness": {
+          "value": 5.8,
+          "unit": "deg mean slope",
+          "uncertainty": 0.9,
+          "provenance": "LROC NAC DTM",
+          "resolution_m": 1
+        },
+        "temperature": {
+          "value": -20.0,
+          "unit": "°C mean equatorial",
+          "uncertainty": 45.0,
+          "provenance": "LRO Diviner (extreme diurnal swing)",
+          "resolution_m": 200
+        },
+        "aridity": null,
+        "mineralogy": {
+          "value": 0.8,
+          "tags": [
+            "basalt",
+            "ilmenite",
+            "lava_tube",
+            "regolith"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.09,
+          "provenance": "LROC + Clementine + Apollo 11",
+          "resolution_m": 100
+        },
+        "geochemistry": {
+          "value": 0.42,
+          "tags": [
+            "fe_ti_basalt",
+            "silicate_regolith",
+            "anhydrous"
+          ],
+          "unit": "regolith index",
+          "uncertainty": 0.15,
+          "provenance": "Apollo 11 samples + LP GRS",
+          "resolution_m": 50
+        }
+      }
+    }
+  ],
+  "earth_sites": [
+    {
+      "id": "tindouf_sebkha",
+      "name": "Tindouf Basin — Sebkha & Evaporite Margin",
+      "country": "Algeria / Morocco Border Region",
+      "region_group": "north_africa",
+      "lat": 27.67,
+      "lon": -8.14,
+      "elevation_m": 405,
+      "status": "Literature-Anchored Candidate",
+      "accessibility_score": 0.72,
+      "safety_score": 0.78,
+      "terrain_seed": 501,
+      "terrain_style": "clay_plain",
+      "summary": "Hyperarid Saharan evaporite basin with documented soluble salt assemblages (chlorides, sulfates, nitrates, and perchlorate analogs) analogous to Martian evaporitic soils.",
+      "publications": [
+        {
+          "id": "oberlin_2018",
+          "citation": "Oberlin, E. A., Claire, M. W., & Kounaves, S. P. (2018). Evaluation of the Tindouf Basin as a Mars Analog for Soluble Salt Geochemistry. Astrobiology.",
+          "doi": "10.1089/ast.2016.1557",
+          "url": "https://doi.org/10.1089/ast.2016.1557",
+          "key_finding": "Demonstrates high concentrations of soluble chlorides and sulfates in hyperarid evaporitic crusts relevant to Mars Phoenix and Gale soil chemistry."
+        }
+      ],
+      "limits": [
+        "Earth atmospheric pressure (~1 bar) and daytime temperatures (+25°C to +45°C) differ sharply from Martian cryogenic surface conditions.",
+        "Logistics and cross-border access require regional field permits."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 260,
+          "unit": "m relief",
+          "uncertainty": 15,
+          "provenance": "Copernicus GLO-30 DEM",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 3.5,
+          "unit": "deg mean slope",
+          "uncertainty": 0.6,
+          "provenance": "Copernicus DEM derivative",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": 23.0,
+          "unit": "°C mean",
+          "uncertainty": 2.0,
+          "provenance": "Landsat LST / ERA5",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "aridity": {
+          "value": 0.96,
+          "unit": "hyperarid index",
+          "uncertainty": 0.02,
+          "provenance": "TerraClimate P/PET",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.84,
+          "tags": [
+            "sulfate",
+            "chloride",
+            "smectite",
+            "carbonate",
+            "iron_oxide"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.09,
+          "provenance": "Sentinel-2 SWIR + XRD (Oberlin 2018)",
+          "resolution_m": 20,
+          "measurement_type": "in_situ"
+        },
+        "geochemistry": {
+          "value": 0.92,
+          "tags": [
+            "soluble_salts",
+            "sulfate_brine",
+            "perchlorate",
+            "neutral_alkaline_pH"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.06,
+          "provenance": "Oberlin et al. (2018) ion chromatography",
+          "resolution_m": 1,
+          "measurement_type": "in_situ"
+        }
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Barycentre de la Sebkha de Tindouf / station Oberlin 2018",
+      "position_source": "Oberlin et al., 2018 (GPS terrain); Copernicus GLO-30",
+      "bounding_box": [
+        -8.35,
+        27.45,
+        -7.95,
+        27.85
+      ],
+      "raster_product": "Copernicus_DSM_COG_10_N27_00_W009_00_DEM",
+      "grid_dx": 30,
+      "is_regional": false,
+      "sector_note": "Secteur d'évaporites et de croûtes salines hyperarides documenté par spectroscopie SWIR et diffraction RX."
+    },
+    {
+      "id": "iriqui_draa",
+      "name": "Lake Iriqui — Sebkha & Paléolac (Southern Morocco)",
+      "country": "Morocco",
+      "region_group": "north_africa",
+      "lat": 29.8127,
+      "lon": -6.5047,
+      "elevation_m": 465,
+      "status": "Newly Discovered Regional Candidate",
+      "accessibility_score": 0.91,
+      "safety_score": 0.92,
+      "terrain_seed": 502,
+      "terrain_style": "delta_crater",
+      "summary": "Accessible Moroccan paleolake playa and braided wadi fan system with evaporite crusts, clay flats, and low-slope rover test corridors.",
+      "publications": [
+        {
+          "id": "morocco_analog_ref",
+          "citation": "Ori, G. G. et al. — Draa / Anti-Atlas Mars Analog Field Campaigns (Morocco Planetary Analog Testbed).",
+          "doi": "10.1016/j.pss.2014.05.002",
+          "url": "https://doi.org/10.1016/j.pss.2014.05.002",
+          "key_finding": "Fluvial-lacustrine fan morphology and evaporitic playa flats provide safe, accessible testbeds for rover navigation and stratigraphy."
+        }
+      ],
+      "limits": [
+        "Seasonal ephemeral flooding can briefly alter surface salt crust state.",
+        "Soluble perchlorate/salt assay is missing in current harmonized database — relies on orbital SWIR mineralogy only."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 420,
+          "unit": "m relief",
+          "uncertainty": 18,
+          "provenance": "Copernicus GLO-30 DEM",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 4.8,
+          "unit": "deg mean slope",
+          "uncertainty": 0.7,
+          "provenance": "Copernicus DEM derivative",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": 21.5,
+          "unit": "°C mean",
+          "uncertainty": 2.0,
+          "provenance": "Landsat LST",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "aridity": {
+          "value": 0.92,
+          "unit": "hyperarid index",
+          "uncertainty": 0.03,
+          "provenance": "TerraClimate P/PET",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.8,
+          "tags": [
+            "smectite",
+            "carbonate",
+            "sulfate",
+            "chloride"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.12,
+          "provenance": "Landsat 8/9 + Sentinel-2 SWIR",
+          "resolution_m": 20,
+          "measurement_type": "orbital"
+        },
+        "geochemistry": null
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Barycentre du paléolac asséché d'Iriqui (Playa centrale)",
+      "position_source": "NASADEM_HGT_n29w007 / Ori et al., 2014",
+      "bounding_box": [
+        -6.5902,
+        29.7385,
+        -6.4192,
+        29.8869
+      ],
+      "raster_product": "NASADEM_HGT_n29w007",
+      "grid_dx": 500,
+      "is_regional": false,
+      "sector_note": "Secteur paléolac à fond plat et argiles évaporitiques (parfait pour essais de mobilité basse pente et stratigraphie)."
+    },
+    {
+      "id": "atacama_yungay",
+      "name": "Atacama Desert — Yungay Hyperarid Core",
+      "country": "Chile",
+      "region_group": "south_america",
+      "lat": -24.08,
+      "lon": -69.92,
+      "elevation_m": 990,
+      "status": "Established Astrobiology Benchmark",
+      "accessibility_score": 0.85,
+      "safety_score": 0.88,
+      "terrain_seed": 503,
+      "terrain_style": "clay_plain",
+      "summary": "World's driest non-polar desert; benchmark for extreme water-limitation, natural perchlorate/nitrate soils, and trace organic biosignature preservation.",
+      "publications": [
+        {
+          "id": "navarro_2003",
+          "citation": "Navarro-González, R. et al. (2003). Mars-Like Soils in the Atacama Desert, Chile, and the Dry Limit of Microbial Life. Science, 302(5647).",
+          "doi": "10.1126/science.1089143",
+          "url": "https://doi.org/10.1126/science.1089143",
+          "key_finding": "Yungay soils show ultra-low microbial biomass and strong oxidizing chemistry analogous to Viking Mars soil experiments."
+        }
+      ],
+      "limits": [
+        "Mean surface temperature (~16°C) is much warmer than Mars or Lunar South Pole.",
+        "Nitrate enrichment in Atacama exceeds known Martian abundances."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 510,
+          "unit": "m relief",
+          "uncertainty": 20,
+          "provenance": "Copernicus GLO-30 DEM",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 6.1,
+          "unit": "deg mean slope",
+          "uncertainty": 0.8,
+          "provenance": "Copernicus DEM derivative",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": 16.5,
+          "unit": "°C mean",
+          "uncertainty": 1.8,
+          "provenance": "Landsat LST",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "aridity": {
+          "value": 0.98,
+          "unit": "hyperarid index",
+          "uncertainty": 0.01,
+          "provenance": "TerraClimate P/PET",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.83,
+          "tags": [
+            "sulfate",
+            "chloride",
+            "smectite",
+            "iron_oxide"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.08,
+          "provenance": "Sentinel-2 + Field XRD",
+          "resolution_m": 20,
+          "measurement_type": "in_situ"
+        },
+        "geochemistry": {
+          "value": 0.89,
+          "tags": [
+            "soluble_salts",
+            "perchlorate",
+            "oxidizing_regolith",
+            "sulfate_brine"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.07,
+          "provenance": "Navarro-González et al. (2003) + Catling et al.",
+          "resolution_m": 1,
+          "measurement_type": "in_situ"
+        }
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Station d'échantillonnage biologique Yungay Core (Bassin d'Aguas Blancas)",
+      "position_source": "Navarro-González et al. (2003); Copernicus DEM",
+      "bounding_box": [
+        -69.9513,
+        -24.1742,
+        -69.7887,
+        -24.0258
+      ],
+      "raster_product": "Copernicus_DSM_COG_10_S25_00_W070_00_DEM",
+      "grid_dx": 500,
+      "is_regional": false,
+      "sector_note": "Secteur hyperaride d'Aguas Blancas avec grille altimétrique haute résolution Copernicus DEM."
+    },
+    {
+      "id": "mcmurdo_dry_valleys",
+      "name": "McMurdo Dry Valleys (University Valley)",
+      "country": "Antarctica",
+      "region_group": "antarctica",
+      "lat": -77.86,
+      "lon": 160.7,
+      "elevation_m": 1650,
+      "status": "Established Cryogenic Benchmark",
+      "accessibility_score": 0.35,
+      "safety_score": 0.52,
+      "terrain_seed": 504,
+      "terrain_style": "polar_rim",
+      "summary": "Cold, hyperarid polar desert with ice-cemented permafrost, sublimation polygons, and cryogenic thermal regimes analogous to high-latitude Mars and polar Moon operations.",
+      "publications": [
+        {
+          "id": "doran_2002",
+          "citation": "Doran, P. T. et al. (2002) & Tamppari, L. K. et al. — McMurdo Dry Valleys as a Terrestrial Analog for Mars Cryosphere & Polar Permafrost.",
+          "doi": "10.1029/2001JD002045",
+          "url": "https://doi.org/10.1029/2001JD002045",
+          "key_finding": "Sublimation-controlled permafrost and sub-zero hyperaridity closely replicate Mars Phoenix and high-latitude ice stability."
+        }
+      ],
+      "limits": [
+        "Extremely high logistical cost, strict Antarctic Treaty environmental protocols, and short seasonal access window.",
+        "Lacks abundant Mg/Fe phyllosilicates compared to Oxia Planum or Jezero."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 1320,
+          "unit": "m relief",
+          "uncertainty": 25,
+          "provenance": "REMA / Copernicus DEM",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 14.4,
+          "unit": "deg mean slope",
+          "uncertainty": 1.4,
+          "provenance": "REMA 8m DEM",
+          "resolution_m": 8,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": -24.0,
+          "unit": "°C mean (-45°C winter)",
+          "uncertainty": 3.0,
+          "provenance": "LTER AWS + MODIS LST",
+          "resolution_m": 100,
+          "measurement_type": "in_situ"
+        },
+        "aridity": {
+          "value": 0.95,
+          "unit": "hyperarid index",
+          "uncertainty": 0.03,
+          "provenance": "Antarctic AWS sublimation balance",
+          "resolution_m": 1000,
+          "measurement_type": "in_situ"
+        },
+        "mineralogy": {
+          "value": 0.58,
+          "tags": [
+            "sulfate",
+            "chloride",
+            "water_ice_psr",
+            "basalt"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.12,
+          "provenance": "Field spectroscopy + dolerite/sandstone",
+          "resolution_m": 30,
+          "measurement_type": "in_situ"
+        },
+        "geochemistry": {
+          "value": 0.72,
+          "tags": [
+            "soluble_salts",
+            "perchlorate",
+            "volatiles_psr"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.11,
+          "provenance": "Kounaves et al. Antarctic perchlorate assays",
+          "resolution_m": 1,
+          "measurement_type": "in_situ"
+        }
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Station permafrost University Valley (Beacon Valley ridge)",
+      "position_source": "Doran et al., 2002; REMA / USGS LTER",
+      "bounding_box": null,
+      "raster_product": "REMA_8m_mosaic",
+      "grid_dx": 1000,
+      "is_regional": true,
+      "sector_note": "Score régional · emprise de calcul non documentée (caractérisation stationnaire LTER)."
+    },
+    {
+      "id": "haughton_impact",
+      "name": "Haughton Impact Structure (Devon Island)",
+      "country": "Canada (High Arctic)",
+      "region_group": "north_america",
+      "lat": 75.38,
+      "lon": -89.65,
+      "elevation_m": 220,
+      "status": "Impact & Rover Mobility Analog",
+      "accessibility_score": 0.48,
+      "safety_score": 0.68,
+      "terrain_seed": 505,
+      "terrain_style": "delta_crater",
+      "summary": "23-km impact crater in a polar desert with impact breccia, gullies, ground ice, and decades of NASA/CSA Mars & Lunar rover traverse testing.",
+      "publications": [
+        {
+          "id": "lee_haughton",
+          "citation": "Lee, P. & Osinski, G. R. (2005). The Haughton-Mars Project: Overview of Science Investigations at the Haughton Impact Structure.",
+          "doi": "10.1111/j.1945-5100.2005.tb00155.x",
+          "url": "https://doi.org/10.1111/j.1945-5100.2005.tb00155.x",
+          "key_finding": "Preserved impact breccia and crater rim slopes provide high-fidelity terrain for both Mars craters and Lunar South Pole rover traverses."
+        }
+      ],
+      "limits": [
+        "Carbonate-rich target rocks differ from Martian basaltic crust.",
+        "Only accessible during brief Arctic summer windows."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 380,
+          "unit": "m relief",
+          "uncertainty": 15,
+          "provenance": "ArcticDEM / Copernicus",
+          "resolution_m": 10,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 9.8,
+          "unit": "deg mean slope",
+          "uncertainty": 1.1,
+          "provenance": "ArcticDEM 2m",
+          "resolution_m": 2,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": -16.0,
+          "unit": "°C mean",
+          "uncertainty": 2.5,
+          "provenance": "ECCC / MODIS LST",
+          "resolution_m": 100,
+          "measurement_type": "in_situ"
+        },
+        "aridity": {
+          "value": 0.84,
+          "unit": "polar arid index",
+          "uncertainty": 0.05,
+          "provenance": "TerraClimate / Arctic AWS",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.72,
+          "tags": [
+            "impact_breccia",
+            "carbonate",
+            "sulfate",
+            "regolith"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.1,
+          "provenance": "Field mapping + Hyperion",
+          "resolution_m": 30,
+          "measurement_type": "in_situ"
+        },
+        "geochemistry": {
+          "value": 0.56,
+          "tags": [
+            "soluble_salts",
+            "neutral_alkaline_pH"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.14,
+          "provenance": "Haughton-Mars soil surveys",
+          "resolution_m": 10,
+          "measurement_type": "in_situ"
+        }
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Camp de base HMP / bordure centrale du cratère d'impact",
+      "position_source": "Lee & Osinski, 2005; ArcticDEM",
+      "bounding_box": null,
+      "raster_product": "ArcticDEM_2m",
+      "grid_dx": 500,
+      "is_regional": true,
+      "sector_note": "Score régional · emprise de calcul non documentée (synthèse de traverses rover)."
+    },
+    {
+      "id": "rio_tinto",
+      "name": "Río Tinto — Acidic Sulfate Basin",
+      "country": "Spain",
+      "region_group": "europe",
+      "lat": 37.71,
+      "lon": -6.55,
+      "elevation_m": 340,
+      "status": "Mineralogical & Astrobiology Analog",
+      "accessibility_score": 0.94,
+      "safety_score": 0.89,
+      "terrain_seed": 506,
+      "terrain_style": "mound_basin",
+      "summary": "Extremely acidic iron- and sulfate-rich river basin (jarosite, hematite, goethite) serving as a premier mineralogical analog for Gale and Meridiani Planum.",
+      "publications": [
+        {
+          "id": "fernandez_remolar",
+          "citation": "Fernández-Remolar, D. C. et al. (2005). The Río Tinto Basin, Spain: Mineralogy, sedimentary geobiology, and implications for interpretation of outcrop rocks at Meridiani Planum, Mars.",
+          "doi": "10.1016/j.epsl.2005.09.043",
+          "url": "https://doi.org/10.1016/j.epsl.2005.09.043",
+          "key_finding": "Jarosite and ferric sulfate precipitates match Opportunity and Curiosity orbital/in-situ detections."
+        }
+      ],
+      "limits": [
+        "Humid Mediterranean climate and active surface liquid water make it a poor climatic/aridity analog.",
+        "Anthropogenic mining overprint must be separated from natural gossan formations."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 290,
+          "unit": "m relief",
+          "uncertainty": 12,
+          "provenance": "Copernicus GLO-30 DEM",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 10.6,
+          "unit": "deg mean slope",
+          "uncertainty": 1.0,
+          "provenance": "Copernicus DEM derivative",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": 17.5,
+          "unit": "°C mean",
+          "uncertainty": 1.5,
+          "provenance": "ERA5 / Landsat",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "aridity": {
+          "value": 0.48,
+          "unit": "semi-arid index",
+          "uncertainty": 0.05,
+          "provenance": "TerraClimate P/PET",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.87,
+          "tags": [
+            "sulfate",
+            "iron_oxide",
+            "smectite",
+            "hydrated_silica"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.07,
+          "provenance": "Sentinel-2 + Raman/XRD",
+          "resolution_m": 10,
+          "measurement_type": "in_situ"
+        },
+        "geochemistry": {
+          "value": 0.79,
+          "tags": [
+            "sulfate_brine",
+            "acidic_to_neutral",
+            "fe_mg_clay"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.08,
+          "provenance": "MARTE drilling + water/soil chemistry",
+          "resolution_m": 1,
+          "measurement_type": "in_situ"
+        }
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Affleurement gossan minéralogique Peña de Hierro",
+      "position_source": "Fernández-Remolar et al., 2005; IGN Espagne",
+      "bounding_box": null,
+      "raster_product": "MDT25_IGN",
+      "grid_dx": 25,
+      "is_regional": true,
+      "sector_note": "Score régional · emprise de calcul non documentée (mesures ponctuelles de cours d'eau acide)."
+    },
+    {
+      "id": "lanzarote_volcanic",
+      "name": "Lanzarote — Corona Lava Tubes & Basaltic Plains",
+      "country": "Spain (Canary Islands)",
+      "region_group": "europe",
+      "lat": 29.02,
+      "lon": -13.65,
+      "elevation_m": 310,
+      "status": "Lunar & Mars Rover / Lava Tube Analog",
+      "accessibility_score": 0.96,
+      "safety_score": 0.93,
+      "terrain_seed": 507,
+      "terrain_style": "lava_pit",
+      "summary": "Unweathered basaltic lava flows, pyroclastic regolith, and accessible lava tubes used by ESA PANGAEA astronaut and rover training.",
+      "publications": [
+        {
+          "id": "pangaea_lanzarote",
+          "citation": "Sauro, F. et al. (2019). ESA PANGAEA: Planetary Analog Geological Training in Lanzarote Volcanic Terrains & Lava Tubes.",
+          "doi": "10.1016/j.pss.2019.04.006",
+          "url": "https://doi.org/10.1016/j.pss.2019.04.006",
+          "key_finding": "Basaltic lava tubes and rough scoria fields replicate Lunar Mare Tranquillitatis pits and Martian volcanic rover hazards."
+        }
+      ],
+      "limits": [
+        "Oceanic island humidity and mild temperatures do not match Mars or Lunar thermal extremes.",
+        "Lacks significant evaporitic soluble salt crusts."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 360,
+          "unit": "m relief",
+          "uncertainty": 10,
+          "provenance": "Copernicus GLO-30 DEM",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 7.6,
+          "unit": "deg mean slope",
+          "uncertainty": 0.9,
+          "provenance": "LiDAR 2m / Copernicus",
+          "resolution_m": 5,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": 20.5,
+          "unit": "°C mean",
+          "uncertainty": 1.2,
+          "provenance": "Landsat LST",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "aridity": {
+          "value": 0.78,
+          "unit": "arid island index",
+          "uncertainty": 0.04,
+          "provenance": "TerraClimate P/PET",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.82,
+          "tags": [
+            "basalt",
+            "lava_tube",
+            "regolith",
+            "iron_oxide"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.08,
+          "provenance": "PANGAEA field spectroscopy",
+          "resolution_m": 10,
+          "measurement_type": "in_situ"
+        },
+        "geochemistry": {
+          "value": 0.45,
+          "tags": [
+            "fe_ti_basalt",
+            "silicate_regolith",
+            "anhydrous"
+          ],
+          "unit": "regolith index",
+          "uncertainty": 0.12,
+          "provenance": "Basalt bulk XRF",
+          "resolution_m": 5,
+          "measurement_type": "in_situ"
+        }
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Tube de lave Cueva de los Verdes / terrain d'entraînement ESA PANGAEA",
+      "position_source": "Sauro et al., 2019; Cabildo de Lanzarote LiDAR",
+      "bounding_box": null,
+      "raster_product": "LiDAR_IGN_Canarias",
+      "grid_dx": 5,
+      "is_regional": true,
+      "sector_note": "Score régional · emprise de calcul non documentée (couloir de tube volcanique)."
+    },
+    {
+      "id": "mojave_desert",
+      "name": "Mojave Desert — Silver Lake & Dumont Dunes",
+      "country": "United States",
+      "region_group": "north_america",
+      "lat": 35.34,
+      "lon": -116.12,
+      "elevation_m": 275,
+      "status": "Rover Mobility & Desert Varnish Testbed",
+      "accessibility_score": 0.95,
+      "safety_score": 0.94,
+      "terrain_seed": 508,
+      "terrain_style": "clay_plain",
+      "summary": "Classic NASA JPL rover engineering testbed combining alluvial fans, desert pavements, evaporitic playa flats, and steep dune/ridge slopes.",
+      "publications": [
+        {
+          "id": "jpl_mojave",
+          "citation": "Arvidson, R. E. et al. — Mojave Desert Rover Mobility & Spectral Testbed Investigations (JPL / NASA).",
+          "doi": "10.1029/2003JE002159",
+          "url": "https://doi.org/10.1029/2003JE002159",
+          "key_finding": "Provides rapid logistical access and controlled alluvial/playa slope gradients for rover slip and wheel-wear validation."
+        }
+      ],
+      "limits": [
+        "Semi-arid to arid climate with higher organic carbon background than hyperarid Atacama or Tindouf.",
+        "In-situ trace perchlorate assay not harmonized in this catalog slice."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 490,
+          "unit": "m relief",
+          "uncertainty": 15,
+          "provenance": "USGS 3DEP / Copernicus",
+          "resolution_m": 10,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 7.9,
+          "unit": "deg mean slope",
+          "uncertainty": 0.8,
+          "provenance": "USGS 3DEP 1m/10m",
+          "resolution_m": 10,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": 19.5,
+          "unit": "°C mean",
+          "uncertainty": 1.5,
+          "provenance": "Landsat LST",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "aridity": {
+          "value": 0.87,
+          "unit": "arid index",
+          "uncertainty": 0.03,
+          "provenance": "TerraClimate P/PET",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.74,
+          "tags": [
+            "smectite",
+            "chloride",
+            "basalt",
+            "regolith"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.11,
+          "provenance": "AVIRIS / Landsat",
+          "resolution_m": 20,
+          "measurement_type": "orbital"
+        },
+        "geochemistry": null
+      },
+      "crs": "WGS 84 (EPSG:4326)",
+      "position_reference": "Playa de Silver Lake / corridor de test rover JPL",
+      "position_source": "USGS 3DEP DEM / JPL Rover Field Tests",
+      "bounding_box": null,
+      "raster_product": "USGS_3DEP_10m",
+      "grid_dx": 10,
+      "is_regional": true,
+      "sector_note": "Score régional · emprise de calcul non documentée (synthèse régionale de dunes et playas)."
+    },
+    {
+      "id": "draa_valley",
+      "name": "Vallée du Drâa — Cône Alluvial & Chenaux Tressés (Morocco)",
+      "country": "Morocco",
+      "region_group": "north_africa",
+      "crs": "WGS 84 (EPSG:4326)",
+      "lat": 30.365,
+      "lon": -5.84,
+      "elevation_m": 310,
+      "status": "Morphometric Rover Mobility Testbed",
+      "accessibility_score": 0.94,
+      "safety_score": 0.9,
+      "terrain_seed": 508,
+      "terrain_style": "delta_crater",
+      "summary": "Braided fluvial fan system and low-slope alluvial gravel plains in the Moroccan Anti-Atlas, benchmarked for ExoMars rover mobility trials.",
+      "position_reference": "Terrasse alluviale de Tagounite / cône fluviatile du Drâa",
+      "position_source": "Copernicus DEM GLO-30 / Ori et al., 2014",
+      "bounding_box": [
+        -5.926,
+        30.2908,
+        -5.754,
+        30.4392
+      ],
+      "raster_product": "Copernicus_DSM_COG_10_N30_00_W006_00_DEM",
+      "grid_dx": 500,
+      "is_regional": false,
+      "sector_note": "Secteur de cône alluvial et terrasses de cailloutis modélisé par grille Copernicus DEM 30m.",
+      "publications": [
+        {
+          "id": "morocco_draa_ref",
+          "citation": "Ori, G. G. et al. — Draa Mars Analog Field Campaigns (Morocco Planetary Analog Testbed).",
+          "doi": "10.1016/j.pss.2014.05.002",
+          "url": "https://doi.org/10.1016/j.pss.2014.05.002",
+          "key_finding": "Fluvial fan gravels and terrace topography provide an ideal physical test corridor for planetary rover chassis and autonomous traverse algorithms."
+        }
+      ],
+      "limits": [
+        "Minimal clay and perchlorate deposits compared to Tindouf Sebkha evaporites.",
+        "Vegetation pockets in oued margins require exclusion filters."
+      ],
+      "features": {
+        "altimetry": {
+          "value": 310,
+          "unit": "m relief",
+          "uncertainty": 14,
+          "provenance": "Copernicus GLO-30 DEM",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "slope_roughness": {
+          "value": 5.2,
+          "unit": "deg mean slope",
+          "uncertainty": 0.8,
+          "provenance": "Copernicus DEM derivative",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "temperature": {
+          "value": 22.0,
+          "unit": "°C mean",
+          "uncertainty": 1.8,
+          "provenance": "Landsat LST",
+          "resolution_m": 30,
+          "measurement_type": "orbital"
+        },
+        "aridity": {
+          "value": 0.9,
+          "unit": "hyperarid index",
+          "uncertainty": 0.03,
+          "provenance": "TerraClimate P/PET",
+          "resolution_m": 4000,
+          "measurement_type": "climate_grid"
+        },
+        "mineralogy": {
+          "value": 0.74,
+          "tags": [
+            "iron_oxide",
+            "carbonate",
+            "smectite",
+            "regolith"
+          ],
+          "unit": "class index",
+          "uncertainty": 0.11,
+          "provenance": "Landsat 8/9 + Sentinel-2 SWIR",
+          "resolution_m": 20,
+          "measurement_type": "orbital"
+        },
+        "geochemistry": {
+          "value": 0.52,
+          "tags": [
+            "silicate_regolith",
+            "neutral_alkaline_pH"
+          ],
+          "unit": "salt/redox index",
+          "uncertainty": 0.15,
+          "provenance": "Field soil XRF",
+          "resolution_m": 10,
+          "measurement_type": "in_situ"
+        }
+      }
+    }
+  ],
+  "missions": [
+    {
+      "id": "soil_geochemistry",
+      "code": "A",
+      "name_en": "Soil Geochemistry",
+      "name_fr": "Géochimie des Sols",
+      "focus": "Salts, chemical composition, mineralogy",
+      "max_safe_slope_deg": 20.0,
+      "weights": {
+        "altimetry": 0.06,
+        "slope_roughness": 0.08,
+        "temperature": 0.08,
+        "aridity": 0.18,
+        "mineralogy": 0.28,
+        "geochemistry": 0.32
+      }
+    },
+    {
+      "id": "rover_mobility",
+      "code": "B",
+      "name_en": "Rover Mobility",
+      "name_fr": "Mobilité Rover",
+      "focus": "Slope, roughness, obstacles, logistics",
+      "max_safe_slope_deg": 15.0,
+      "weights": {
+        "altimetry": 0.24,
+        "slope_roughness": 0.4,
+        "temperature": 0.08,
+        "aridity": 0.08,
+        "mineralogy": 0.14,
+        "geochemistry": 0.06
+      }
+    },
+    {
+      "id": "cold_arid",
+      "code": "C",
+      "name_en": "Cold / Arid Operations",
+      "name_fr": "Froid / Aridité Extrême",
+      "focus": "Thermal regime, permafrost, aridity",
+      "max_safe_slope_deg": 22.0,
+      "weights": {
+        "altimetry": 0.1,
+        "slope_roughness": 0.12,
+        "temperature": 0.38,
+        "aridity": 0.24,
+        "mineralogy": 0.08,
+        "geochemistry": 0.08
+      }
+    },
+    {
+      "id": "astrobiology",
+      "code": "D",
+      "name_en": "Astrobiology & Biosignatures",
+      "name_fr": "Astrobiologie & Biosignatures",
+      "focus": "Biosignatures, water limitation, preservation",
+      "max_safe_slope_deg": 18.0,
+      "weights": {
+        "altimetry": 0.06,
+        "slope_roughness": 0.06,
+        "temperature": 0.12,
+        "aridity": 0.3,
+        "mineralogy": 0.22,
+        "geochemistry": 0.24
+      }
+    }
+  ]
+}

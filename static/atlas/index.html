@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071B32">
+  <title>TERRA-X (Terra-X) — Atlas des Analogues Planétaires</title>
+  <link rel="icon" type="image/png" href="/images/earth_analogs_logo.png">
+
+  <!-- Google Fonts matching Landing Page -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css?v=landing_design_v2">
+</head>
+<body>
+  <aside>
+    <a class="brand" href="/" title="Retour au portail d'accueil">
+      <img src="/images/earth_analogs_logo.png" alt="EARTH ANALOGS" style="height:34px;width:auto;object-fit:contain;" />
+      <div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;color:#FFFFFF;letter-spacing:-0.3px;line-height:1.1;">EARTH ANALOGS</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;color:#43B5F5;letter-spacing:0.8px;">TERRA-X · ATLAS</div>
+      </div>
+    </a>
+    <div class="brand-sub">SOUTENANCE JURY · 3 MIN</div>
+    <small>NAVIGATION SCIENTIFIQUE</small>
+    <nav>
+      <a href="#mission" data-view="mission" class="on"><i>⌖</i> Explorateur</a>
+      <a href="#analyse" data-view="analyse"><i>≋</i> Analyse comparative</a>
+      <a href="#sources" data-view="sources"><i>▤</i> Sources &amp; méthode</a>
+      <a href="#etudes" data-view="etudes"><i>◷</i> Études enregistrées</a>
+    </nav>
+    <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px;">
+      <a href="/" class="btn outline" style="font-size:12px;padding:8px 12px;background:rgba(255,255,255,0.06);color:#E7F5FF;border:1px solid rgba(255,255,255,0.14);justify-content:center;">
+        ← Accueil (Landing)
+      </a>
+      <a href="/workbench.html" class="btn primary" style="font-size:12px;padding:8px 12px;justify-content:center;">
+        Launch Workbench →
+      </a>
+    </div>
+    <div class="sidefoot">
+      <b>NASA Space Apps Challenge</b>
+      <span>Essaouira · Édition 2026</span>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="topicon">⊞</span>
+        <span>Espace de travail</span>
+        <em>/</em>
+        <strong id="crumb">Explorateur</strong>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a href="/" class="btn outline" style="font-size:12px;padding:7px 12px;">← Portail</a>
+        <a href="/workbench.html" class="btn primary" style="font-size:12px;padding:7px 12px;">Workbench →</a>
+        <button id="present" class="outline" style="border-color:#078FE0;color:#078FE0;font-weight:700;">
+          ⛶ <span>Mode présentation</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span> LABORATOIRE D’ANALOGUES PLANÉTAIRES</div>
+      <h1 id="title">Explorateur de mission</h1>
+      <p class="lead" id="intro">Comparez le relief d’une cible planétaire à des terrains d’essai sur Terre.</p>
+      <div id="view" aria-live="polite"></div>
+    </div>
+
+    <footer>
+      <span>TERRA-X · Système d'Analyse Multicritère d'Analogues Terrestres</span>
+      <span>NASA Space Apps Challenge 2026</span>
+    </footer>
+  </main>
+
+  <dialog id="modal">
+    <div id="modalBody"></div>
+    <button class="outline" id="close">Fermer</button>
+  </dialog>
+  <div id="toast" role="status"></div>
+
+  <script src="data.js"></script>
+  <script src="engine.js"></script>
+  <script src="world.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

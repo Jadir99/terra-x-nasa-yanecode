@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform User & Technical Guide — TERRA-X NASA Space Apps 2026 Documentation</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/earth_analogs_logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for Scientific Math -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false});"></script>
+
+  <!-- Mermaid.js for Architecture & Flowcharts -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'neutral',
+        fontFamily: 'Inter, sans-serif'
+      });
+    });
+  </script>
+
+  <style>
+    :root {
+      --color-primary: #078FE0;
+      --color-primary-dark: #0566A8;
+      --color-primary-light: #E7F5FF;
+      --color-ink: #101820;
+      --color-ink-muted: #536273;
+      --color-ink-subtle: #71849A;
+      --color-canvas: #FFFFFF;
+      --color-canvas-soft: #F5F9FC;
+      --color-surface-1: #FFFFFF;
+      --color-surface-2: #EDF5FA;
+      --color-hairline: #DCE5EC;
+      --color-hairline-strong: #B7C9D8;
+      --color-accent-orange: #E87532;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--color-ink);
+      background-color: var(--color-canvas);
+      line-height: 1.65;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navigation Bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      min-height: 56px;
+      max-width: 100vw;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      box-sizing: border-box;
+      overflow-x: clip;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--color-ink);
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1px solid rgba(7, 143, 224, 0.2);
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tab {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--color-ink-muted);
+      transition: all 0.15s ease;
+    }
+
+    .nav-tab:hover {
+      color: var(--color-primary);
+      background: var(--color-surface-2);
+    }
+
+    .nav-tab.active {
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary {
+      background: var(--color-surface-2);
+      color: var(--color-ink);
+      border: 1px solid var(--color-hairline);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-hairline);
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+    }
+
+    /* Main Docs Layout */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .docs-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 36px;
+      padding: 32px 24px 80px 24px;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: clip;
+    }
+
+    /* Sidebar Navigation */
+    .docs-sidebar {
+      position: sticky;
+      top: 88px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding-right: 16px;
+    }
+
+    .sidebar-section-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-ink-subtle);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .toc-item a {
+      display: block;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--color-ink-muted);
+      text-decoration: none;
+      line-height: 1.4;
+      border-left: 2px solid transparent;
+      transition: all 0.12s ease;
+    }
+
+    .toc-item a:hover {
+      color: var(--color-primary);
+      background: var(--color-surface-2);
+      border-left-color: var(--color-primary);
+    }
+
+    /* Content Styling */
+    .docs-content {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      width: 100%;
+      overflow-x: clip;
+    }
+
+    .article-body {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      width: 100%;
+      overflow-x: clip;
+    }
+
+    .docs-header {
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--color-hairline);
+    }
+
+    .docs-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-hairline);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+    }
+
+    .docs-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-ink);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .docs-meta {
+      font-size: 14px;
+      color: var(--color-ink-subtle);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Markdown Element Typography */
+    .docs-content h1 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      margin: 40px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-hairline);
+      color: var(--color-ink);
+    }
+
+    .docs-content h2 {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 600;
+      margin: 32px 0 14px 0;
+      color: var(--color-ink);
+    }
+
+    .docs-content h3 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      margin: 24px 0 10px 0;
+      color: var(--color-ink);
+    }
+
+    .docs-content p {
+      margin-bottom: 16px;
+      color: var(--color-ink);
+    }
+
+    .docs-content ul, .docs-content ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+    }
+
+    .docs-content li {
+      margin-bottom: 6px;
+    }
+
+    .docs-content strong {
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+
+    .docs-content a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .docs-content a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-content hr {
+      border: 0;
+      height: 1px;
+      background: var(--color-hairline);
+      margin: 36px 0;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+      margin: 24px 0;
+      border-radius: 8px;
+      border: 1px solid var(--color-hairline);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-sizing: border-box;
+    }
+
+    .docs-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+      font-size: 13.5px;
+      border: none;
+    }
+
+    .docs-content th {
+      background: var(--color-surface-2);
+      color: var(--color-ink);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-hairline-strong);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .docs-content td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-hairline);
+      vertical-align: top;
+    }
+
+    .docs-content tr:last-child td {
+      border-bottom: none;
+    }
+
+    .docs-content tr:hover td {
+      background: rgba(7, 143, 224, 0.02);
+    }
+
+    /* Code Blocks */
+    .docs-content code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      background: var(--color-surface-2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--color-primary-dark);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .docs-content pre {
+      background: #0B1726;
+      color: #E6EDF3;
+      padding: 16px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 1px solid #1E2D42;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .docs-content pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Alerts */
+    .docs-content blockquote {
+      margin: 20px 0;
+      padding: 14px 18px;
+      border-left: 4px solid var(--color-primary);
+      background: var(--color-surface-2);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .docs-content blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    .alert-card {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 1px solid;
+    }
+
+    .alert-important {
+      background: rgba(232, 117, 50, 0.06);
+      border-color: rgba(232, 117, 50, 0.3);
+      border-left: 4px solid var(--color-accent-orange);
+    }
+
+    .alert-important h4 {
+      color: var(--color-accent-orange);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .docs-content img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Screenshots & Visual Cards */
+    .screenshot-card {
+      margin: 28px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--color-hairline-strong);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      background: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .screenshot-card img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 520px;
+      object-fit: contain;
+      background: #FFFFFF;
+      display: block;
+      margin: 0 auto;
+      cursor: zoom-in;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .screenshot-card img:hover {
+      opacity: 0.96;
+    }
+
+    .screenshot-caption {
+      padding: 11px 18px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--color-hairline);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-ink-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .screenshot-caption strong {
+      color: var(--color-primary);
+    }
+
+    
+    .figure-caption-text {
+      margin-top: 10px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #536273;
+      text-align: center;
+    }
+
+    
+    .katex-display {
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      max-width: 100% !important;
+      -webkit-overflow-scrolling: touch;
+      padding: 6px 0;
+    }
+
+    /* Mermaid Architecture & Diagrams */
+    .mermaid {
+      overflow-x: auto !important;
+      max-width: 100% !important;
+      margin: 24px 0;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .mermaid svg {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(4, 9, 20, 0.9);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-img {
+      max-width: 96%;
+      max-height: 94vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    /* Footer */
+    .docs-footer {
+      margin-top: 64px;
+      padding-top: 28px;
+      padding-bottom: 28px;
+      border-top: 1px solid var(--color-hairline);
+      font-size: 13px;
+      color: var(--color-ink-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .docs-footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .docs-footer img.docs-footer-logo {
+      height: 44px !important;
+      max-height: 44px !important;
+      width: auto !important;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .docs-footer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .docs-footer-title {
+      font-weight: 600;
+      color: var(--color-ink);
+      font-size: 14px;
+    }
+
+    .docs-footer-sub {
+      font-size: 12px;
+      color: var(--color-ink-muted);
+      font-family: var(--font-mono);
+    }
+
+    .docs-footer-meta {
+      font-size: 12px;
+      color: var(--color-ink-subtle);
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    @media print {
+      .topbar, .docs-sidebar, .nav-actions, .lightbox-modal {
+        display: none !important;
+      }
+      .docs-container {
+        display: block;
+        padding: 0;
+      }
+      .docs-content {
+        max-width: 100%;
+      }
+      .screenshot-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+      pre, table {
+        break-inside: avoid;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .topbar {
+        height: auto;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .nav-tabs {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        justify-content: flex-start;
+      }
+      .nav-tab {
+        white-space: nowrap;
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+      .nav-actions {
+        gap: 6px;
+      }
+      .btn-action span {
+        font-size: 12px;
+      }
+      .docs-container {
+        grid-template-columns: minmax(0, 1fr) !important;
+        padding: 16px;
+      }
+      .docs-sidebar {
+        display: none;
+      }
+      .docs-title {
+        font-size: 24px;
+      }
+      .docs-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .docs-footer-meta {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-badge {
+        display: none;
+      }
+      .nav-actions .btn-secondary {
+        display: none;
+      }
+      .docs-content table {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <a href="/doc/" class="brand-wrap">
+      <img src="/images/earth_analogs_logo.png" alt="TERRA-X Logo" class="brand-logo">
+      <span class="brand-title">TERRA-X</span>
+      <span class="brand-badge">NASA Space Apps 2026</span>
+    </a>
+
+    <nav class="nav-tabs">
+      <a href="/doc/platform-guide.html" class="nav-tab active">Platform Guide</a>
+      <a href="/doc/nasa-report.html" class="nav-tab ">Scientific Report</a>
+      <a href="/doc/resources.html" class="nav-tab ">Technical Resources</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="/workbench.html" class="btn-action btn-primary">
+        <span>Dashboard</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+      <a href="/" class="btn-action btn-secondary">Landing Page</a>
+      <button onclick="window.print()" class="btn-action btn-secondary" title="Print / Export PDF">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Print PDF</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="docs-container">
+    
+    <!-- Sidebar Table of Contents -->
+    <aside class="docs-sidebar">
+      <div class="sidebar-section-title">Table of Contents</div>
+      <ul class="toc-list" id="sidebarToc">
+        <!-- Dynamically populated or rendered -->
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="docs-content" id="mainContent">
+      <div class="docs-header">
+        <div class="docs-badge">NASA Space Apps Challenge 2026 Documentation</div>
+        <h1 class="docs-title">TERRA-X Platform User Guide & Architecture</h1>
+        <div class="docs-meta">
+          <span>Official Reference Specification</span>
+          <span>•</span>
+          <span>Version 1.0.0-POC</span>
+          <span>•</span>
+          <span>NASA PDS &amp; Astrobiology Grounded</span>
+        </div>
+      </div>
+
+      <!-- Converted Markdown HTML -->
+      <article class="article-body">
+        <h1>TERRA-X — Comprehensive Platform Guide &amp; Technical Manual</h1>
+<p><strong>Planetary Intelligence &amp; Earth Analogs Discovery</strong><br />
+<em>NASA Space Apps Challenge 2026 Reference Manual &amp; Operational Documentation</em><br />
+<em>Target Challenge: "Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars"</em></p>
+<hr />
+<h2>Document Control &amp; System Specifications</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Specification</th>
+<th style="text-align: left;">Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Document Title</strong></td>
+<td style="text-align: left;">TERRA-X Comprehensive Technical Platform Guide &amp; User Manual</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>System Version</strong></td>
+<td style="text-align: left;">Release 1.0.0-POC (Production-Grade Zero-Build Architecture)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Challenge Track</strong></td>
+<td style="text-align: left;">NASA Space Apps Challenge 2026: Permanent Moon Base Locations and Mars</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Planetary Target Bodies</strong></td>
+<td style="text-align: left;">Mars (<em>Areoid Reference</em>), Moon (<em>Selenocentric Polar &amp; Equatorial</em>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Coordinate Systems</strong></td>
+<td style="text-align: left;">Mars: <code>IAU_2015:49900</code> (Equirectangular); Moon: <code>IAU_2015:30135</code> (South Pole Stereographic) / <code>IAU_2015:30100</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Authors / Team</strong></td>
+<td style="text-align: left;">TERRA-X Science &amp; Engineering Consortium</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Ground-Truth Baseline</strong></td>
+<td style="text-align: left;">NASA Planetary Data System (PDS), USGS Astrogeology, Copernicus ESA GLO-30, Oberlin et al. (2018)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Interactive Workbench</strong></td>
+<td style="text-align: left;"><code>http://127.0.0.1:8088/workbench.html</code> (Local) / <code>/workbench</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#1-executive-overview--mission-purpose">Executive Overview &amp; Mission Purpose</a></li>
+<li><a href="#2-foundational-scientific-axiom--architectural-paradigm">Foundational Scientific Axiom &amp; Architectural Paradigm</a></li>
+<li><a href="#3-system-architecture--data-flow-pipeline">System Architecture &amp; Data Flow Pipeline</a></li>
+<li><a href="#4-the-editorial-landing-portal">The Editorial Landing Portal</a></li>
+<li><a href="#5-authentication-access-control--route-guard">Authentication, Access Control &amp; Route Guard</a></li>
+<li><a href="#6-the-interactive-scientific-workbench-modules-0108">The Interactive Scientific Workbench (Modules 01–08)</a>
+   - <a href="#module-01-planetary-explorer">Module 01: Planetary Explorer</a>
+   - <a href="#module-02-earth-discovery-engine">Module 02: Earth Discovery Engine</a>
+   - <a href="#module-03-geospatial-layers--scientific-guardrails">Module 03: Geospatial Layers &amp; Scientific Guardrails</a>
+   - <a href="#module-04-similarity--decision-engine">Module 04: Similarity &amp; Decision Engine</a>
+   - <a href="#module-05-3d-terrain-digital-twin">Module 05: 3D Terrain Digital Twin</a>
+   - <a href="#module-06-scientific-ai-copilot">Module 06: Scientific AI Copilot</a>
+   - <a href="#module-07-mission-scenario-simulator">Module 07: Mission Scenario Simulator</a>
+   - <a href="#module-08-scientific-report-generator">Module 08: Scientific Report Generator</a></li>
+<li><a href="#7-comprehensive-earth-analog-catalog--benchmark-analysis">Comprehensive Earth Analog Catalog &amp; Benchmark Analysis</a></li>
+<li><a href="#8-rest-api-specification--programmatic-access">REST API Specification &amp; Programmatic Access</a></li>
+<li><a href="#9-automated-verification-unit-testing--quality-assurance">Automated Verification, Unit Testing &amp; Quality Assurance</a></li>
+<li><a href="#10-academic-bibliography--open-science-provenance">Academic Bibliography &amp; Open Science Provenance</a></li>
+</ol>
+<hr />
+<h2>1. Executive Overview &amp; Mission Purpose</h2>
+<h3>1.1 The NASA Space Apps Challenge 2026 Mandate</h3>
+<p>Humanity has entered a transformative era of planetary exploration. Under NASA's <strong>Artemis Program</strong>, international space agencies and commercial partners are preparing for long-duration human habitations at the <strong>Lunar South Pole</strong> (e.g., Shackleton Crater Rim, Connecting Ridge), while robotic rovers (<em>Perseverance</em>, <em>Curiosity</em>, and the upcoming <em>ExoMars Rosalind Franklin</em>) systematically prospect Martian ancient lake basins and clay-rich plains (<em>Jezero Crater</em>, <em>Gale Crater</em>, <em>Oxia Planum</em>).</p>
+<p>Testing surface mobility hardware, regolith drill mechanisms, life-detection instrumentation, and habitat construction techniques directly on the Moon or Mars is prohibitively expensive, risky, and logistically unrepeatable. Planetary exploration teams depend fundamentally on <strong>Terrestrial Analogs</strong>—locations on Earth that preserve environmental, geochemical, mineralogical, or morphological conditions comparable to extraterrestrial destinations.</p>
+<p>However, historical analog site selection has suffered from three critical deficiencies:
+1. <strong>Ad-Hoc Subjectivity</strong>: Candidate locations are frequently chosen based on qualitative resemblance or historical precedent rather than quantitative multi-sensor metric evaluation.
+2. <strong>The "Single Percentage" Fallacy</strong>: Platforms frequently claim an Earth site is "89% identical to Mars," ignoring the profound reality of Earth's dense atmosphere, hydrologic cycle, and pervasive biosphere.
+3. <strong>Operational Blind Spots</strong>: High scientific similarity often masks extreme logistical hazards, unnavigable boulder fields, or severe legal restrictions that disqualify a site for actual rover deployment.</p>
+<h3>1.2 TERRA-X Value Proposition</h3>
+<p><strong>TERRA-X</strong> (<em>Planetary Intelligence &amp; Earth Analogs Discovery</em>) is an integrated, publication-grade decision engine that bridges planetary remote sensing and terrestrial fieldwork. By ingesting calibrated datasets from the <strong>NASA Planetary Data System (PDS)</strong>, <strong>USGS Astrogeology</strong>, and <strong>Copernicus ESA</strong>, TERRA-X matches target Areas of Interest (AOIs) on the Moon and Mars with candidate terrestrial testbeds worldwide.</p>
+<p>The platform provides an end-to-end operational environment featuring interactive 2D GIS map canvases, side-by-side 3D terrain elevation meshes, real-time perturbation sensitivity audits ($\pm 15\%$), a deterministic grounded AI Copilot, and one-click multi-format report exports (PDF, Word, CSV, GeoJSON).</p>
+<div class="mermaid">
+flowchart LR
+    A["NASA PDS / USGS / LRO / MRO<br/>Orbital Analysis-Ready Data"] --> B["TERRA-X Data Harmonization<br/>& Normalization Engine"]
+    C["Copernicus / Sentinel-2 / DEM<br/>Terrestrial Remote Sensing"] --> B
+    B --> D["3-Pillar Decoupled Evaluation<br/>S_j (Similarity) | A_j (Aptitude) | C_j (Confidence)"]
+    D --> E["Interactive Workbench<br/>2D GIS, 3D Mesh, What-If Simulator"]
+    D --> F["Scientific AI Copilot<br/>Deterministic Grounding & Peer-Reviewed DOIs"]
+    D --> G["Publication-Ready Outputs<br/>PDF, Word .doc, CSV, GeoJSON"]
+</div>
+
+<hr />
+<h2>2. Foundational Scientific Axiom &amp; Architectural Paradigm</h2>
+<h3>2.1 The Foundational Axiom (Osinski et al., 2006; Oberlin et al., 2018)</h3>
+<p>Every calculation, comparison, and recommendation generated by TERRA-X is governed by a non-negotiable scientific principle:</p>
+<blockquote>
+<p><strong>"A terrestrial analog reproduces specific relevant physical, mineralogical, or geochemical properties, never Mars or the Moon in their entirety."</strong><br />
+— <em>G. R. Osinski et al. (Planetary and Space Science, 2006); E. A. Oberlin, M. W. Claire, &amp; S. P. Kounaves (Astrobiology, 2018)</em></p>
+</blockquote>
+<p>Earth's ambient oxygenation, $1\text{ bar}$ atmospheric pressure, hydrologic rainfall cycle, and pervasive organic contamination cannot be erased. An Earth analog is scientifically meaningful <strong>only within bounded parameters</strong>. For example:
+- <strong>Tindouf Basin Sebkha (North Africa)</strong> replicates the soil perchlorate, sulfate, and chlorate ionic ratios discovered by the Phoenix Mars Lander and Curiosity rover, but operates in a terrestrial atmosphere with seasonal heat.
+- <strong>University Valley, McMurdo Dry Valleys (Antarctica)</strong> reproduces dry permafrost sublimation and cryogenic thermal contraction crack polygons, but exhibits terrestrial solar radiation and polar oxygen.
+- <strong>Atacama Desert Yungay Core (Chile)</strong> matches hyperarid desiccation and extreme organic detection limits, but does not match Lunar vacuum or Martian atmospheric pressure ($6\text{ mbar}$).</p>
+<h3>2.2 The Decoupled 3-Pillar Decision Framework</h3>
+<p>To eliminate the mathematical fraud of a single unweighted matching score, TERRA-X implements a <strong>3-Pillar Decoupled Decision Framework</strong>:</p>
+<div class="mermaid">
+classDiagram
+    class TERRA_X_Evaluation {
+        +Pillar 1: Physical Similarity (S_j)
+        +Pillar 2: Mission Aptitude (A_j)
+        +Pillar 3: Scientific Confidence (C_j)
+        +Composite Rank (R_j)
+    }
+    class PhysicalSimilarity {
+        +Altimetry relief Proximity
+        +Slope & RMS Roughness Proximity
+        +Thermal Regime Proximity
+        +Hyperaridity Index Match
+        +Spectral Angle Mapper (SAM)
+        +Mineralogical Assemblage Jaccard
+        +Geochemical Ionic Ratio Overlap
+    }
+    class MissionAptitude {
+        +Terrain Trafficability
+        +Slope Hazard Penalty (>20°)
+        +Logistics & Medical Distance
+        +Environmental Safety Window
+        +Permit & Airspace Feasibility
+    }
+    class ScientificConfidence {
+        +Effective Weighted Coverage
+        +In-Situ Laboratory Validation Ratio
+        +Sensor Spatial Resolution Parity
+        +Missing-Data Explicit Penalty
+    }
+    TERRA_X_Evaluation --> PhysicalSimilarity : Pillar 1
+    TERRA_X_Evaluation --> MissionAptitude : Pillar 2
+    TERRA_X_Evaluation --> ScientificConfidence : Pillar 3
+</div>
+
+<h4>Pillar 1: Physical Similarity ($S_j$)</h4>
+<p>Physical similarity measures how closely candidate terrestrial variables match the planetary target AOI across physically comparable axes:
+$$S_j = \frac{\sum_{i \in \text{Observed}} w_i \cdot s_{ij}}{\sum_{i \in \text{Observed}} w_i}$$
+where $s_{ij} \in [0, 1]$ represents the normalized proximity for criterion $i$ on site $j$, and $\sum w_i = 1.0$.</p>
+<h4>Pillar 2: Mission Aptitude ($A_j$)</h4>
+<p>Scientific resemblance is useless if a rover cannot operate safely. Mission Aptitude integrates field engineering feasibility, rover trafficability, logistics, and personnel safety:
+$$A_j = 0.68 \cdot S_j + 0.18 \cdot \text{Access}<em _text_slope="\text{slope">j + 0.14 \cdot \text{Safety}_j - P</em>$$
+where $P_{\text{slope}} = \min\left(0.35, (\alpha_{\text{site}} - \alpha_{\text{safe}}) \cdot 0.03\right)$ applies an immediate engineering penalty if the site's slope exceeds the rover mission threshold (e.g., $20^\circ$).}</p>
+<h4>Pillar 3: Scientific Confidence ($C_j$)</h4>
+<p>Confidence measures the empirical certainty, measurement resolution, and ground-truth validation backing the score:
+$$C_j = 0.50 \cdot \Omega_j + 0.30 \cdot R_{\text{in-situ}} + 0.20 \cdot R_{\text{high-res}} - 0.08 \cdot N_{\text{missing}}$$
+where $\Omega_j$ is the effective weighted data coverage, $R_{\text{in-situ}}$ is the fraction of measurements verified through laboratory field sampling, $R_{\text{high-res}}$ is the fraction of sensor data with ground sampling distance $\le 100\text{ m}$, and $N_{\text{missing}}$ penalizes missing or unmeasured criteria.</p>
+<div class="alert-card alert-important"><h4>Important Scientific Axiom</h4>> **Zero Imputation Policy**: Missing criteria are **never** filled with default numbers (such as 0 or 1). Instead, weights are redistributed across observed variables, while the missing variables explicitly downgrade the Confidence score ($C_j$).
+</div>
+
+<hr />
+<h2>3. System Architecture &amp; Data Flow Pipeline</h2>
+<p>TERRA-X is engineered for high performance, maximum portability, and complete zero-build autonomy. It requires no heavy database engines, no external node runtimes, and no fragile build chains.</p>
+<div class="mermaid">
+graph TD
+    subgraph Data Layer
+        PDS[NASA Planetary Data System]
+        USGS[USGS Astrogeology STAC]
+        COP[Copernicus ESA GLO-30]
+        CAT[scientific_catalog.json]
+    end
+
+    subgraph Backend Engine [Python 3.12 stdlib]
+        SRV[server.py ThreadingHTTPServer]
+        SIM[engine/similarity.py]
+        ALG1[Spectral Angle Mapper SAM]
+        ALG2[Jaccard Mineral Overlap]
+        ALG3[Rank Sensitivity +/- 15%]
+        ALG4[Grounded Copilot RAG]
+        ALG5[Terrain Grid Generator]
+    end
+
+    subgraph Client Application [Vanilla HTML5 / Modern CSS / ES Modules]
+        ROUTER[Route Guard & Session Manager]
+        MAPS[Leaflet 2D GIS & Canvas Renderer]
+        CHARTS[Plotly Heatmap & Radar Graphs]
+        THREE[Plotly 3D Elevation Mesh]
+        COPILOT[Interactive Grounded Copilot Feed]
+        REPORT[Multi-Format Exporter]
+    end
+
+    PDS & USGS & COP --> CAT
+    CAT --> SIM
+    SIM --> SRV
+    SRV <--> |REST API JSON| CLIENT[Client Application]
+    ROUTER --> MAPS & CHARTS & THREE & COPILOT & REPORT
+</div>
+
+<hr />
+<h2>4. The Editorial Landing Portal</h2>
+<p>The public gateway of TERRA-X is an editorial, cinematic web experience designed to introduce researchers, mission planners, and the public to the scientific imperative of planetary analog discovery.</p>
+<h3>4.1 Cinematic Orbital Hero Header</h3>
+<div class="screenshot-card"><img src="screenshots/01_landing_hero.png" data-filename="01_landing_hero.png" alt="Figure 1: Cinematic Orbital Hero Header" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 1: Cinematic Orbital Hero Header</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 1: The TERRA-X landing portal featuring a cinematic 4K orbital video background, mission badge, real-time metrics pill, and dual launch action CTAs.</em></p>
+<p>The hero section (<a href="./static/index.html#L70-L144">static/index.html</a>) immerses the user in deep space exploration:
+- <strong>Atmospheric Video Engine</strong>: Loads an orbital space exploration background loop (<code>189457-885804464_medium.mp4</code>) with an overlaid orbital scrim and dynamic cosmic particle drift animation.
+- <strong>Mission Badge &amp; Title</strong>: Features the official NASA Space Apps Challenge 2026 track header, declaring <em>"Identify Earth Locations that Analog the Permanent Moon Base Locations and Mars"</em>.
+- <strong>Metrics Strip</strong>: Displays real-time catalog statistics:
+  - <code>8 Verified Global Analogs</code> across 5 continents.
+  - <code>5 High-Priority Planetary AOIs</code> (Jezero, Oxia, Gale, Shackleton, Mare Tranquillitatis).
+  - <code>6 Calibrated Remote Sensing Layers</code> (Altimetry, Slope, Temperature, Aridity, Mineralogy, Geochemistry).
+  - <code>100% Deterministic Grounding</code> tied to peer-reviewed DOIs.
+- <strong>Action Controls</strong>:
+  - <code>Launch Scientific Workbench</code> button: Direct access to the authenticated research dashboard.
+  - <code>Explore Analogs Catalog</code> button: Smooth-scrolls directly to the planetary comparison matrix.
+  - <code>1-Click Demo Access</code>: Instantly bypasses credentials for evaluation review.</p>
+<h3>4.2 Section 03 — About &amp; Tindouf Core Sampling</h3>
+<div class="screenshot-card"><img src="screenshots/02_landing_about_tindouf.png" data-filename="02_landing_about_tindouf.png" alt="Figure 2: About &amp; Tindouf Basin Core Sampling" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 2: About &amp; Tindouf Basin Core Sampling</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 2: Section 03 highlighting the scientific research of Oberlin et al. (2018) on Tindouf Basin evaporites matching Martian Phoenix Lander soil chemistry.</em></p>
+<p>This section establishes the empirical justification for the platform:
+- <strong>The Soil Geochemistry Breakthrough</strong>: Spotlights the research by <strong>Oberlin, Claire, &amp; Kounaves (2018)</strong> (<em>Astrobiology</em>, DOI: <a href="https://doi.org/10.1089/ast.2016.1557">10.1089/ast.2016.1557</a>). It illustrates how evaporite crusts and hyperarid sebkhas in the <strong>Tindouf Basin</strong> (Algeria/Morocco border) naturally synthesize and preserve oxychlorines (perchlorates $\text{ClO}_4^-$ and chlorates $\text{ClO}_3^-$) with ionic ratios matching the Phoenix Lander's Wet Chemistry Laboratory (WCL).
+- <strong>Interactive Stratigraphic Visual</strong>: Presents a multi-layered core sample simulation showing the halite-gypsum cap, oxychlorine-bearing saline horizon, and clay-rich Noachian bed.
+- <strong>Scientific Callout</strong>: Quotes the foundational axiom to clarify why Tindouf is an extraordinary soil chemistry analog, but not a gravity or atmospheric analog.</p>
+<h3>4.3 Section 04 — Research Domains &amp; Modular Architecture</h3>
+<div class="screenshot-card"><img src="screenshots/03_landing_research_modules.png" data-filename="03_landing_research_modules.png" alt="Figure 3: Research Domains &amp; Modules" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 3: Research Domains &amp; Modules</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 3: Interactive cards detailing the 8 integrated modules of the TERRA-X platform.</em></p>
+<p>Provides an interactive grid displaying the 8 functional pillars of the platform:
+1. <code>01 Planetary Explorer</code>: Multi-spectral and altimetric characterization of Moon and Mars target AOIs.
+2. <code>02 Earth Discovery</code>: Multi-tiered global and regional screening filters.
+3. <code>03 Geospatial Layers</code>: Calibrated geophysical, thermal, and geochemical rasters.
+4. <code>04 Similarity &amp; Decision</code>: Decoupled 3-pillar scoring engine with rank stability checks.
+5. <code>05 3D Digital Twin</code>: Micro-topography wireframes and elevation transect cross-sections.
+6. <code>06 Scientific AI Copilot</code>: Strict citation-grounded conversational intelligence.
+7. <code>07 Mission Simulator</code>: Pre-configured field testing operational profiles.
+8. <code>08 Report Generator</code>: Audit-compliant scientific reporting in four formats.</p>
+<h3>4.4 Section 05 — Missions &amp; Soil Adaptation Split</h3>
+<div class="screenshot-card"><img src="screenshots/04_landing_missions_soil.png" data-filename="04_landing_missions_soil.png" alt="Figure 4: Mission Scenarios &amp; Soil Adaptation" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 4: Mission Scenarios &amp; Soil Adaptation</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 4: Section 05 illustrating the four pre-set mission operational profiles and regolith mechanics.</em></p>
+<p>This section highlights the critical link between target mission goals and field conditions:
+- <strong>Mission Profiles</strong>: Detailed breakdowns of Scenarios A, B, C, and D.
+- <strong>Regolith &amp; Trafficability Matrix</strong>: Compares wheel-slip mechanics, cohesion, internal friction angles, and boulder hazards between Lunar South Pole agglutinates, Martian basaltic regolith, and terrestrial evaporite salt flats.</p>
+<h3>4.5 Section 06 — The Planetary Trio</h3>
+<div class="screenshot-card"><img src="screenshots/05_landing_planetary_trio.png" data-filename="05_landing_planetary_trio.png" alt="Figure 5: Planetary Trio Comparison" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 5: Planetary Trio Comparison</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 5: Comparative planetary trio: Mars (Ancient Basins), Moon (Polar Ice &amp; Pits), and Earth (Analog Havens).</em></p>
+<p>Presents a side-by-side comparative architectural triad:
+- <strong>Mars</strong>: Focuses on phyllosilicate clays, sulfate mounds, and relict fluvial deltas.
+- <strong>The Moon</strong>: Focuses on Permanently Shadowed Regions (PSRs), water ice traps, and basalt collapse pits.
+- <strong>Earth</strong>: Highlights extreme environments that capture specific slivers of extraterrestrial reality.</p>
+<hr />
+<h2>5. Authentication, Access Control &amp; Route Guard</h2>
+<p>Security and identity management in TERRA-X provide authenticated researcher access while maintaining zero-database portability through an encrypted, client-persisted session model.</p>
+<div class="screenshot-card"><img src="screenshots/06_login_screen.png" data-filename="06_login_screen.png" alt="Figure 6: Authentication &amp; Security Screen" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 6: Authentication &amp; Security Screen</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 6: The TERRA-X Analyst Authentication interface with cosmic particles, credential validation, and 1-Click Demo login.</em></p>
+<h3>5.1 Architecture &amp; Route Protection (<a href="./static/js/auth.js">static/js/auth.js</a>)</h3>
+<ul>
+<li><strong>Route Guard Mechanism</strong>: When a user accesses <code>/workbench.html</code> or <code>/workbench</code>, the system immediately verifies the existence and validity of <code>localStorage.getItem("terra_x_session")</code>.</li>
+<li><strong>Automatic Redirect</strong>: If unauthenticated or if the session has expired, the user is redirected to <code>/login.html?redirect=/workbench.html</code>.</li>
+<li><strong>Session Lifespan</strong>: Standard sessions remain valid for 24 hours. Selecting <em>"Remember session"</em> extends the token lifecycle to 30 days.</li>
+</ul>
+<h3>5.2 Pre-Configured Verified Research Accounts</h3>
+<p>For rapid evaluation and mission team testing, the platform is pre-seeded with three verified scientist personas:</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Username</th>
+<th style="text-align: left;">Default Password</th>
+<th style="text-align: left;">Scientist Persona</th>
+<th style="text-align: left;">Role &amp; Research Clearance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>analyst</code></td>
+<td style="text-align: left;"><code>earth-analogs</code></td>
+<td style="text-align: left;"><strong>Dr. Sarah Chen</strong></td>
+<td style="text-align: left;">Lead Astrobiologist &amp; Mission Specialist (<code>Level 3</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>admin</code></td>
+<td style="text-align: left;"><code>nasa2026</code></td>
+<td style="text-align: left;"><strong>Commander M. Jadir</strong></td>
+<td style="text-align: left;">Chief Planetary Exploration Director (<code>Level 4</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nasa</code></td>
+<td style="text-align: left;"><code>moon-and-mars</code></td>
+<td style="text-align: left;"><strong>Alex Vance</strong></td>
+<td style="text-align: left;">Autonomous Rover &amp; Terrain Analyst (<code>Level 2</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<h3>5.3 Interactive Login Controls</h3>
+<ul>
+<li><strong>Username / Password Inputs</strong>: Form fields with real-time format validation (<code>#inputUsername</code>, <code>#inputPassword</code>).</li>
+<li><strong>Show/Hide Password Toggle</strong>: Eye icon button (<code>#btnTogglePass</code>) toggles password masking.</li>
+<li><strong>1-Click Quick Demo</strong>: The <code>#btnQuickDemo</code> button instantly populates the <code>analyst</code> credentials and transitions to the workbench within 300 milliseconds.</li>
+<li><strong>New Account Registration</strong>: The <em>"Register New Account"</em> tab allows researchers to create unique local accounts with custom roles and security clearance levels.</li>
+</ul>
+<hr />
+<h2>6. The Interactive Scientific Workbench (Modules 01–08)</h2>
+<p>The TERRA-X Workbench (<code>/workbench.html</code>) is the analytical cockpit of the platform. It is structured into three synchronized zones:
+1. <strong>Left Control Column</strong>: Host to Module 01 (Planetary Explorer), Module 02 (Earth Discovery), Module 03 (Geospatial Layers), and Module 07 (Mission Simulator).
+2. <strong>Center Analytical Stage</strong>: Tabbed display hosting 2D Discovery Maps, Module 04 (Similarity Heatmap &amp; Decision Matrix), Module 05 (3D Digital Twin), and Module 08 (Scientific Report Generator).
+3. <strong>Right Intelligence Column</strong>: Host to Module 06 (Scientific AI Copilot).</p>
+<div class="screenshot-card"><img src="screenshots/07_workbench_2d_discovery.png" data-filename="07_workbench_2d_discovery.png" alt="Figure 7: Interactive Scientific Workbench (2D Discovery View)" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 7: Interactive Scientific Workbench (2D Discovery View)</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 7: Module 01–03 dual-canvas planetary and terrestrial exploration view with live candidate rankings and custom polygon draw capability.</em></p>
+<hr />
+<h3>Module 01: Planetary Explorer</h3>
+<p>Module 01 governs the selection, boundary definition, and remote-sensing inspection of target extraterrestrial sites.</p>
+<div class="mermaid">
+flowchart TD
+    P1[Select Body: Moon vs Mars] --> P2[Select Planetary AOI]
+    P2 --> P3[Load PDS Calibrated Baseline]
+    P3 --> P4{Custom Boundary?}
+    P4 -- Yes --> P5[Activate Polygon Tool: Draw on Canvas]
+    P5 --> P6[Calculate Geodesic Area km2 & Slope]
+    P4 -- No --> P7[Retain Standard PDS AOI Boundary]
+    P6 & P7 --> P8[Update Criteria Features & Trigger Re-Analysis]
+</div>
+
+<h4>Operational Controls:</h4>
+<ol>
+<li><strong>Target Body Segmented Toggle (<code>#planet-toggle</code>)</strong>:
+   - <code>Mars</code> Button: Switches coordinate frame to Mars <code>IAU_2015:49900</code>, loads Mars PDS orbital baselines (MOLA, CRISM, THEMIS), and activates Mars AOIs.
+   - <code>Moon</code> Button: Switches coordinate frame to Moon <code>IAU_2015:30135</code> (South Pole) / <code>IAU_2015:30100</code> (Equatorial), loads LRO baselines (LOLA, LROC NAC), and <strong>triggers the physical aridity guardrail</strong>.</li>
+<li><strong>Planetary AOI Selector (<code>#aoi-select</code>)</strong>:
+   - <em>Jezero Crater — Western Delta &amp; Margin</em> (Mars, $145.0\text{ km}^2$): Ancient fluvial delta, rich in smectite clays and carbonates.
+   - <em>Oxia Planum — Clay-Bearing Plain</em> (Mars, $210.0\text{ km}^2$): ExoMars landing target; widespread Noachian Fe/Mg-phyllosilicates.
+   - <em>Gale Crater — Mount Sharp Sulfate Unit</em> (Mars, $180.0\text{ km}^2$): Curiosity exploration path; transitioning from clay to magnesium sulfate layers.
+   - <em>Shackleton Crater Rim — South Pole Base AOI</em> (Moon, $64.0\text{ km}^2$): Artemis permanent base target; ultra-steep slopes ($28^\circ$), permanently shadowed cryogenic traps, continuous peak illumination.
+   - <em>Mare Tranquillitatis — Basalt Pit &amp; Regolith</em> (Moon, $95.0\text{ km}^2$): Sub-surface lava tube skylight candidate, thick titanium-rich basaltic regolith.</li>
+<li><strong>Custom AOI Polygon Drawing Tool (<code>#btn-draw-aoi</code>)</strong>:
+   - Clicking this tool activates the freehand polygon drawing cursor on the planetary canvas.
+   - Clicking boundary vertices constructs a customized mission bounding box.
+   - Clicking <em>"Finish AOI"</em> or double-clicking closes the loop, triggers real-time spherical area computation ($\text{km}^2$), recalculates the enclosed mean slope, and posts the custom geometry to the backend via <code>POST /api/regions/planetary</code>.</li>
+<li><strong>Metadata &amp; Coordinate Badges (<code>#aoi-meta-pills</code>)</strong>:
+   - Dynamically displays the target region name, total surface area ($\text{km}^2$), mean topographic slope ($^\circ$), and standard IAU Coordinate Reference System (CRS).</li>
+</ol>
+<hr />
+<h3>Module 02: Earth Discovery Engine</h3>
+<p>Module 02 provides spatial and regional screening filters to discover candidate terrestrial analog sites across the globe.</p>
+<h4>Operational Controls:</h4>
+<ol>
+<li><strong>Discovery Scope Segmented Filter (<code>#discovery-toggle</code>)</strong>:
+   - <code>Global</code> Mode: Searches the full international catalog (Antarctica, South America, North America, Europe, Africa).
+   - <code>Morocco / NA</code> Mode: Isolates regional candidates in Morocco and North Africa (Tindouf Basin, Lake Iriqui, Draa Basin) to evaluate local fieldwork accessibility.
+   - <code>Triad</code> Benchmark Mode: Restricts screening to the scientific benchmark triad (<strong>Tindouf Sebkha</strong>, <strong>Atacama Yungay</strong>, <strong>McMurdo Dry Valleys</strong>).</li>
+<li><strong>Run Candidate Discovery CTA (<code>#btn-discover</code>)</strong>:
+   - Executes <code>POST /api/discovery/jobs</code> with the current slope ceiling and aridity parameters.
+   - Updates the Leaflet Earth Map (<code>#earth-map</code>), clusters candidate site pins, and color-codes rank badges (#1 through #8).</li>
+<li><strong>Ranked Candidate Site Cards (<code>#candidate-cards</code>)</strong>:
+   - Selecting any candidate card highlights its pin on the map, updates the center-stage telemetry, synchronizes the 3D Digital Twin, and adjusts the Copilot context.</li>
+</ol>
+<hr />
+<h3>Module 03: Geospatial Layers &amp; Scientific Guardrails</h3>
+<p>Module 03 displays the multi-spectral, geophysical, and environmental layers that drive the matching algorithm.</p>
+<h4>The 6 Calibrated Remote-Sensing Criteria:</h4>
+<ol>
+<li><strong>Altimetry &amp; Macro-Relief (<code>altimetry</code>)</strong>:
+   - Measures local elevation range ($\Delta h = h_{\max} - h_{\min}$ within AOI) in meters.
+   - Normalization Scale: $2,500.0\text{ m}$.</li>
+<li><strong>Slope &amp; Surface Roughness (<code>slope_roughness</code>)</strong>:
+   - Measures mean topographic inclination and high-frequency RMS step roughness.
+   - Normalization Scale: $35.0^\circ$.</li>
+<li><strong>Thermal Regime (<code>temperature</code>)</strong>:
+   - Measures mean extreme ambient temperatures in degrees Celsius.
+   - Normalization Scale: $120.0^\circ\text{C}$.</li>
+<li><strong>Aridity &amp; Water Limitation (<code>aridity</code>)</strong>:
+   - Hyperaridity Index evaluated from precipitation/evapotranspiration ratios.
+   - Normalization Scale: $1.0$.</li>
+<li><strong>Mineralogy &amp; Spectral Match (<code>mineralogy</code>)</strong>:
+   - Spectral Angle Mapper (SAM) dot product and mineral assemblage Jaccard index.
+   - Normalization Scale: $1.0$.</li>
+<li><strong>Soluble Salts &amp; Geochemistry (<code>geochemistry</code>)</strong>:
+   - Soluble oxychlorine, nitrate, and sulfate salt concentrations and ionic ratios.
+   - Normalization Scale: $1.0$.</li>
+</ol>
+<h4>The Lunar Vacuum Physical Guardrail</h4>
+<p>When the user selects <strong>Moon</strong> in Module 01:
+- The system automatically triggers the <strong>Physical Guardrail Engine</strong>.
+- The <code>aridity</code> layer is dynamically disabled, labeled <strong>"EXCLUDED BY GUARDRAIL"</strong>, and grayed out.
+- A prominent alert banner notifies the user:</p>
+<blockquote>
+<p><em>Guardrail: 'Aridity' is excluded for Lunar targets (no comparable atmosphere or hydrological cycle).</em>
+- The weight assigned to aridity is redistributed proportionally across the remaining 5 observed criteria, preventing mathematical distortion.</p>
+</blockquote>
+<hr />
+<h3>Module 04: Similarity &amp; Decision Engine</h3>
+<p>Module 04 renders the mathematical core of TERRA-X, converting multi-criteria measurements into transparent, defensible rankings.</p>
+<div class="screenshot-card"><img src="screenshots/08_workbench_similarity_decision.png" data-filename="08_workbench_similarity_decision.png" alt="Figure 8: Similarity &amp; Decision Engine View" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 8: Similarity &amp; Decision Engine View</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 8: Tab 04 displaying the Plotly Similarity Matrix Heatmap, the 3-Score Selected Site Breakdown, the Rank Stability Panel, and the Data Provenance Table.</em></p>
+<h4>1. The Similarity Matrix Heatmap (<code>#similarity-heatmap</code>)</h4>
+<ul>
+<li>Built with <strong>Plotly.js</strong>, this interactive heatmap renders candidate sites along the Y-axis and the 6 criteria along the X-axis.</li>
+<li>Each cell displays the exact computed proximity score ($s_{ij} \in [0.00, 1.00]$).</li>
+<li>Missing data is rendered with an explicit <code>"MISSING"</code> label; guardrail exclusions are rendered with <code>"GUARDRAIL"</code>.</li>
+</ul>
+<h4>2. Selected Site 3-Pillar Breakdown Panel (<code>#selected-site-breakdown</code>)</h4>
+<ul>
+<li>Displays three large telemetry gauges for the currently active site:</li>
+<li><strong>Similarity ($S_j$)</strong>: Rendered in Cyan (<code>#078FE0</code>).</li>
+<li><strong>Mission Aptitude ($A_j$)</strong>: Rendered in Amber (<code>#E87532</code>).</li>
+<li><strong>Scientific Confidence ($C_j$)</strong>: Rendered in Emerald Green (<code>#22C55E</code>).</li>
+<li>A tabular breakdown contrasts the raw planetary AOI value against the terrestrial value, displaying units, weights, and normalized proximity.</li>
+</ul>
+<h4>3. Perturbation Sensitivity &amp; Rank Stability Engine</h4>
+<p>To satisfy rigorous space agency mission planning requirements, TERRA-X tests whether rankings are brittle:
+- The engine identifies the top 2 weighted criteria in the current scenario.
+- It applies a $\pm 15\%$ perturbation to their normalized weights:
+  $$w'_k = w_k \cdot (1 \pm 0.15)$$
+- It re-normalizes the weight vector and recalculates rankings across all candidate sites.
+- <strong>Rank Stability Score</strong>:
+  $$\text{Stability} = 1.0 - \frac{\text{Flips}}{\text{Total Tests}}$$
+- If the #1 ranked candidate remains unchanged across all 4 perturbation scenarios, the system reports <strong>100% Stability</strong> (Rock-Solid Ranking).</p>
+<h4>4. Data Provenance &amp; Sensor Table (<code>#provenance-table</code>)</h4>
+<ul>
+<li>Lists the full lineage of every data point: mission origin, sensor instrument (e.g., <em>MRO CRISM</em>, <em>LRO LOLA</em>, <em>Copernicus GLO-30</em>), ground sampling distance (GSD), and measurement type (<em>orbital remote sensing</em> vs <em>in-situ laboratory analysis</em>).</li>
+</ul>
+<hr />
+<h3>Module 05: 3D Terrain Digital Twin</h3>
+<p>Module 05 generates interactive, side-by-side 3D elevation relief models comparing the planetary target AOI with the selected Earth candidate.</p>
+<div class="screenshot-card"><img src="screenshots/09_workbench_3d_terrain.png" data-filename="09_workbench_3d_terrain.png" alt="Figure 9: 3D Terrain Digital Twin &amp; Elevation Transect" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 9: 3D Terrain Digital Twin &amp; Elevation Transect</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 9: Dual-mesh 3D surface rendering with wireframe contours, interactive camera controls, and cross-section elevation transects.</em></p>
+<h4>1. Dual-Mesh Surface Rendering (<code>#plot-3d-aoi</code> &amp; <code>#plot-3d-earth</code>)</h4>
+<ul>
+<li>Leverages Plotly's WebGL surface renderer to project a $26 \times 26$ deterministic elevation grid.</li>
+<li><strong>Procedural Style Modulation</strong>: The surface topography is mathematically modulated by the geological archetype of the site:</li>
+<li><code>delta_crater</code> (Jezero Crater): Raised circular crater rim ($h_{\text{rim}}$) with an intersecting fan delta deposit.</li>
+<li><code>polar_rim</code> (Shackleton Rim): Deep central depression with steep ridgelines and asymmetric illumination shadowing.</li>
+<li><code>mound_basin</code> (Gale Crater / Mount Sharp): Central central uplift mound surrounded by a moat basin.</li>
+<li><code>lava_pit</code> (Mare Tranquillitatis): Flat basaltic mare with a sharp collapsed circular void.</li>
+<li><code>clay_plain</code> / <code>evaporite</code> (Tindouf / Oxia Planum): Flat basin floor modulated by low-amplitude dunes and salt polygons.</li>
+<li><strong>Color Palettes</strong>:</li>
+<li>Mars AOI: Warm Martian Ochre (<code>YlOrRd</code>).</li>
+<li>Moon AOI: Lunar Regolith Grayscale (<code>Greys</code>).</li>
+<li>Earth Candidate: Terrestrial Topography (<code>Viridis</code> / <code>Blues</code>).</li>
+</ul>
+<h4>2. Interactive Orbit &amp; Inspection Controls</h4>
+<ul>
+<li><strong>Left-Click + Drag</strong>: 360-degree continuous rotation (azimuth and elevation angles).</li>
+<li><strong>Right-Click + Drag</strong>: Pan surface mesh across coordinate space.</li>
+<li><strong>Scroll Wheel</strong>: Smooth zoom into micro-relief structures.</li>
+</ul>
+<h4>3. Cross-Section Elevation Profile Transect (<code>#plot-transect</code>)</h4>
+<ul>
+<li>Extracts an equatorial slice ($Y = \text{center}$) through both meshes.</li>
+<li>Plots the relative elevation ($m$) along the transect distance ($m$).</li>
+<li>Allows rover engineers to visually evaluate slope breaks, boulder steps, and terrain hazards.</li>
+</ul>
+<hr />
+<h3>Module 06: Scientific AI Copilot</h3>
+<p>Module 06 provides a context-aware, grounded scientific dialogue partner that explains scores, cites literature, and enforces scientific boundaries.</p>
+<div class="screenshot-card"><img src="screenshots/focused_copilot_audit.png" data-filename="focused_copilot_audit.png" alt="Figure 10: Grounded Scientific AI Copilot Audit" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 10: Grounded Scientific AI Copilot Audit</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 10: The Scientific AI Copilot delivering a grounded explanation of Tindouf Basin geochemistry with live score breakdowns and DOI citations.</em></p>
+<h4>1. Deterministic Grounded RAG Architecture (<a href="./engine/similarity.py#L436-L568">engine/similarity.py</a>)</h4>
+<p>The Copilot operates under strict anti-hallucination guardrails:
+- <strong>Zero Fabrication Rule</strong>: The Copilot is barred from inventing scores, coordinates, or mission parameters.
+- <strong>Dynamic Context Ingestion</strong>: Every response is assembled directly from the live computed analysis payload (active AOI, candidate ranks, criterion scores, missing data flags, and DOI metadata).
+- <strong>Peer-Reviewed Grounding</strong>: Every claim is explicitly linked to published literature (e.g., <em>Oberlin et al., 2018</em>, DOI: <code>10.1089/ast.2016.1557</code>).</p>
+<h4>2. Quick Prompt Chips (<code>#quick-prompts</code>)</h4>
+<ul>
+<li><code>Why Tindouf?</code>: Triggers a comprehensive breakdown of Tindouf Basin evaporites, explaining how high oxychlorine and sulfate concentrations drive its #1 ranking for Jezero Crater.</li>
+<li><code>Compare Triad</code>: Produces a head-to-head comparison between Tindouf (Geochemistry), Atacama (Astrobiology), and McMurdo (Cryogenic Permafrost).</li>
+<li><code>Confidence &amp; Limits</code>: Audits data gaps, resolution discrepancies, and explicitly states why the candidate cannot simulate Lunar gravity or atmospheric pressure.</li>
+<li><code>Morocco (Iriqui)</code>: Explains the geomorphology of Lake Iriqui and the Draa Basin as a rover mobility and clay basin analog.</li>
+</ul>
+<h4>3. Optional Gemini API Synthesis</h4>
+<p>For users desiring expanded prose synthesis, an optional input field allows the inclusion of a Google Gemini API key. When provided:
+- The grounded JSON context is forwarded to <code>gemini-2.5-flash</code> with strict instructions: <em>"Rewrite and synthesize ONLY the grounded scientific facts provided. Do NOT invent scores or claims."</em>
+- If the key is omitted or an API error occurs, the platform seamlessly falls back to its deterministic local engine with zero service interruption.</p>
+<hr />
+<h3>Module 07: Mission Scenario Simulator</h3>
+<p>Module 07 enables mission planners to simulate different operational objectives by adjusting multicriteria weighting profiles.</p>
+<h4>1. Pre-Configured Mission Scenarios:</h4>
+<ul>
+<li><strong>Scenario A: Soil Geochemistry (<code>soil_geochemistry</code>)</strong>:</li>
+<li><em>Focus</em>: Salt crusts, perchlorates, sulfates, and clay mineral assemblages.</li>
+<li><em>Weights</em>: Geochemistry ($0.32$), Mineralogy ($0.28$), Aridity ($0.18$), Slope ($0.08$), Temp ($0.08$), Altimetry ($0.06$).</li>
+<li><strong>Scenario B: Rover Mobility &amp; Trafficability (<code>rover_mobility</code>)</strong>:</li>
+<li><em>Focus</em>: Terrain traversability, obstacle negotiation, wheel-slip hazards, slope stability.</li>
+<li><em>Weights</em>: Slope / Roughness ($0.40$), Altimetry ($0.24$), Mineralogy ($0.14$), Temp ($0.08$), Aridity ($0.08$), Geochem ($0.06$).</li>
+<li><em>Engineering Constraint</em>: Strict $20^\circ$ safe slope ceiling.</li>
+<li><strong>Scenario C: Cold / Arid Operations (<code>cold_arid</code>)</strong>:</li>
+<li><em>Focus</em>: Sub-zero thermal survival, permafrost stability, ice sublimation.</li>
+<li><em>Weights</em>: Temperature ($0.38$), Aridity ($0.24$), Slope ($0.12$), Altimetry ($0.10$), Mineralogy ($0.08$), Geochem ($0.08$).</li>
+<li><strong>Scenario D: Astrobiology &amp; Biosignatures (<code>astrobiology</code>)</strong>:</li>
+<li><em>Focus</em>: Extreme desiccation, UV resistance, endolithic habitats, organic detection limits.</li>
+<li><em>Weights</em>: Aridity ($0.30$), Geochemistry ($0.24$), Mineralogy ($0.22$), Temp ($0.12$), Slope ($0.06$), Altimetry ($0.06$).</li>
+</ul>
+<h4>2. Interactive "What-If" Weight Sliders (<code>#weight-sliders</code>)</h4>
+<ul>
+<li>Six precision range sliders ($0\text{ to }60\%$) permit live adjustment of each criterion weight.</li>
+<li><strong>Real-Time Auto-Normalization</strong>: As a slider is dragged, all weights are dynamically normalized to maintain $\sum w_i = 1.00$.</li>
+<li><strong>Live Re-Ranking</strong>: Analysis queries are debounced ($140\text{ ms}$) and posted to <code>/api/missions/simulate</code>, updating rankings, heatmaps, and 3D digital twins in real time.</li>
+<li><strong>Reset Button (<code>#btn-reset-weights</code>)</strong>: Restores weights to the active mission preset baseline.</li>
+</ul>
+<hr />
+<h3>Module 08: Scientific Report Generator</h3>
+<p>Module 08 synthesizes all active analytical data into traceable, audit-compliant scientific reports.</p>
+<div class="screenshot-card"><img src="screenshots/10_workbench_report_generator.png" data-filename="10_workbench_report_generator.png" alt="Figure 11: Scientific Report Generator &amp; Multi-Format Exporter" loading="lazy" onerror="this.onerror=null; if(this.src.indexOf('/screenshots/')===-1) this.src='/screenshots/'+this.dataset.filename; else if(this.src.indexOf('/doc/')===-1) this.src='/doc/screenshots/'+this.dataset.filename;"><div class="screenshot-caption"><span><strong>SCREENSHOT:</strong> Figure 11: Scientific Report Generator &amp; Multi-Format Exporter</span><span style="font-size:11px; color:#71849A;">Click to enlarge</span></div></div>
+<p class="figure-caption-text"><em>Figure 11: Tab 08 scientific report preview showing ranked candidates, sensitivity scores, scientific limits, and multi-format export CTAs.</em></p>
+<h4>Multi-Format Export Capabilities:</h4>
+<ol>
+<li><strong>Printable PDF Export (<code>#export-pdf</code>)</strong>:
+   - Formats the report via clean <code>@media print</code> CSS rules, stripping interface sidebars and rendering crisp vectors, tables, and provenance blocks suitable for mission review panels.</li>
+<li><strong>Microsoft Word Export (<code>#export-doc</code>)</strong>:
+   - Generates an HTML-based <code>.doc</code> file containing full table hierarchies, candidate statistics, and literature citations, fully editable in Microsoft Word or LibreOffice.</li>
+<li><strong>Tabular CSV Export (<code>#export-csv</code>)</strong>:
+   - Streams a standard comma-separated file (<code>terra_x_&lt;aoi_id&gt;_report.csv</code>) containing site IDs, rankings, coordinates, similarity scores, mission aptitude scores, confidence ratios, and DOI identifiers.</li>
+<li><strong>GeoJSON Boundary Export (<code>#export-geojson</code>)</strong>:
+   - Exports a valid <code>FeatureCollection</code> containing Point geometries for all candidate sites, complete with nested analytical properties, ready for immediate import into ArcGIS, QGIS, or NASA WorldWind.</li>
+</ol>
+<hr />
+<h2>7. Comprehensive Earth Analog Catalog &amp; Benchmark Analysis</h2>
+<p>TERRA-X catalogs 8 extensively vetted terrestrial analog locations, each representing specific physical or geochemical dimensions of planetary exploration:</p>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Site Identifier</th>
+<th style="text-align: left;">Site Name &amp; Region</th>
+<th style="text-align: left;">Primary Planetary Analog Focus</th>
+<th style="text-align: left;">Key Mineral / Environmental Properties</th>
+<th style="text-align: left;">Key Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>tindouf_sebkha</code></td>
+<td style="text-align: left;"><strong>Tindouf Basin Sebkha</strong><br><em>(Algeria / Morocco Border)</em></td>
+<td style="text-align: left;">Mars Noachian Soil Geochemistry &amp; Evaporite Salts</td>
+<td style="text-align: left;">Oxychlorines ($\text{ClO}_4^-, \text{ClO}_3^-$), sulfates, nitrates, halite crusts</td>
+<td style="text-align: left;">Terrestrial atmosphere ($1\text{ bar}$); summer daytime heat ($&gt;45^\circ\text{C}$).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>iriqui_draa</code></td>
+<td style="text-align: left;"><strong>Lake Iriqui &amp; Draa Basin</strong><br><em>(Southern Morocco)</em></td>
+<td style="text-align: left;">Martian Clay Plains &amp; Rover Mobility Testbed</td>
+<td style="text-align: left;">Expansive lacustrine clay flats, cracked mud polygons, dune fields</td>
+<td style="text-align: left;">Subject to seasonal flash floods; modern biosphere contamination.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>atacama_yungay</code></td>
+<td style="text-align: left;"><strong>Atacama Yungay Core</strong><br><em>(Antofagasta, Chile)</em></td>
+<td style="text-align: left;">Astrobiology &amp; Extreme Organic Detection Limits</td>
+<td style="text-align: left;">Extreme hyperaridity ($&lt;1\text{ mm/yr}$ rain), intense UV irradiation, nitrate deposits</td>
+<td style="text-align: left;">High altitude ($&gt;1000\text{ m}$); terrestrial gravity ($1g$).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>mcmurdo_dry_valleys</code></td>
+<td style="text-align: left;"><strong>McMurdo Dry Valleys</strong><br><em>(University Valley, Antarctica)</em></td>
+<td style="text-align: left;">Mars Amazonian Permafrost &amp; Cryogenic Moon Base</td>
+<td style="text-align: left;">Dry permafrost, thermal contraction crack polygons, hypolithic communities</td>
+<td style="text-align: left;">High atmospheric oxygenation; coastal maritime proximity.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>haughton_impact</code></td>
+<td style="text-align: left;"><strong>Haughton Impact Structure</strong><br><em>(Devon Island, Canada)</em></td>
+<td style="text-align: left;">Lunar / Martian Impact Craters &amp; Rover Traverse</td>
+<td style="text-align: left;">Shatter cones, impact melt breccias, periglacial patterned ground</td>
+<td style="text-align: left;">Arctic accessibility limited to 6-week summer window.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>rio_tinto</code></td>
+<td style="text-align: left;"><strong>Río Tinto Basin</strong><br><em>(Andalusia, Spain)</em></td>
+<td style="text-align: left;">Martian Acidic Sulfate &amp; Jarosite Deposition</td>
+<td style="text-align: left;">Extreme low pH ($1.5–2.5$), high ferric iron, jarosite, and goethite</td>
+<td style="text-align: left;">High ambient moisture and continuous flowing water.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>lanzarote_volcanic</code></td>
+<td style="text-align: left;"><strong>Lanzarote Volcanic Fields</strong><br><em>(Canary Islands, Spain)</em></td>
+<td style="text-align: left;">Lunar &amp; Martian Basalt Lava Tubes</td>
+<td style="text-align: left;">Corona lava tube system, pristine tholeiitic basalts, low vegetation</td>
+<td style="text-align: left;">Oceanic island environment; high marine humidity.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>mojave_desert</code></td>
+<td style="text-align: left;"><strong>Mojave Desert (Silver Lake)</strong><br><em>(California, USA)</em></td>
+<td style="text-align: left;">Rover Mobility, Wheel Abrasion &amp; Desert Varnish</td>
+<td style="text-align: left;">Playas, gravel pavements (<em>reg</em>), rock varnish coatings, dune fields</td>
+<td style="text-align: left;">Active military airspace restrictions; tourist activity.</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>8. REST API Specification &amp; Programmatic Access</h2>
+<p>TERRA-X exposes a clean, synchronous REST API operating over HTTP/1.1 on port 8088.</p>
+<h3>API Endpoints Summary</h3>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: left;">Endpoint Path</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Key Request Parameters</th>
+<th style="text-align: left;">Response Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>GET</code></td>
+<td style="text-align: left;"><code>/api/datasets</code></td>
+<td style="text-align: left;">Retrieve complete catalog metadata, criteria, and AOIs</td>
+<td style="text-align: left;">Optional <code>?body=mars</code> or <code>?body=moon</code> filter</td>
+<td style="text-align: left;">JSON Catalog Object</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/regions/planetary</code></td>
+<td style="text-align: left;">Register or update target AOI boundary geometry</td>
+<td style="text-align: left;"><code>{"aoi_id": "jezero_crater", "area_km2": 150.0}</code></td>
+<td style="text-align: left;">JSON Selected Region</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/discovery/jobs</code></td>
+<td style="text-align: left;">Screen and filter candidate terrestrial analog sites</td>
+<td style="text-align: left;"><code>{"mode": "global", "max_slope_deg": 25.0}</code></td>
+<td style="text-align: left;">JSON Completed Job</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/analyses</code></td>
+<td style="text-align: left;">Execute end-to-end multicriteria evaluation</td>
+<td style="text-align: left;"><code>{"aoi_id": "...", "mission_id": "...", "weights": {...}}</code></td>
+<td style="text-align: left;">JSON Analysis Result</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/missions/simulate</code></td>
+<td style="text-align: left;">Alias for <code>/api/analyses</code> with What-If weight vectors</td>
+<td style="text-align: left;"><code>{"aoi_id": "...", "weights": {"altimetry": 0.2, ...}}</code></td>
+<td style="text-align: left;">JSON Analysis Result</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/terrain/compare</code></td>
+<td style="text-align: left;">Generate deterministic 3D elevation meshes</td>
+<td style="text-align: left;"><code>{"aoi_id": "jezero_crater", "site_id": "tindouf_sebkha"}</code></td>
+<td style="text-align: left;">JSON 3D Grids &amp; Transect</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/copilot/query</code></td>
+<td style="text-align: left;">Query grounded AI Copilot for scores and citations</td>
+<td style="text-align: left;"><code>{"question": "Why Tindouf?", "lang": "en"}</code></td>
+<td style="text-align: left;">JSON Grounded Answer</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>POST</code></td>
+<td style="text-align: left;"><code>/api/reports</code></td>
+<td style="text-align: left;">Export scientific report in requested format</td>
+<td style="text-align: left;"><code>{"format": "csv"}</code> (<code>json</code>, <code>csv</code>, <code>doc</code>, <code>geojson</code>)</td>
+<td style="text-align: left;">JSON Export Payload</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>9. Automated Verification, Unit Testing &amp; Quality Assurance</h2>
+<p>To guarantee mathematical precision and software robustness, TERRA-X includes an automated test suite located in <a href="./tests">tests/</a>.</p>
+<h3>9.1 Test Execution Instructions</h3>
+<p>Run the automated test runner directly from PowerShell or Bash:</p>
+<pre><code class="language-powershell">python -m unittest discover -s tests -v
+</code></pre>
+<h3>9.2 Key Test Assertions</h3>
+<ol>
+<li><strong>Normalization Integrity</strong>: Verifies that any arbitrary weight vector is normalized strictly to $\sum w_i = 1.000000$.</li>
+<li><strong>Guardrail Activation</strong>: Asserts that when <code>body == "moon"</code>, aridity is assigned status <code>incompatible</code> and assigned a weight of zero.</li>
+<li><strong>Decoupled Metric Invariance</strong>: Asserts that high Similarity ($S_j$) does not automatically force high Mission Aptitude ($A_j$) or high Confidence ($C_j$).</li>
+<li><strong>Rank Stability Calculation</strong>: Validates that rank flip counters accurately register changes under $\pm 15\%$ weight perturbations.</li>
+<li><strong>Deterministic Grounding</strong>: Confirms that the AI Copilot returns verified DOI strings and refuses to output fabricated metrics.</li>
+</ol>
+<hr />
+<h2>10. Academic Bibliography &amp; Open Science Provenance</h2>
+<p>The scientific credibility of TERRA-X is established upon the following peer-reviewed literature and planetary data nodes:</p>
+<h3>Peer-Reviewed Publications</h3>
+<ol>
+<li><strong>Oberlin, E. A., Claire, M. W., &amp; Kounaves, S. P. (2018)</strong>. <em>Evaluation of the Tindouf Basin Region in Southern Morocco as an Analogue Site for Soil Geochemistry on Noachian Mars</em>. <strong>Astrobiology</strong>, 18(10), 1318–1328.<br />
+   DOI: <a href="https://doi.org/10.1089/ast.2016.1557">10.1089/ast.2016.1557</a></li>
+<li><strong>Osinski, G. R., Léveillé, R., Berinstain, A., Lebeuf, M., &amp; Bamsey, M. (2006)</strong>. <em>Terrestrial analogues to Mars and the Moon: Concepts, fidelity, and future exploration</em>. <strong>Planetary and Space Science</strong>, 54(11), 1045–1054.<br />
+   DOI: <a href="https://doi.org/10.1016/j.pss.2006.05.010">10.1016/j.pss.2006.05.010</a></li>
+<li><strong>Navarro-González, R., Rainey, F. A., McKay, C. P., et al. (2003)</strong>. <em>Mars-Like Soils in the Atacama Desert, Chile, and the Dry Limit of Microbial Life</em>. <strong>Science</strong>, 302(5647), 1018–1021.<br />
+   DOI: <a href="https://doi.org/10.1126/science.1089143">10.1126/science.1089143</a></li>
+<li><strong>Marchant, D. R., &amp; Head, J. W. (2007)</strong>. <em>Antarctic dry valleys: Microclimate zonation, variable vitrification, and hyperarid regolith development as analogs for cold, dry Mars</em>. <strong>Icarus</strong>, 192(1), 187–222.<br />
+   DOI: <a href="https://doi.org/10.1016/j.icarus.2007.06.018">10.1016/j.icarus.2007.06.018</a></li>
+<li><strong>Martins, Z., et al. (2017)</strong>. <em>Earth as a tool for astrobiology—A European roadmap for terrestrial analogues</em>. <strong>Astrobiology</strong>, 17(9), 807–849.<br />
+   DOI: <a href="https://doi.org/10.1089/ast.2016.1585">10.1089/ast.2016.1585</a></li>
+<li><strong>Preston, L. J., &amp; Dartnell, L. R. (2014)</strong>. <em>Planetary habitability: Lessons learned from terrestrial analogues</em>. <strong>International Journal of Astrobiology</strong>, 13(1), 81–98.<br />
+   DOI: <a href="https://doi.org/10.1017/S1473550413000388">10.1017/S1473550413000388</a></li>
+<li><strong>Lemelin, M., Lucey, P. G., et al. (2014)</strong>. <em>Mineralogy and albedo of the Moon's South Pole-Aitken basin</em>. <strong>Icarus</strong>, 243, 8–16.<br />
+   DOI: <a href="https://doi.org/10.1016/j.icarus.2014.07.030">10.1016/j.icarus.2014.07.030</a></li>
+</ol>
+<h3>Space Agency Data Repositories &amp; STAC Nodes</h3>
+<ul>
+<li><strong>NASA Planetary Data System (PDS) Geosciences Node</strong>: <a href="https://pds.nasa.gov/">https://pds.nasa.gov/</a></li>
+<li><strong>NASA Solar System Treks (Moon Trek / Mars Trek WMTS)</strong>: <a href="https://trek.nasa.gov/">https://trek.nasa.gov/</a></li>
+<li><strong>USGS Astrogeology Planetary STAC API</strong>: <a href="https://stac.astrogeology.usgs.gov/">https://stac.astrogeology.usgs.gov/</a></li>
+<li><strong>Copernicus Data Space Ecosystem (ESA Sentinel-2 &amp; COP-DEM)</strong>: <a href="https://dataspace.copernicus.eu/">https://dataspace.copernicus.eu/</a></li>
+<li><strong>NASA Earthdata Common Metadata Repository (CMR)</strong>: <a href="https://earthdata.nasa.gov/">https://earthdata.nasa.gov/</a></li>
+</ul>
+<hr />
+<p><em>End of Technical Platform Guide — TERRA-X Consortium (NASA Space Apps 2026)</em></p>
+      </article>
+
+      <!-- Footer -->
+      <footer class="docs-footer">
+        <div class="docs-footer-brand">
+          <img src="/images/earth_analogs_logo.png" alt="EARTH ANALOGS / TERRA-X" class="docs-footer-logo" onerror="this.onerror=null; if(this.src.indexOf('images/')===-1) this.src='images/earth_analogs_logo.png'; else if(this.src.indexOf('screenshots/')===-1) this.src='screenshots/earth_analogs_logo.png';">
+          <div class="docs-footer-info">
+            <span class="docs-footer-title">TERRA-X • Planetary Intelligence &amp; Earth Analogs</span>
+            <span class="docs-footer-sub">NASA Space Apps Challenge 2026 Reference Specification</span>
+          </div>
+        </div>
+        <div class="docs-footer-meta">
+          <div>Built for Autonomous Planetary Exploration &amp; Grounding</div>
+          <div>NASA Planetary Data System (PDS) &amp; Astrobiology Literature Grounded</div>
+        </div>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="this.classList.remove('active')">
+    <img src="" alt="Enlarged view" class="lightbox-img" id="lightboxImg">
+  </div>
+
+  <!-- Interactive Client Script -->
+  <script>
+    // Generate Sidebar TOC dynamically from h1, h2, h3
+    document.addEventListener("DOMContentLoaded", function() {
+      const content = document.getElementById("mainContent");
+      const headings = content.querySelectorAll("h1, h2, h3");
+      const tocList = document.getElementById("sidebarToc");
+
+      headings.forEach((h, index) => {
+        if (!h.id) {
+          h.id = "sec-" + index + "-" + h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+        }
+        
+        // Skip document main title
+        if (h.classList.contains("docs-title")) return;
+
+        const li = document.createElement("li");
+        li.className = "toc-item";
+        if (h.tagName === "H3") li.style.paddingLeft = "14px";
+        if (h.tagName === "H1") li.style.fontWeight = "600";
+
+        const a = document.createElement("a");
+        a.href = "#" + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      // Wrap image tags into interactive cards
+      const images = content.querySelectorAll("img");
+      images.forEach(img => {
+        if (img.classList.contains("brand-logo") || img.classList.contains("lightbox-img")) return;
+        
+        img.addEventListener("click", () => {
+          const modal = document.getElementById("lightboxModal");
+          const modalImg = document.getElementById("lightboxImg");
+          modalImg.src = img.src;
+          modal.classList.add("active");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

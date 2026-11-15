@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>EARTH ANALOGS (TERRA-X) — Planetary Exploration &amp; Scientific Research</title>
+  <meta name="description" content="A premium light-mode space exploration and planetary science platform inspired by NASA's scientific visual identity. TERRA-X — From Earth to the Moon and Mars." />
+  <link rel="icon" type="image/png" href="/images/earth_analogs_logo.png" />
+
+  <!-- Google Fonts: Space Grotesk, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;650;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;650;700&display=swap" rel="stylesheet" />
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="/earth-analogs.css?v=2" />
+</head>
+<body>
+  <!-- Cinematic Global Scroll Progress Indicator -->
+  <div id="scrollProgressBar" class="scroll-progress-bar" aria-hidden="true"></div>
+
+  <!-- =========================================================================
+       01. NAVIGATION (White Canvas, Thin Bottom Border #DCE5EC)
+       ========================================================================= -->
+  <header class="site-nav" role="banner">
+    <div class="container nav-container">
+      <a href="#hero" class="brand-wrapper" aria-label="EARTH ANALOGS Homepage">
+        <img src="/images/earth_analogs_logo.png" alt="EARTH ANALOGS Logo" class="brand-logo" style="height: 48px; width: auto;" />
+        <div class="brand-title-group">
+          <span class="brand-name">EARTH ANALOGS</span>
+          <span class="brand-tagline">PLANETARY RESEARCH</span>
+        </div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-menu" id="navMenu">
+          <li class="nav-item"><a href="#hero" class="active">Home</a></li>
+          <li class="nav-item"><a href="#about">About</a></li>
+          <li class="nav-item"><a href="#research">Research</a></li>
+          <li class="nav-item"><a href="#missions">Missions</a></li>
+          <li class="nav-item"><a href="#analogs">Analogs</a></li>
+          <li class="nav-item"><a href="#discoveries">Discoveries</a></li>
+          <li class="nav-item"><a href="/doc/">Documentation</a></li>
+          <li class="nav-item"><a href="#contact">Contact</a></li>
+          <li class="nav-mobile-actions">
+            <a href="/login.html" class="button-secondary btn-secondary mobile-drawer-btn">
+              <span>Sign In</span>
+            </a>
+            <a href="/workbench.html" class="button-primary btn-primary mobile-drawer-btn">
+              <span>Launch Workbench</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="/atlas/index.html" class="button-secondary btn-secondary nav-action-atlas" style="padding: 9px 13px; font-size: 13px; color: var(--color-primary-dark); border-color: var(--color-primary); background: var(--color-primary-light); font-weight: 600; white-space: nowrap;" title="Mode Présentation Jury 3 minutes">
+          <span style="white-space: nowrap;">◉ Atlas Jury</span>
+        </a>
+        <a href="/login.html" class="button-secondary btn-secondary nav-action-signin" style="padding: 9px 16px; font-size: 13.5px; white-space: nowrap;" title="Analyst Login">
+          <span style="white-space: nowrap;">Sign In</span>
+        </a>
+        <a href="/workbench.html" class="button-primary btn-primary nav-action-workbench" style="padding: 9px 18px; font-size: 13.5px; white-space: nowrap;" title="Launch Interactive Planetary Workbench">
+          <span style="white-space: nowrap;">Launch Workbench →</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileMenuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <svg class="icon-hamburger" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       02. HERO SECTION (Light-Mode + Space Video Background + Photorealistic 3D Globe)
+       ========================================================================= -->
+  <section class="hero-section" id="hero">
+    <!-- Cinematic Full-Width Space Video Background (189457-885804464_medium.mp4) -->
+    <div class="hero-space-video-wrapper" aria-hidden="true">
+      <video id="heroSpaceVideo" class="hero-space-video" autoplay muted loop playsinline preload="auto" poster="/images/planet_earth_view.jpg">
+        <source src="/videos/189457-885804464_medium.mp4" type="video/mp4" />
+        <source src="/videos/hero_space_bg.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-space-scrim"></div>
+    </div>
+
+    <div class="container hero-grid">
+      
+      <!-- Left Column: Editorial Headline & Actions -->
+      <div class="hero-content">
+        <h1 class="display-xl hero-title animated-title" aria-label="FROM EARTH TO THE MOON AND MARS.">
+          <span class="title-word" style="--i: 0;">FROM</span>
+          <span class="title-word" style="--i: 1;">EARTH</span>
+          <span class="title-word" style="--i: 2;">TO</span>
+          <span class="title-word" style="--i: 3;">THE</span>
+          <span class="title-word highlight-blue glow-moon" style="--i: 4;">MOON</span>
+          <span class="title-word" style="--i: 5;">AND</span>
+          <span class="title-word glow-mars" style="--i: 6; color: var(--color-accent-orange);">MARS.</span>
+        </h1>
+
+        <p class="subhead hero-subhead">
+          Exploring planetary environments, advancing scientific research, and preparing for humanity's next frontier.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="/workbench.html" class="button-primary btn-primary" style="padding: 16px 28px; font-size: 15px;">
+            <span>Launch Interactive Workbench</span>
+            <svg class="pro-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="#analogs" class="button-secondary btn-secondary" style="padding: 15px 26px; font-size: 15px;">
+            <span>Explore Earth Analogs</span>
+          </a>
+        </div>
+
+        <div style="display: flex; gap: 24px; margin-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px;">
+          <div>
+            <div class="mono hero-meta-title" style="font-weight: 600; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#43B5F5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+              <span>PDS GROUNDED</span>
+            </div>
+            <div class="caption hero-meta-desc" style="color: #B7C9D8;">NASA &amp; ESA Space Mission Data</div>
+          </div>
+          <div style="border-left: 1px solid rgba(255, 255, 255, 0.2); padding-left: 24px;">
+            <div class="mono hero-meta-title" style="font-weight: 600; color: #FFFFFF; display: flex; align-items: center; gap: 6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#43B5F5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+              <span>TERRAIN MATCHING</span>
+            </div>
+            <div class="caption hero-meta-desc" style="color: #B7C9D8;">Multi-Parametric 3-Score Audit</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Open space to showcase the full-width panoramic cosmic video -->
+      <div class="hero-empty-space" aria-hidden="true"></div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03. SCIENTIFIC INTRODUCTION (Purpose of Earth Analog Research + Statistics)
+       ========================================================================= -->
+  <section class="section section-soft" id="about">
+    <div class="container">
+      <div class="intro-grid">
+        
+        <div class="intro-content">
+          <span class="eyebrow">PLANETARY ANALOG SCIENCE</span>
+          <h2 class="display-lg">WHY STUDY EARTH'S EXTREME FRONTIERS?</h2>
+          
+          <p class="body-lg" style="color: var(--color-ink);">
+            Before sending rovers, drill rigs, and astronauts millions of kilometers into deep space, planetary scientists look to Earth. Terrestrial analog environments replicate the extreme aridity, abrasive basaltic regolith, radiation regimes, and geochemical signatures of extraterrestrial worlds.
+          </p>
+
+          <!-- Core Principle from TERRA-X NASA Space Apps 2026 Proposal -->
+          <div style="background: rgba(7, 143, 224, 0.06); border-left: 3px solid var(--color-primary); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0 16px 0;">
+            <p style="font-family: var(--font-mono); font-size: 11px; color: var(--color-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px;">Foundational Axiom (NASA Space Apps 2026)</p>
+            <p style="font-size: 13.5px; color: var(--color-ink); line-height: 1.5; font-style: italic; margin: 0;">
+              &ldquo;A terrestrial analog reproduces specific relevant properties, never Mars or the Moon in their entirety.&rdquo;
+            </p>
+          </div>
+
+          <p class="body" style="color: var(--color-ink-muted);">
+            By benchmark-testing robotic instrumentation in hyperarid evaporite basins like Tindouf and Yungay, or sampling endolithic microbes in Antarctic dry valleys, we validate mission hardware, refine biosignature extraction protocols, and unlock the fundamental limits of extraterrestrial life.
+          </p>
+
+          <div style="display: flex; gap: 16px; margin-top: 8px;">
+            <a href="/workbench.html" class="button-secondary btn-secondary">
+              <span>View Data Pipeline</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="intro-image-frame">
+          <img src="/images/tindouf_core_sampling.jpg" alt="Tindouf Basin Sebkha geological core sampling: evaporite salt crust transitioning to Martian paleolake clayey silt strata" loading="lazy" />
+          <div class="image-annotation-overlay">
+            <span class="annotation-text">TINDOUF SEBKHA CORE SAMPLE • MARS SOIL STRATIGRAPHY</span>
+            <span class="meta-chip-val" style="font-size: 11px; color: var(--color-primary); font-family: var(--font-mono); font-weight: 600;">OBERLIN ET AL. (2018)</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Statistical Ribbon (4 Verified Scientific Facts) -->
+      <div class="stats-ribbon">
+        <div class="stat-item">
+          <span class="stat-number">8</span>
+          <span class="stat-label">Verified Sites</span>
+          <p class="stat-desc">Curated terrestrial field sites benchmarked against Lunar and Martian surface regions.</p>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-number">10</span>
+          <span class="stat-label">Space Datasets</span>
+          <p class="stat-desc">NASA PDS, LRO LOLA, MRO CRISM, THEMIS, and HiRISE calibration data streams.</p>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-number">3-Pillar</span>
+          <span class="stat-label">Decision Model</span>
+          <p class="stat-desc">Similarity (S<sub>j</sub>), Mission Aptitude (A<sub>j</sub>), and Confidence (C<sub>j</sub>) — distinguishing resemblance from operational reality.</p>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">PDS Grounded</span>
+          <p class="stat-desc">All mineral indices and terrain slopes fully grounded in peer-reviewed scientific citations.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       04. EXPLORATION AREAS (6 Editorial Cards with Pure Photography)
+       ========================================================================= -->
+  <section class="section" id="research">
+    <div class="container">
+      
+      <div class="section-header">
+        <span class="eyebrow">RESEARCH DOMAINS &amp; PLATFORM MODULES</span>
+        <h2 class="display-lg">BRIDGING TERRESTRIAL GEOLOGY &amp; DEEP SPACE</h2>
+        <p class="subhead">
+          An integrated scientific architecture connecting 8 platform modules — from planetary orbital data ingestion to quantitative similarity engines, terrain digital twins, and mission feasibility audits.
+        </p>
+      </div>
+
+      <div class="exploration-grid">
+        
+        <!-- Card 1: Earth Analog Environments -->
+        <article class="exploration-card">
+          <div class="card-image-box">
+            <img src="/images/earth_analog_field.jpg" alt="Earth analog desert fieldwork" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow" style="color: var(--color-primary); margin-bottom: 6px;">DOMAIN 01 • TERRESTRIAL</span>
+            <h3 class="card-title">Earth Analog Environments</h3>
+            <p class="body-sm">
+              Hyperarid evaporite playas, saline crusts, and sub-zero polar plateaus matching Mars Gale and Jezero mineral assemblages.
+            </p>
+            <a href="#analogs" class="card-link">
+              <span>Explore Analog Sites</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2: Lunar Exploration -->
+        <article class="exploration-card">
+          <div class="card-image-box">
+            <img src="/images/lunar_exploration.jpg" alt="Lunar surface and crater terrain" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow" style="color: #71849A; margin-bottom: 6px;">DOMAIN 02 • LUNAR</span>
+            <h3 class="card-title">Lunar Exploration</h3>
+            <p class="body-sm">
+              Shackleton rim solar illumination mapping, permanently shadowed region (PSR) water ice traps, and regolith mobility testing.
+            </p>
+            <a href="/workbench.html?target=moon" class="card-link">
+              <span>Analyze Lunar Targets</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 3: Mars Exploration -->
+        <article class="exploration-card">
+          <div class="card-image-box">
+            <img src="/images/mars_exploration.jpg" alt="Mars Jezero crater and rover terrain" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow eyebrow-orange" style="margin-bottom: 6px;">DOMAIN 03 • MARS</span>
+            <h3 class="card-title">Mars Exploration</h3>
+            <p class="body-sm">
+              Perseverance rover delta navigation, chlorate-perchlorate chemistry, and ancient lacustrine sediment benchmarking.
+            </p>
+            <a href="/workbench.html?target=mars" class="card-link" style="color: var(--color-accent-orange);">
+              <span>Inspect Mars Benchmarks</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 4: Planetary Science -->
+        <article class="exploration-card">
+          <div class="card-image-box">
+            <img src="/images/planetary_science.jpg" alt="Planetary spectroscopy and laser altimetry" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow" style="color: var(--color-primary); margin-bottom: 6px;">DOMAIN 04 • SCIENCE</span>
+            <h3 class="card-title">Planetary Science</h3>
+            <p class="body-sm">
+              Multispectral infrared spectroscopy correlating MRO CRISM planetary cubes with USGS ASTER and Copernicus Sentinel data.
+            </p>
+            <a href="/workbench.html#spectral" class="card-link">
+              <span>View Spectroscopy Engine</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 5: Space Research & Simulation -->
+        <article class="exploration-card">
+          <div class="card-image-box">
+            <img src="/images/space_simulation.jpg" alt="Desert analog research habitat and simulation dome" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow" style="color: #71849A; margin-bottom: 6px;">DOMAIN 05 • HABITAT</span>
+            <h3 class="card-title">Space Research &amp; Simulation</h3>
+            <p class="body-sm">
+              In-situ resource utilization (ISRU) tests, closed-loop environmental controls, and autonomous expedition mission operations.
+            </p>
+            <a href="/workbench.html#habitat" class="card-link">
+              <span>Explore Simulation Protocols</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 6: Human Space Exploration -->
+        <article class="exploration-card">
+          <div class="card-image-box">
+            <img src="/images/human_exploration.jpg" alt="Astronaut conducting field science in planetary EVA suit" loading="lazy" />
+          </div>
+          <div class="card-body">
+            <span class="eyebrow" style="color: var(--color-primary); margin-bottom: 6px;">DOMAIN 06 • HUMAN EXPEDITION</span>
+            <h3 class="card-title">Human Space Exploration</h3>
+            <p class="body-sm">
+              Pressurized rover egress, abrasive regolith wear mitigation, and sample return operational safety protocols for Artemis crews.
+            </p>
+            <a href="/workbench.html#eva" class="card-link">
+              <span>Review EVA Methodologies</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       05. MISSIONS AND RESEARCH (Structured Mission Cards with Badges & Metadata)
+       ========================================================================= -->
+  <section class="section section-soft" id="missions">
+    <div class="container">
+      
+      <div class="section-header">
+        <span class="eyebrow">FLIGHT &amp; FIELD MISSIONS</span>
+        <h2 class="display-lg">ANALOG TESTBED BENCHMARKS</h2>
+        <p class="subhead">
+          Detailed mission profiles connecting real planetary spacecraft objectives with verified terrestrial test sites.
+        </p>
+      </div>
+
+      <div class="missions-grid">
+        
+        <!-- Mission 001: Artemis Analog Validation -->
+        <article class="mission-feature">
+          <div class="mission-media">
+            <img src="/images/lunar_exploration.jpg" alt="Artemis Lunar South Pole Shackleton Rim Mission" loading="lazy" />
+          </div>
+          <div class="mission-details">
+            <div class="mission-meta-strip">
+              <div class="meta-chip">
+                <span class="meta-chip-label">TARGET BODY</span>
+                <span class="meta-chip-val">Moon (Luna) • 89.9°S</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">ANALOG TESTBED</span>
+                <span class="meta-chip-val">Askja &amp; Mauna Kea Basalts</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">FIDELITY RATING</span>
+                <span class="meta-chip-val" style="color: var(--color-primary);">92% Morphological</span>
+              </div>
+            </div>
+            <h3 class="card-title" style="font-size: 21px;">Artemis Polar Base Camp Validation</h3>
+            <p class="body-sm">
+              Benchmarking autonomous rover navigation on permanently shadowed crater rim slopes and calibrating regolith core drill thermal dissipation across abrasive basaltic tephra.
+            </p>
+            <a href="/workbench.html?target=moon" class="button-secondary btn-secondary" style="width: fit-content; margin-top: 4px;">
+              <span>Inspect Mission Parameters</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Mission 002: Perseverance Desert Benchmark -->
+        <article class="mission-feature">
+          <div class="mission-media">
+            <img src="/images/tindouf_mars_soil_comparison.jpg" alt="Tindouf Basin Sebkha evaporite salt crust adapting to Martian paleolake soil regolith at Jezero Crater" loading="lazy" />
+          </div>
+          <div class="mission-details">
+            <div class="mission-meta-strip">
+              <div class="meta-chip">
+                <span class="meta-chip-label">TARGET BODY</span>
+                <span class="meta-chip-val">Mars • Jezero &amp; Gale Craters</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">ANALOG SOIL TESTBED</span>
+                <span class="meta-chip-val">Tindouf Sebkha Evaporite</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">PEER BENCHMARK</span>
+                <span class="meta-chip-val" style="color: var(--color-accent-orange);">Oberlin et al. (2018)</span>
+              </div>
+            </div>
+            <h3 class="card-title" style="font-size: 21px;">Tindouf Evaporite Soil vs. Martian Paleolake Regolith</h3>
+            <p class="body-sm">
+              Tindouf Basin Sebkha's high-salinity evaporite crusts naturally produce oxychlorines, sulfates, and chlorate analogs that mirror Phoenix Lander (WCL) and Curiosity (SAM) soil chemistry (Oberlin et al., 2018). Ground-truth spectroscopy validates biosignature preservation under intense solar radiation and extreme desiccation.
+            </p>
+            <a href="/workbench.html?target=mars&amp;site=tindouf_sebkha" class="button-secondary btn-secondary" style="width: fit-content; margin-top: 4px;">
+              <span>Inspect Geochemical Soil Model</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Mission 003: Habitat & EVA Simulation -->
+        <article class="mission-feature">
+          <div class="mission-media">
+            <img src="/images/space_simulation.jpg" alt="Desert Analog Research Habitat Simulation" loading="lazy" />
+          </div>
+          <div class="mission-details">
+            <div class="mission-meta-strip">
+              <div class="meta-chip">
+                <span class="meta-chip-label">TARGET REGIME</span>
+                <span class="meta-chip-val">Deep Space Habitat</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">ANALOG TESTBED</span>
+                <span class="meta-chip-val">Utah MDRS &amp; HI-SEAS</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">PROTOCOL</span>
+                <span class="meta-chip-val" style="color: var(--color-primary);">Closed-Loop Life Support</span>
+              </div>
+            </div>
+            <h3 class="card-title" style="font-size: 21px;">Autonomous Surface Outpost Simulation</h3>
+            <p class="body-sm">
+              Testing crew workload balance, communications latency buffers, in-situ water extraction from hydrous sulfates, and automated field robotic coordination.
+            </p>
+            <a href="/workbench.html" class="button-secondary btn-secondary" style="width: fit-content; margin-top: 4px;">
+              <span>Inspect Mission Parameters</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Mission 004: Astrobiology Biosignature Drill -->
+        <article class="mission-feature">
+          <div class="mission-media">
+            <img src="/images/earth_analog_field.jpg" alt="Subsurface Cryogenic Drilling in Polar Permafrost" loading="lazy" />
+          </div>
+          <div class="mission-details">
+            <div class="mission-meta-strip">
+              <div class="meta-chip">
+                <span class="meta-chip-label">TARGET DOMAIN</span>
+                <span class="meta-chip-val">Subsurface Cryosphere</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">ANALOG TESTBED</span>
+                <span class="meta-chip-val">McMurdo Dry Valleys, Antarctica</span>
+              </div>
+              <div class="meta-chip">
+                <span class="meta-chip-label">RESEARCH REF</span>
+                <span class="meta-chip-val" style="color: var(--color-primary-dark);">DOI: 10.1126/science</span>
+              </div>
+            </div>
+            <h3 class="card-title" style="font-size: 21px;">Permafrost Cryogenic Drilling &amp; Astrobiology</h3>
+            <p class="body-sm">
+              Drilling into sub-zero, hyper-saline cryogenic gravels to analyze extremophile metabolic dormant states as direct operational models for Europa and Mars polar caps.
+            </p>
+            <a href="/workbench.html" class="button-secondary btn-secondary" style="width: fit-content; margin-top: 4px;">
+              <span>Inspect Mission Parameters</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       06. EARTH, MOON AND MARS (3 Distinct Planetary Visual Areas)
+       ========================================================================= -->
+  <section class="section" id="analogs">
+    <div class="container">
+      
+      <div class="section-header">
+        <span class="eyebrow">PLANETARY TRIO</span>
+        <h2 class="display-lg">EARTH, MOON &amp; MARS ANALOG SYSTEMS</h2>
+        <p class="subhead">
+          Three dedicated planetary domains showcasing terrestrial proxies, orbital telemetry, and high-fidelity environmental comparative analysis.
+        </p>
+      </div>
+
+      <div class="planetary-trio-grid">
+        
+        <!-- Column 1: EARTH (Electric Blue Accent) -->
+        <article class="planetary-col col-earth">
+          <div class="planetary-visual-header">
+            <img src="/images/tindouf_analog_field.jpg" alt="Tindouf Basin Sebkha Earth Analog Field Expedition and Rover Soil Testing" loading="lazy" />
+          </div>
+          <div class="planetary-body">
+            <div class="eyebrow" style="color: var(--color-primary); display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg class="pro-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                <path d="M2 12h20"></path>
+              </svg>
+              <span>EARTH • TERRA</span>
+            </div>
+            <h3 class="card-title" style="font-size: 22px;">Tindouf Basin Sebkha</h3>
+            <p class="body-sm">
+              High-albedo saline evaporite playas situated in North Africa. Dense sodium and magnesium sulfate salt encrustations naturally mirror Martian paleolake soil regolith (Oberlin et al., 2018).
+            </p>
+
+            <div class="analog-site-box">
+              <span class="analog-site-name">Coordinates: 27.67°N, 8.14°W</span>
+              <span class="analog-site-metric">Soluble Salt Geochemistry • Aridity Index: 0.94</span>
+              <span class="mono" style="font-size: 10px; color: var(--color-ink-muted);">Soil Proxy: Gale Crater, Phoenix WCL &amp; Jezero Delta</span>
+            </div>
+
+            <a href="/workbench.html?site=tindouf_sebkha" class="button-primary btn-primary" style="margin-top: auto;">
+              <span>Run Tindouf Soil Audit</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Column 2: MOON (Lunar Silver/Gray Accent) -->
+        <article class="planetary-col col-moon">
+          <div class="planetary-visual-header">
+            <img src="/images/lunar_exploration.jpg" alt="Lunar South Pole Shackleton Crater Rim" loading="lazy" />
+          </div>
+          <div class="planetary-body">
+            <div class="eyebrow" style="color: #71849A; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg class="pro-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+              <span>MOON • LUNA</span>
+            </div>
+            <h3 class="card-title" style="font-size: 22px;">Shackleton Rim &amp; Peaks</h3>
+            <p class="body-sm">
+              South Pole permanently shadowed crater interior maintaining 40 Kelvin cold traps beside sunlit ridge tops ideal for persistent solar arrays and Artemis human habitats.
+            </p>
+
+            <div class="analog-site-box" style="background: #F5F7FA;">
+              <span class="analog-site-name">Coordinates: 89.9°S, 0.0°E</span>
+              <span class="analog-site-metric" style="color: var(--color-ink);">Solar Illumination: 92% • Volatiles: 0.86</span>
+              <span class="mono" style="font-size: 10px; color: var(--color-ink-muted);">Earth Proxy: Askja Volcanic Plains (Iceland)</span>
+            </div>
+
+            <a href="/workbench.html?target=moon" class="button-secondary btn-secondary" style="margin-top: auto; border-color: #71849A; color: #101820 !important;">
+              <span>Analyze Lunar Terrain</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Column 3: MARS (Mars-Orange Accent #E87532) -->
+        <article class="planetary-col col-mars">
+          <div class="planetary-visual-header">
+            <img src="/images/atacama_yungay.jpg" alt="Atacama Desert Yungay Mars Analog" loading="lazy" />
+          </div>
+          <div class="planetary-body">
+            <div class="eyebrow eyebrow-orange" style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+              <svg class="pro-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle>
+                <line x1="22" y1="2" x2="16.5" y2="7.5"></line>
+                <polyline points="16 2 22 2 22 8"></polyline>
+              </svg>
+              <span>MARS • ARES</span>
+            </div>
+            <h3 class="card-title" style="font-size: 22px;">Atacama Yungay Basin</h3>
+            <p class="body-sm">
+              The hyperarid core of Chile's Atacama Desert. Rainless for decades, soil peroxide and perchlorate chemistry provides the global benchmark for Martian surface habitability.
+            </p>
+
+            <div class="analog-site-box" style="background: var(--color-accent-orange-light); border-color: rgba(232, 117, 50, 0.3);">
+              <span class="analog-site-name">Coordinates: 24.50°S, 69.25°W</span>
+              <span class="analog-site-metric" style="color: #C0581C;">Chlorate Index: 0.93 • UV Exposure: 0.91</span>
+              <span class="mono" style="font-size: 10px; color: var(--color-ink-muted);">Proxy Target: Jezero Crater &amp; Valles Marineris</span>
+            </div>
+
+            <a href="/workbench.html?site=atacama_desert" class="button-primary btn-primary" style="margin-top: auto; background-color: var(--color-accent-orange);">
+              <span>Run Mars Audit</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       07. DISCOVERIES AND SCIENTIFIC NEWS (Peer-Reviewed Citations with DOIs)
+       ========================================================================= -->
+  <section class="section section-soft" id="discoveries">
+    <div class="container">
+      
+      <div class="section-header">
+        <span class="eyebrow">SCIENTIFIC PUBLICATIONS</span>
+        <h2 class="display-lg">PEER-REVIEWED RESEARCH &amp; OPEN DATA</h2>
+        <p class="subhead">
+          Every analog match in our platform is grounded in published literature, NASA PDS records, and verifiable field expedition analyses.
+        </p>
+      </div>
+
+      <div class="discoveries-container">
+        
+        <!-- Featured Article -->
+        <article class="featured-article-card">
+          <img src="/images/planetary_science.jpg" alt="Planetary spectroscopy discovery" class="featured-article-img" loading="lazy" />
+          <div class="featured-article-body">
+            <div class="eyebrow">FEATURED INVESTIGATION • ASTROBIOLOGY</div>
+            <h3 class="display-md" style="font-size: 28px;">Perchlorate &amp; Sulfate Evaporite Cycles in North African Playas</h3>
+            <p class="body">
+              How the discovery of trace oxychlorine species in Saharan sebkhas revolutionizes our understanding of Phoenix Wet Chemistry Laboratory findings and Curiosity SAM instrument extractions on Mars.
+            </p>
+            <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--color-hairline); padding-top: 16px; margin-top: 8px;">
+              <span class="mono" style="color: var(--color-ink-muted);">JOURNAL: ASTROBIOLOGY (2018)</span>
+              <a href="https://doi.org/10.1089/ast.2016.1557" target="_blank" rel="noopener noreferrer" class="card-link">
+                <span>Read Paper DOI</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Citation List with DOI Links -->
+        <div class="citation-list">
+          
+          <div class="citation-card">
+            <div class="citation-meta">
+              <span>ASTROBIOLOGY • 2018</span>
+              <span>DOI VERIFIED</span>
+            </div>
+            <h4 class="citation-title">
+              Oberlin, Claire &amp; Kounaves — "Evaluation of the Tindouf Basin as a Mars Analog for Soluble Salt Geochemistry."
+            </h4>
+            <p class="body-sm">
+              Demonstrates high concentrations of soluble chlorides, sulfates, and oxychlorines in hyperarid evaporitic crusts analogous to Martian paleolake and soil geochemistry.
+            </p>
+            <a href="https://doi.org/10.1089/ast.2016.1557" target="_blank" rel="noopener noreferrer" class="citation-doi">
+              <span>https://doi.org/10.1089/ast.2016.1557</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="citation-card">
+            <div class="citation-meta">
+              <span>PLANETARY &amp; SPACE SCIENCE • 2014</span>
+              <span>DOI VERIFIED</span>
+            </div>
+            <h4 class="citation-title">
+              Ori et al. — "The Ibn Battuta Centre and Moroccan Planetary Analogs: Geomorphology and Geological Testing of Rover Mobility."
+            </h4>
+            <p class="body-sm">
+              Extensive terrain characterization of Lake Iriqui and southern Moroccan desert pavements for planetary exploration rover prototypes.
+            </p>
+            <a href="https://doi.org/10.1016/j.pss.2014.05.002" target="_blank" rel="noopener noreferrer" class="citation-doi">
+              <span>https://doi.org/10.1016/j.pss.2014.05.002</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="citation-card">
+            <div class="citation-meta">
+              <span>SCIENCE MAGAZINE • 2003</span>
+              <span>DOI VERIFIED</span>
+            </div>
+            <h4 class="citation-title">
+              Navarro-González et al. — "Mars-Like Soils in the Atacama Desert, Chile, and the Dry Limit of Microbial Life."
+            </h4>
+            <p class="body-sm">
+              Seminal discovery defining the extreme aridity threshold where microbial DNA falls below detectability in Viking-like Martian soil.
+            </p>
+            <a href="https://doi.org/10.1126/science.1089143" target="_blank" rel="noopener noreferrer" class="citation-doi">
+              <span>https://doi.org/10.1126/science.1089143</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       08. FINAL CLIMAX CTA (Deep Space Navy #071B32 + Electric Blue CTA)
+       ========================================================================= -->
+  <section class="climax-cta-section dark-section">
+    <div class="container">
+      <div class="climax-box">
+        <span class="eyebrow" style="color: var(--color-primary-focus);">THE PLANETARY DISCOVERY PLATFORM</span>
+        <h2 class="display-xl climax-headline">
+          THE NEXT FRONTIER STARTS WITH DISCOVERY.
+        </h2>
+        <p class="subhead climax-subhead">
+          Deploy computational terrain matching, evaluate geochemical fidelity against NASA Planetary Data System baselines, and empower the future of human exploration.
+        </p>
+
+        <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-top: 8px;">
+          <a href="/workbench.html" class="button-primary btn-primary" style="padding: 18px 36px; font-size: 16px; border-radius: var(--radius-md);">
+            <span>Launch Interactive Workbench</span>
+            <span aria-hidden="true">→</span>
+          </a>
+          <a href="#about" class="button-dark btn-dark" style="padding: 18px 32px; font-size: 16px;">
+            <span>Review Scientific Methodology</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       09. FOOTER (Deep Navy #071B32, Logo, Citations, Cockpit Port 8088 Link)
+       ========================================================================= -->
+  <footer class="site-footer" id="contact" role="contentinfo">
+    <div class="container">
+      
+      <div class="footer-grid">
+        
+        <!-- Brand Info -->
+        <div class="footer-brand">
+          <a href="#hero" class="brand-wrapper footer-brand-wrapper" aria-label="EARTH ANALOGS Homepage" style="text-decoration: none; display: inline-flex; align-items: center; margin-bottom: 4px;">
+            <img src="/images/earth_analogs_logo_white.png" alt="EARTH ANALOGS Logo" class="footer-logo" style="height: 52px; width: auto; object-fit: contain;" onerror="this.onerror=null; this.src='images/earth_analogs_logo_white.png';" />
+          </a>
+          <p class="footer-desc">
+            EARTH ANALOGS is a scientific exploration framework inspired by NASA research principles. We benchmark terrestrial extreme environments to accelerate humanity's journey to the Moon and Mars.
+          </p>
+        </div>
+
+        <!-- Navigation Columns -->
+        <div>
+          <h4 class="footer-heading">Platform</h4>
+          <ul class="footer-links">
+            <li><a href="/workbench.html">Interactive Workbench</a></li>
+            <li><a href="#analogs">Candidate Analogs</a></li>
+            <li><a href="#missions">Mission Profiles</a></li>
+            <li><a href="#research">Research Domains</a></li>
+            <li><a href="/api/datasets" target="_blank">PDS API Datasets</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Analogs Mapped</h4>
+          <ul class="footer-links">
+            <li><a href="/workbench.html?site=tindouf_sebkha">Tindouf Sebkha (Morocco)</a></li>
+            <li><a href="/workbench.html?site=lake_iriqui">Lake Iriqui (Morocco)</a></li>
+            <li><a href="/workbench.html?site=atacama_desert">Atacama Yungay (Chile)</a></li>
+            <li><a href="/workbench.html?site=mcmurdo_valleys">McMurdo Valleys (Antarctica)</a></li>
+            <li><a href="/workbench.html?site=mauna_kea">Mauna Kea (Hawaii)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Data Grounding</h4>
+          <ul class="footer-links">
+            <li><a href="https://pds.nasa.gov" target="_blank" rel="noopener">NASA Planetary Data System</a></li>
+            <li><a href="https://astrogeology.usgs.gov" target="_blank" rel="noopener">USGS Astrogeology Science</a></li>
+            <li><a href="https://psa.esa.int" target="_blank" rel="noopener">ESA Planetary Science Archive</a></li>
+            <li><a href="https://science.nasa.gov/eyes/" target="_blank" rel="noopener">NASA's Eyes Inspiration</a></li>
+            <li><a href="https://doi.org/10.1089/ast.2016.1557" target="_blank" rel="noopener">Peer-Reviewed Citations</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 EARTH ANALOGS. Built for NASA Space Apps Challenge 2026. All scientific datasets open source.
+        </div>
+        <div class="mono" style="color: #71849A;">
+          LATENCY: 0ms (LOCAL) • PROTOCOL: PDS-P1 • STATUS: NOMINAL
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       SCRIPTS: Three.js + hero-eyes-3d.js + Responsive Nav Script
+       ========================================================================= -->
+  <!-- Three.js (CDN with local fallback) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="/js/three.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- NASA Eyes-Inspired 3D Celestial Engine -->
+  <script src="/js/hero-eyes-3d.js"></script>
+
+  <!-- Mobile Navigation Drawer Handler -->
+  <script>
+    (function() {
+      const toggleBtn = document.getElementById('mobileMenuToggle');
+      const navMenu = document.getElementById('navMenu');
+      if (toggleBtn && navMenu) {
+        toggleBtn.addEventListener('click', function() {
+          const isOpen = navMenu.classList.toggle('open');
+          toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        navMenu.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            navMenu.classList.remove('open');
+            toggleBtn.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+    })();
+
+    // Ensure Background Space Video Autoplays smoothly
+    document.addEventListener('DOMContentLoaded', function() {
+      const vid = document.getElementById('heroSpaceVideo');
+      if (vid) {
+        vid.muted = true;
+        const p = vid.play();
+        if (p !== undefined) {
+          p.catch(function(e) {
+            console.log('Video autoplay note:', e);
+          });
+        }
+      }
+    });
+  </script>
+
+  <!-- High-Performance Landing Page Animations & Movement Engine -->
+  <script src="/js/landing-animations.js?v=2"></script>
+
+</body>
+</html>

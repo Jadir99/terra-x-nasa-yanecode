@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Resources & APIs Blueprint — TERRA-X NASA Space Apps 2026 Documentation</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/earth_analogs_logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for Scientific Math -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false});"></script>
+
+  <!-- Mermaid.js for Architecture & Flowcharts -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'neutral',
+        fontFamily: 'Inter, sans-serif'
+      });
+    });
+  </script>
+
+  <style>
+    :root {
+      --color-primary: #078FE0;
+      --color-primary-dark: #0566A8;
+      --color-primary-light: #E7F5FF;
+      --color-ink: #101820;
+      --color-ink-muted: #536273;
+      --color-ink-subtle: #71849A;
+      --color-canvas: #FFFFFF;
+      --color-canvas-soft: #F5F9FC;
+      --color-surface-1: #FFFFFF;
+      --color-surface-2: #EDF5FA;
+      --color-hairline: #DCE5EC;
+      --color-hairline-strong: #B7C9D8;
+      --color-accent-orange: #E87532;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--color-ink);
+      background-color: var(--color-canvas);
+      line-height: 1.65;
+      font-size: 15px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navigation Bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      min-height: 56px;
+      max-width: 100vw;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      box-sizing: border-box;
+      overflow-x: clip;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--color-ink);
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1px solid rgba(7, 143, 224, 0.2);
+    }
+
+    .nav-tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tab {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--color-ink-muted);
+      transition: all 0.15s ease;
+    }
+
+    .nav-tab:hover {
+      color: var(--color-primary);
+      background: var(--color-surface-2);
+    }
+
+    .nav-tab.active {
+      color: var(--color-primary);
+      background: var(--color-primary-light);
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary {
+      background: var(--color-surface-2);
+      color: var(--color-ink);
+      border: 1px solid var(--color-hairline);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-hairline);
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+    }
+
+    /* Main Docs Layout */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .docs-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 36px;
+      padding: 32px 24px 80px 24px;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+      overflow-x: clip;
+    }
+
+    /* Sidebar Navigation */
+    .docs-sidebar {
+      position: sticky;
+      top: 88px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      padding-right: 16px;
+    }
+
+    .sidebar-section-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-ink-subtle);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .toc-item a {
+      display: block;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--color-ink-muted);
+      text-decoration: none;
+      line-height: 1.4;
+      border-left: 2px solid transparent;
+      transition: all 0.12s ease;
+    }
+
+    .toc-item a:hover {
+      color: var(--color-primary);
+      background: var(--color-surface-2);
+      border-left-color: var(--color-primary);
+    }
+
+    /* Content Styling */
+    .docs-content {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      width: 100%;
+      overflow-x: clip;
+    }
+
+    .article-body {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      width: 100%;
+      overflow-x: clip;
+    }
+
+    .docs-header {
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+      border-bottom: 1px solid var(--color-hairline);
+    }
+
+    .docs-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-hairline);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 12px;
+    }
+
+    .docs-title {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-ink);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .docs-meta {
+      font-size: 14px;
+      color: var(--color-ink-subtle);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Markdown Element Typography */
+    .docs-content h1 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      margin: 40px 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-hairline);
+      color: var(--color-ink);
+    }
+
+    .docs-content h2 {
+      font-family: var(--font-display);
+      font-size: 21px;
+      font-weight: 600;
+      margin: 32px 0 14px 0;
+      color: var(--color-ink);
+    }
+
+    .docs-content h3 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      margin: 24px 0 10px 0;
+      color: var(--color-ink);
+    }
+
+    .docs-content p {
+      margin-bottom: 16px;
+      color: var(--color-ink);
+    }
+
+    .docs-content ul, .docs-content ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+    }
+
+    .docs-content li {
+      margin-bottom: 6px;
+    }
+
+    .docs-content strong {
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+
+    .docs-content a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .docs-content a:hover {
+      text-decoration: underline;
+    }
+
+    .docs-content hr {
+      border: 0;
+      height: 1px;
+      background: var(--color-hairline);
+      margin: 36px 0;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+      margin: 24px 0;
+      border-radius: 8px;
+      border: 1px solid var(--color-hairline);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-sizing: border-box;
+    }
+
+    .docs-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+      font-size: 13.5px;
+      border: none;
+    }
+
+    .docs-content th {
+      background: var(--color-surface-2);
+      color: var(--color-ink);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-hairline-strong);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .docs-content td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--color-hairline);
+      vertical-align: top;
+    }
+
+    .docs-content tr:last-child td {
+      border-bottom: none;
+    }
+
+    .docs-content tr:hover td {
+      background: rgba(7, 143, 224, 0.02);
+    }
+
+    /* Code Blocks */
+    .docs-content code {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      background: var(--color-surface-2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--color-primary-dark);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .docs-content pre {
+      background: #0B1726;
+      color: #E6EDF3;
+      padding: 16px 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 1px solid #1E2D42;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .docs-content pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Alerts */
+    .docs-content blockquote {
+      margin: 20px 0;
+      padding: 14px 18px;
+      border-left: 4px solid var(--color-primary);
+      background: var(--color-surface-2);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .docs-content blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    .alert-card {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 1px solid;
+    }
+
+    .alert-important {
+      background: rgba(232, 117, 50, 0.06);
+      border-color: rgba(232, 117, 50, 0.3);
+      border-left: 4px solid var(--color-accent-orange);
+    }
+
+    .alert-important h4 {
+      color: var(--color-accent-orange);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .docs-content img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Screenshots & Visual Cards */
+    .screenshot-card {
+      margin: 28px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--color-hairline-strong);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      background: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .screenshot-card img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 520px;
+      object-fit: contain;
+      background: #FFFFFF;
+      display: block;
+      margin: 0 auto;
+      cursor: zoom-in;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .screenshot-card img:hover {
+      opacity: 0.96;
+    }
+
+    .screenshot-caption {
+      padding: 11px 18px;
+      background: #FFFFFF;
+      border-top: 1px solid var(--color-hairline);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-ink-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .screenshot-caption strong {
+      color: var(--color-primary);
+    }
+
+    
+    .figure-caption-text {
+      margin-top: 10px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #536273;
+      text-align: center;
+    }
+
+    
+    .katex-display {
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      max-width: 100% !important;
+      -webkit-overflow-scrolling: touch;
+      padding: 6px 0;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(4, 9, 20, 0.9);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+    }
+
+    .lightbox-img {
+      max-width: 96%;
+      max-height: 94vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    /* Footer */
+    .docs-footer {
+      margin-top: 64px;
+      padding-top: 28px;
+      padding-bottom: 28px;
+      border-top: 1px solid var(--color-hairline);
+      font-size: 13px;
+      color: var(--color-ink-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .docs-footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .docs-footer img.docs-footer-logo {
+      height: 44px !important;
+      max-height: 44px !important;
+      width: auto !important;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+    }
+
+    .docs-footer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .docs-footer-title {
+      font-weight: 600;
+      color: var(--color-ink);
+      font-size: 14px;
+    }
+
+    .docs-footer-sub {
+      font-size: 12px;
+      color: var(--color-ink-muted);
+      font-family: var(--font-mono);
+    }
+
+    .docs-footer-meta {
+      font-size: 12px;
+      color: var(--color-ink-subtle);
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    @media print {
+      .topbar, .docs-sidebar, .nav-actions, .lightbox-modal {
+        display: none !important;
+      }
+      .docs-container {
+        display: block;
+        padding: 0;
+      }
+      .docs-content {
+        max-width: 100%;
+      }
+      .screenshot-card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+      pre, table {
+        break-inside: avoid;
+      }
+    }
+
+    @media (max-width: 1080px) {
+      .topbar {
+        height: auto;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .nav-tabs {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        justify-content: flex-start;
+      }
+      .nav-tab {
+        white-space: nowrap;
+        font-size: 12px;
+        padding: 5px 10px;
+      }
+      .nav-actions {
+        gap: 6px;
+      }
+      .btn-action span {
+        font-size: 12px;
+      }
+      .docs-container {
+        grid-template-columns: minmax(0, 1fr) !important;
+        padding: 16px;
+      }
+      .docs-sidebar {
+        display: none;
+      }
+      .docs-title {
+        font-size: 24px;
+      }
+      .docs-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .docs-footer-meta {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-badge {
+        display: none;
+      }
+      .nav-actions .btn-secondary {
+        display: none;
+      }
+      .docs-content table {
+        display: block;
+        overflow-x: auto;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <a href="/doc/" class="brand-wrap">
+      <img src="/images/earth_analogs_logo.png" alt="TERRA-X Logo" class="brand-logo">
+      <span class="brand-title">TERRA-X</span>
+      <span class="brand-badge">NASA Space Apps 2026</span>
+    </a>
+
+    <nav class="nav-tabs">
+      <a href="/doc/platform-guide.html" class="nav-tab ">Platform Guide</a>
+      <a href="/doc/nasa-report.html" class="nav-tab ">Scientific Report</a>
+      <a href="/doc/resources.html" class="nav-tab active">Technical Resources</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="/workbench.html" class="btn-action btn-primary">
+        <span>Dashboard</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+      <a href="/" class="btn-action btn-secondary">Landing Page</a>
+      <button onclick="window.print()" class="btn-action btn-secondary" title="Print / Export PDF">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Print PDF</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="docs-container">
+    
+    <!-- Sidebar Table of Contents -->
+    <aside class="docs-sidebar">
+      <div class="sidebar-section-title">Table of Contents</div>
+      <ul class="toc-list" id="sidebarToc">
+        <!-- Dynamically populated or rendered -->
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="docs-content" id="mainContent">
+      <div class="docs-header">
+        <div class="docs-badge">NASA Space Apps Challenge 2026 Documentation</div>
+        <h1 class="docs-title">TERRA-X Technical Resources & Dataset APIs</h1>
+        <div class="docs-meta">
+          <span>Official Reference Specification</span>
+          <span>•</span>
+          <span>Version 1.0.0-POC</span>
+          <span>•</span>
+          <span>NASA PDS &amp; Astrobiology Grounded</span>
+        </div>
+      </div>
+
+      <!-- Converted Markdown HTML -->
+      <article class="article-body">
+        <h1>TERRA-X — Master Resource &amp; Technical Architecture Documentation</h1>
+<p><strong>Planetary Intelligence &amp; Earth Analogs Discovery Platform</strong><br />
+<em>NASA Space Apps Challenge 2026 Reference Documentation</em></p>
+<hr />
+<h2>1. Executive Summary &amp; Foundational Axiom</h2>
+<p>TERRA-X is an integrated scientific intelligence platform designed to discover, benchmark, and evaluate Earth analog locations for Lunar base camps (Artemis program) and Martian surface exploration.</p>
+<h3>Foundational Scientific Axiom (Osinski et al., 2006; Oberlin et al., 2018)</h3>
+<blockquote>
+<p><strong>"A terrestrial analog reproduces specific relevant physical, mineralogical, or geochemical properties, never Mars or the Moon in their entirety."</strong></p>
+</blockquote>
+<p>Because Earth possesses a thick atmosphere, active hydrology, and pervasive biology, no single Earth site is 100% Mars or Moon. Therefore, TERRA-X rejects simplistic single-percentage matching scores in favor of a <strong>rigorous 3-Pillar Decoupled Decision Framework</strong>:
+1. <strong>Similarity ($S_j$)</strong>: Physical, morphological, and geochemical resemblance.
+2. <strong>Mission Aptitude ($A_j$)</strong>: Practical feasibility, logistics, trafficability, and safety.
+3. <strong>Scientific Confidence ($C_j$)</strong>: Ground-truth data density, sensor resolution, and citation backing.</p>
+<hr />
+<h2>2. Peer-Reviewed Academic Literature &amp; Scientific Benchmarks</h2>
+<p>The following peer-reviewed papers establish the scientific validity, geochemical benchmarks, and methodology of the platform:</p>
+<h3>A. Geochemical &amp; Soil Chemistry Analogs</h3>
+<ul>
+<li><strong>Oberlin, E. A., Claire, M. W., &amp; Kounaves, S. P. (2018)</strong>. <em>Evaluation of the Tindouf Basin Region in Southern Morocco as an Analogue Site for Soil Geochemistry on Noachian Mars</em>. <strong>Astrobiology</strong>, 18(10), 1318–1328.<br />
+<em>DOI</em>: <a href="https://doi.org/10.1089/ast.2016.1557">10.1089/ast.2016.1557</a><br />
+<em>Key Finding</em>: Demonstrates that Tindouf evaporite salt crusts naturally produce and retain oxychlorines (perchlorates/chlorates), sulfates, and chlorides with ionic ratios ($\text{NO}_3^-/\text{Cl}^-$, $\text{SO}_4^{2-}/\text{Cl}^-$) matching Mars Phoenix Lander (WCL) and Curiosity (SAM) data.</li>
+<li><strong>Navarro-González, R., Rainey, F. A., McKay, C. P., et al. (2003)</strong>. <em>Mars-Like Soils in the Atacama Desert, Chile, and the Dry Limit of Microbial Life</em>. <strong>Science</strong>, 302(5647), 1018–1021.<br />
+<em>DOI</em>: <a href="https://doi.org/10.1126/science.1089143">10.1126/science.1089143</a><br />
+<em>Key Finding</em>: Establishes the hyperarid Yungay core of the Atacama Desert as the gold standard for testing the detection limits of life and organic preservation under extreme UV desiccation.</li>
+</ul>
+<h3>B. Terrestrial Analog Methodology &amp; Fidelity Models</h3>
+<ul>
+<li><strong>Osinski, G. R., Léveillé, R., Berinstain, A., Lebeuf, M., &amp; Bamsey, M. (2006)</strong>. <em>Terrestrial analogues to Mars and the Moon: Concepts, fidelity, and future exploration</em>. <strong>Planetary and Space Science</strong>, 54(11), 1045–1054.<br />
+<em>DOI</em>: <a href="https://doi.org/10.1016/j.pss.2006.05.010">10.1016/j.pss.2006.05.010</a><br />
+<em>Key Finding</em>: Formulates the classical definition of <strong>Fidelity</strong> ($F$): the degree to which an Earth site reproduces specific planetary environmental properties. Classifies analogs into <em>process</em>, <em>material</em>, and <em>environmental</em> analogs.</li>
+<li><strong>Martins, Z., et al. (2017)</strong>. <em>Earth as a tool for astrobiology—A European roadmap for terrestrial analogues</em>. <strong>Astrobiology</strong>, 17(9), 807–849.<br />
+<em>DOI</em>: <a href="https://doi.org/10.1089/ast.2016.1585">10.1089/ast.2016.1585</a><br />
+<em>Key Finding</em>: Comprehensive European Space Agency (ESA) database of planetary analogs, fieldwork standards, and sample curation protocols.</li>
+<li><strong>Preston, L. J., &amp; Dartnell, L. R. (2014)</strong>. <em>Planetary habitability: Lessons learned from terrestrial analogues</em>. <strong>International Journal of Astrobiology</strong>, 13(1), 81–98.<br />
+<em>DOI</em>: <a href="https://doi.org/10.1017/S1473550413000388">10.1017/S1473550413000388</a><br />
+<em>Key Finding</em>: Systematic review connecting terrestrial extremophile habitats to specific Martian and Icy Moon target regions.</li>
+</ul>
+<h3>C. Cryogenic &amp; Cold Desert Analogs</h3>
+<ul>
+<li><strong>Marchant, D. R., &amp; Head, J. W. (2007)</strong>. <em>Antarctic dry valleys: Microclimate zonation, variable vitrification, and hyperarid regolith development as analogs for cold, dry Mars</em>. <strong>Icarus</strong>, 192(1), 187–222.<br />
+<em>DOI</em>: <a href="https://doi.org/10.1016/j.icarus.2007.06.018">10.1016/j.icarus.2007.06.018</a><br />
+<em>Key Finding</em>: Permafrost stability, thermal contraction crack polygons, and microclimates of Beacon and University Valleys as analogs for Amazonian Mars.</li>
+</ul>
+<h3>D. Lunar South Pole &amp; Artemis Mission Targets</h3>
+<ul>
+<li><strong>Lemelin, M., Lucey, P. G., et al. (2014)</strong>. <em>Mineralogy and albedo of the Moon's South Pole-Aitken basin</em>. <strong>Icarus</strong>, 243, 8–16.<br />
+<em>Key Finding</em>: High-resolution mineral maps of Shackleton Rim and the South Pole-Aitken basin derived from Kaguya Spectral Profiler and Lunar Reconnaissance Orbiter (LRO).</li>
+</ul>
+<hr />
+<h2>3. Space Agency Open Datasets &amp; REST/STAC APIs</h2>
+<p>Production applications must stream Analysis-Ready Data (ARD) via Cloud-Optimized GeoTIFFs (COGs) and open APIs rather than bundling static raster files.</p>
+<h3>1. USGS Astrogeology Planetary STAC API</h3>
+<ul>
+<li><strong>STAC Endpoint</strong>: <code>https://stac.astrogeology.usgs.gov/api</code></li>
+<li><strong>STAC Browser</strong>: <code>https://stac.astrogeology.usgs.gov/</code></li>
+<li><strong>Format</strong>: SpatioTemporal Asset Catalog (STAC) providing Cloud-Optimized GeoTIFFs (COGs) for Mars and the Moon.</li>
+<li><strong>Key Datasets</strong>:</li>
+<li>Mars Reconnaissance Orbiter (MRO) CTX Global Digital Elevation Models (20 m/px).</li>
+<li>HiRISE High-Resolution DTMs (1–2 m/px) covering Jezero Crater, Gale Crater, and Oxia Planum.</li>
+<li>Lunar Reconnaissance Orbiter (LRO) LOLA Global Altimetry (5–20 m/px).</li>
+<li><strong>Usage</strong>: Stream windowed raster slices using <code>pystac-client</code> and <code>rasterio</code> without downloading entire multi-gigabyte files.</li>
+</ul>
+<h3>2. NASA Planetary Data System (PDS) Geosciences Node</h3>
+<ul>
+<li><strong>Orbital Data Explorer (ODE) REST API</strong>: <code>https://oderest.rsl.wustl.edu/service</code></li>
+<li><strong>Official Docs</strong>: <a href="https://oderest.rsl.wustl.edu/">https://oderest.rsl.wustl.edu/</a></li>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code>: <code>mars</code> | <code>moon</code></li>
+<li><code>mission</code>: <code>mro</code> | <code>lro</code> | <code>mgs</code></li>
+<li><code>instrument</code>: <code>crism</code> (Spectrometer) | <code>lola</code> (Altimeter) | <code>ctx</code> | <code>hirise</code></li>
+<li><code>ptype</code>: Product type (e.g., <code>trdr</code> for CRISM targeted hyperspectral cubes).</li>
+<li><code>west</code>, <code>east</code>, <code>south</code>, <code>north</code>: Spatial bounding box.</li>
+<li><code>results</code>: <code>json</code> | <code>xml</code> | <code>tabular</code></li>
+</ul>
+<h3>3. NASA Solar System Treks WMTS Tile Service</h3>
+<ul>
+<li><strong>Service URL Pattern</strong>:
+  <code>text
+  https://trek.nasa.gov/tiles/{body}/EQ/{layer}/1.0.0/default/default028mm/{z}/{y}/{x}.jpg</code></li>
+<li><strong>Supported Bodies</strong>: <code>Mars</code>, <code>Moon</code>, <code>Vesta</code>, <code>Ceres</code>, <code>Mercury</code>, <code>Titan</code>.</li>
+<li><strong>Standard Global Layers</strong>:</li>
+<li>Mars Color Hillshade (MOLA): <code>Mars_MGS_MOLA_ClrShade_merge_global_463m</code></li>
+<li>Mars MDIM 2.1 Color Mosaic (Viking/Valles): <code>Mars_Viking_MDIM21_ClrMosaic_global_232m</code></li>
+<li>Moon LOLA Elevation Color Shaded: <code>Moon_LRO_LOLA_ClrShade_Global_128ppd</code></li>
+<li>Moon LROC WAC Global Morphology: <code>Moon_LRO_LROC_WAC_Global_Morphology</code></li>
+<li><strong>Integration</strong>: Compatible directly with <strong>Leaflet</strong>, <strong>MapLibre GL JS</strong>, <strong>OpenLayers</strong>, and <strong>CesiumJS</strong>.</li>
+</ul>
+<h3>4. Copernicus Data Space Ecosystem (Earth Remote Sensing)</h3>
+<ul>
+<li><strong>Portal</strong>: <code>https://dataspace.copernicus.eu/</code></li>
+<li><strong>STAC Endpoint</strong>: <code>https://catalogue.dataspace.copernicus.eu/stac</code></li>
+<li><strong>Key Collections</strong>:</li>
+<li><code>SENTINEL-2</code>: Multi-Spectral Instrument (MSI) Level-2A (Bottom-of-Atmosphere surface reflectance, 10–20m).</li>
+<li><code>COP-DEM-GLO-30</code>: Copernicus Global Digital Elevation Model (30m worldwide).</li>
+<li><strong>Mineral Indices for Earth Analogs</strong>:</li>
+<li><strong>Clay Mineral Ratio (CMR)</strong>: $\frac{\text{Band 11 (SWIR-1)}}{\text{Band 12 (SWIR-2)}}$</li>
+<li><strong>Ferrous Minerals Index</strong>: $\frac{\text{Band 11 (SWIR-1)}}{\text{Band 8A (NIR)}}$</li>
+<li><strong>Normalized Difference Salinity Index (NDSI)</strong>: $\frac{\text{Band 4 (Red)} - \text{Band 11 (SWIR-1)}}{\text{Band 4 (Red)} + \text{Band 11 (SWIR-1)}}$</li>
+</ul>
+<h3>5. NASA Earthdata CMR (Common Metadata Repository)</h3>
+<ul>
+<li><strong>Endpoint</strong>: <code>https://cmr.earthdata.nasa.gov/search/granules.json</code></li>
+<li><strong>Access</strong>: Free account at <a href="https://urs.earthdata.nasa.gov/">URS Earthdata</a>.</li>
+<li><strong>Key Products</strong>:</li>
+<li>ASTER Global Digital Elevation Model (ASTGTM v003, 30m).</li>
+<li>Landsat 8/9 Operational Land Imager (OLI) Collection 2 Surface Reflectance.</li>
+</ul>
+<hr />
+<h2>4. Mathematical Modeling &amp; Algorithmic Foundations</h2>
+<p>To maintain mathematical rigor, the platform separates candidate evaluation into three decoupled functions:</p>
+<h3>Pillar 1: Similarity Score ($S_j$)</h3>
+<p>$$S_j = w_{\text{spec}} \cdot s_{\text{spectral}} + w_{\text{morph}} \cdot s_{\text{morph}} + w_{\text{env}} \cdot s_{\text{env}}$$
+where $\sum w_i = 1.0$.</p>
+<h4>1. Spectral Angle Mapper (SAM)</h4>
+<p>For planetary target reflectance spectrum $\mathbf{u} = (u_1, \dots, u_N)$ and analog spectrum $\mathbf{v} = (v_1, \dots, v_N)$:
+$$\theta = \cos^{-1}\left( \frac{\mathbf{u} \cdot \mathbf{v}}{|\mathbf{u}|<em k="1">2 |\mathbf{v}|_2} \right) = \cos^{-1}\left( \frac{\sum</em> \right)$$
+$$s_{\text{spectral}} = 1.0 - \frac{\theta}{\pi/2} \quad \in [0, 1]$$
+}^N u_k v_k}{\sqrt{\sum_{k=1}^N u_k^2} \sqrt{\sum_{k=1}^N v_k^2}<em>SAM is mathematically invariant to scene illumination differences, topography shadowing, and solar zenith angles.</em></p>
+<h4>2. Morphological Topographic Distance</h4>
+<p>Using normalized elevation relief ($\Delta h$), mean slope ($\bar{\alpha}$), and RMS surface roughness ($\xi_{\text{RMS}}$):
+$$d_{\text{morph}} = \sqrt{ \left( \frac{\Delta h_p - \Delta h_a}{\sigma_{\Delta h}} \right)^2 + \left( \frac{\bar{\alpha}<em _bar_alpha="\bar{\alpha">p - \bar{\alpha}_a}{\sigma</em>$$
+$$s_{\text{morph}} = \exp\left( - \frac{d_{\text{morph}}}{\gamma} \right)$$}}} \right)^2 + \left( \frac{\xi_p - \xi_a}{\sigma_\xi} \right)^2 </p>
+<h3>Pillar 2: Mission Aptitude Score ($A_j$)</h3>
+<p>Evaluates operational readiness and field campaign viability:
+$$A_j = \left( T_{\text{trafficability}} \right)^{0.35} \cdot \left( L_{\text{logistics}} \right)^{0.25} \cdot \left( S_{\text{safety}} \right)^{0.20} \cdot \left( P_{\text{permits}} \right)^{0.20}$$
+* <strong>Trafficability</strong>: Surface bearing capacity, boulder distribution, wheel-slip hazard.
+* <strong>Logistics</strong>: Distance to nearest all-weather airstrip, hospital, and potable water.
+* <strong>Safety</strong>: Ambient thermal envelope (operating window between $-20^\circ\text{C}$ and $+45^\circ\text{C}$).
+* <strong>Permits</strong>: Legal jurisdiction, protected wilderness status, drone flight clearance.</p>
+<h3>Pillar 3: Scientific Confidence Score ($C_j$)</h3>
+<p>Evaluates the empirical certainty and ground-truth validation:
+$$C_j = \lambda_1 \cdot \text{CitationGroundingScore} + \lambda_2 \cdot \left(1.0 - \frac{\text{GSD}<em _text_target="\text{target">{\text{sensor}}}{\text{GSD}</em>$$
+* Ensures that missing variables or low-resolution proxy data downgrade the certainty rather than arbitrarily skewing similarity.}}}\right) - \sigma_{\text{uncertainty}</p>
+<hr />
+<h2>5. Technology Stack &amp; Software Engineering Architecture</h2>
+<pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│                        FRONTEND (Next.js 14+)                         │
+│  • MapLibre GL JS / Leaflet (Dual Synchronized 2D Canvases)           │
+│  • CesiumJS / Three.js (3D Terrain Digital Twin from Dem)              │
+│  • Tailwind CSS + shadcn/ui (NASA Clean Scientific Design System)      │
+│  • TanStack Query / Zustand (Server State &amp; Parameter Synchronization) │
+└────────────────────────────────────┬───────────────────────────────────┘
+                                     │ REST / WebSocket
+┌────────────────────────────────────▼───────────────────────────────────┐
+│                    API GATEWAY &amp; BACKEND (FastAPI)                     │
+│  • Async REST Endpoints (/discovery, /score, /terrain, /copilot)      │
+│  • Celery Workers + Redis (Heavy Geospatial Raster Processing)        │
+│  • Scientific Engine: GDAL, Rasterio, Xarray, Scipy, NumPy            │
+└───────────────────┬─────────────────────────────────┬──────────────────┘
+                    │                                 │
+┌───────────────────▼──────────────┐   ┌──────────────▼──────────────────┐
+│  GEOSPATIAL STORAGE (PostGIS)    │   │  AI COPILOT RAG (pgvector)      │
+│  • planetary_regions (IAU CRS)   │   │  • Astrobiology Papers (PDFs)   │
+│  • earth_analog_sites (EPSG:4326)│   │  • Text-Embedding-3-Large / Llama│
+│  • Cloud-Optimized GeoTIFF (S3)  │   │  • Source Quotation &amp; Citations │
+└──────────────────────────────────┘   └─────────────────────────────────┘
+</code></pre>
+<h3>Python Scientific Libraries</h3>
+<ul>
+<li><strong><code>rasterio</code></strong>: Cloud-Optimized GeoTIFF reading using HTTP Range requests without loading entire files into memory.</li>
+<li><strong><code>pyproj</code></strong>: Critical for projecting planetary coordinates between terrestrial WGS84 (<code>EPSG:4326</code>) and non-terrestrial bodies:</li>
+<li>Mars: <code>IAU2000:49900</code> (Mars Sphere) / <code>IAU2000:49901</code> (Mars Spheroid)</li>
+<li>Moon: <code>IAU2000:30100</code> (Moon Sphere)</li>
+<li><strong><code>xarray</code></strong>: Multi-dimensional spatial arrays for hyperspectral data cubes (wavelength, lat, lon).</li>
+<li><strong><code>scipy</code> / <code>scikit-learn</code></strong>: Numerical optimization, Principal Component Analysis (PCA), and Spectral Unmixing.</li>
+<li><strong><code>geopandas</code> / <code>shapely</code></strong>: Vector geometries, Area of Interest (AOI) polygon intersection, and coordinate clipping.</li>
+</ul>
+<hr />
+<h2>6. Implementation Recipes &amp; Code Examples</h2>
+<h3>Recipe 1: Querying the USGS Astrogeology Planetary STAC API (Python)</h3>
+<pre><code class="language-python">from pystac_client import Client
+import json
+
+def query_planetary_data(target_body: str, bbox: list):
+    &quot;&quot;&quot;
+    Query USGS Planetary STAC catalog for Cloud-Optimized GeoTIFFs (COGs).
+    target_body: 'mars' or 'moon'
+    bbox: [min_lon, min_lat, max_lon, max_lat]
+    &quot;&quot;&quot;
+    stac_url = &quot;https://stac.astrogeology.usgs.gov/api&quot;
+    client = Client.open(stac_url)
+
+    # Search by planetary collection and bounding box
+    search = client.search(
+        collections=[f&quot;{target_body}_ctx_dtm&quot;, f&quot;{target_body}_mola_elevation&quot;],
+        bbox=bbox,
+        limit=5
+    )
+
+    items = list(search.items())
+    print(f&quot;Discovered {len(items)} planetary scenes for {target_body}:&quot;)
+    for item in items:
+        # Asset URL pointing directly to Cloud-Optimized GeoTIFF
+        cog_href = item.assets.get(&quot;data&quot;, {}).href
+        print(f&quot; - {item.id} | Resolution: {item.properties.get('gsd', 'N/A')}m | URL: {cog_href}&quot;)
+    return items
+
+# Example: Jezero Crater AOI Bounding Box
+# query_planetary_data('mars', [77.2, 18.2, 77.8, 18.6])
+</code></pre>
+<h3>Recipe 2: Streaming a Cloud-Optimized GeoTIFF Window with <code>rasterio</code></h3>
+<pre><code class="language-python">import rasterio
+from rasterio.windows import from_bounds
+import numpy as np
+
+def extract_dem_metrics(cog_url: str, min_x, min_y, max_x, max_y):
+    &quot;&quot;&quot;
+    Streams only the targeted window of a multi-gigabyte COG over HTTP.
+    Calculates elevation delta, slope, and surface roughness.
+    &quot;&quot;&quot;
+    with rasterio.open(cog_url) as src:
+        # Calculate window from bounding box coordinates
+        window = from_bounds(min_x, min_y, max_x, max_y, src.transform)
+        dem = src.read(1, window=window)
+
+        # Mask invalid NoData pixels
+        valid_dem = np.ma.masked_equal(dem, src.nodata)
+
+        # Calculate elevation range
+        elev_min = valid_dem.min()
+        elev_max = valid_dem.max()
+        relief = elev_max - elev_min
+
+        # Calculate slope via gradient
+        gy, gx = np.gradient(valid_dem, src.res[0], src.res[1])
+        slope_rad = np.arctan(np.sqrt(gx**2 + gy**2))
+        mean_slope_deg = np.degrees(slope_rad).mean()
+
+        return {
+            &quot;elevation_min_m&quot;: float(elev_min),
+            &quot;elevation_max_m&quot;: float(elev_max),
+            &quot;relief_m&quot;: float(relief),
+            &quot;mean_slope_deg&quot;: float(mean_slope_deg)
+        }
+</code></pre>
+<h3>Recipe 3: Integrating NASA Moon &amp; Mars WMTS Tiles into Leaflet</h3>
+<pre><code class="language-javascript">// Planetary Map Initialization with NASA Solar System Treks WMTS
+function initPlanetaryMap(containerId, body) {
+  const map = L.map(containerId, {
+    center: [0, 0],
+    zoom: 2,
+    minZoom: 1,
+    maxZoom: 8,
+    crs: L.CRS.EPSG4326 // Equirectangular Projection
+  });
+
+  // Layer Identifier (e.g., Mars MOLA Color Shaded Relief)
+  const layerName = body === 'mars' 
+    ? 'Mars_MGS_MOLA_ClrShade_merge_global_463m'
+    : 'Moon_LRO_LOLA_ClrShade_Global_128ppd';
+
+  // OGC RESTful WMTS URL Template
+  const wmtsUrl = `https://trek.nasa.gov/tiles/${body}/EQ/${layerName}/1.0.0/default/default028mm/{z}/{y}/{x}.jpg`;
+
+  L.tileLayer(wmtsUrl, {
+    attribution: 'NASA / JPL-Caltech / USGS Astrogeology',
+    tileSize: 256,
+    noWrap: true
+  }).addTo(map);
+
+  return map;
+}
+</code></pre>
+<hr />
+<h2>7. Curated Master Database of Verified Global Terrestrial Analogs</h2>
+<div class="table-wrapper"><table>
+<thead>
+<tr>
+<th style="text-align: left;">Analog Site</th>
+<th style="text-align: left;">Location</th>
+<th style="text-align: left;">Target Body</th>
+<th style="text-align: left;">Primary Analogy Features</th>
+<th style="text-align: left;">Peer-Reviewed Benchmark Citation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Tindouf Basin Sebkha</strong></td>
+<td style="text-align: left;">Morocco / Algeria (<code>27.67°N, 8.14°W</code>)</td>
+<td style="text-align: left;">Mars (Noachian)</td>
+<td style="text-align: left;">Soluble salts (chlorides, sulfates, natural perchlorate retention), paleolake evaporites</td>
+<td style="text-align: left;">Oberlin, Claire, &amp; Kounaves (2018), <em>Astrobiology</em>, DOI: 10.1089/ast.2016.1557</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Atacama Desert (Yungay)</strong></td>
+<td style="text-align: left;">Chile (<code>24.04°S, 69.87°W</code>)</td>
+<td style="text-align: left;">Mars (Hyperarid)</td>
+<td style="text-align: left;">Extreme desiccation, UV radiation, dry limits of microbial survival, organic preservation</td>
+<td style="text-align: left;">Navarro-González et al. (2003), <em>Science</em>, DOI: 10.1126/science.1089143</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>McMurdo Dry Valleys</strong></td>
+<td style="text-align: left;">Antarctica (<code>77.85°S, 160.70°E</code>)</td>
+<td style="text-align: left;">Mars (Amazonian Cryogenic)</td>
+<td style="text-align: left;">Sub-zero hyperaridity, permafrost polygons, endolithic communities in sandstone</td>
+<td style="text-align: left;">Marchant &amp; Head (2007), <em>Icarus</em>, DOI: 10.1016/j.icarus.2007.06.018</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Lanzarote Lava Tubes</strong></td>
+<td style="text-align: left;">Canary Islands, Spain (<code>29.04°N, 13.58°W</code>)</td>
+<td style="text-align: left;">Moon &amp; Mars (Subsurface)</td>
+<td style="text-align: left;">Basaltic lava tubes, subterranean planetary shelter analogs, planetary rover mobility</td>
+<td style="text-align: left;">Martins et al. (2017), <em>Astrobiology</em> (ESA Pangea Program)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Haughton Impact Structure</strong></td>
+<td style="text-align: left;">Devon Island, High Arctic (<code>75.38°N, 89.67°W</code>)</td>
+<td style="text-align: left;">Moon &amp; Mars (Impact Geology)</td>
+<td style="text-align: left;">Hydrothermal impact alteration, shattered dolomite, shatter cones, cold desert</td>
+<td style="text-align: left;">Osinski et al. (2006), <em>Planetary and Space Science</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Lake Iriqui &amp; Draa Basin</strong></td>
+<td style="text-align: left;">Southern Morocco (<code>29.83°N, 6.51°W</code>)</td>
+<td style="text-align: left;">Mars (Lacustrine Delta)</td>
+<td style="text-align: left;">Desert playa mudcracks, clay mineralogy, ancient river sediment delta deposit</td>
+<td style="text-align: left;">Preston &amp; Dartnell (2014), <em>Int. J. Astrobiology</em></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Mauna Kea Basaltic Slopes</strong></td>
+<td style="text-align: left;">Hawaii, USA (<code>19.82°N, 155.47°W</code>)</td>
+<td style="text-align: left;">Moon (Lunar Regolith Simulant)</td>
+<td style="text-align: left;">Abrasive basaltic tephra, volcanic glass, rover wheel traction, drill heat dissipation</td>
+<td style="text-align: left;">NASA In-Situ Resource Utilization (ISRU) Analog</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Icelandic Volcanic Highlands</strong></td>
+<td style="text-align: left;">Iceland (<code>64.93°N, 16.65°W</code>)</td>
+<td style="text-align: left;">Moon &amp; Mars (Mafic Volcanism)</td>
+<td style="text-align: left;">Unvegetated basalt sand, glaciovolcanic palagonite, rover autonomy testing</td>
+<td style="text-align: left;">Westall et al. (2015), <em>Astrobiology</em></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>8. Development Roadmap for a Production Platform</h2>
+<ol>
+<li><strong>Sprint 1: Cloud Data Connectors</strong>: Connect <code>pystac-client</code> to USGS Astrogeology and Copernicus Data Space. Ingest DTMs and surface reflectance rasters directly as COGs.</li>
+<li><strong>Sprint 2: PostGIS &amp; IAU Planetary Coordinate Support</strong>: Configure PostgreSQL with PostGIS schemas capable of handling non-terrestrial planetary coordinate systems (<code>IAU2000:49900</code> for Mars, <code>IAU2000:30100</code> for Moon).</li>
+<li><strong>Sprint 3: Vector Knowledge Base (Astrobiology RAG)</strong>: Ingest research PDFs into <code>pgvector</code> with hybrid keyword/vector search to provide exact scientific provenance and DOI references for the AI Copilot.</li>
+<li><strong>Sprint 4: 3D Terrain Digital Twin (CesiumJS)</strong>: Convert local elevation grids into Quantized-Mesh tiles (<code>.terrain</code>) or glTF format for interactive 3D flyovers and rover trajectory simulation.</li>
+<li><strong>Sprint 5: Mission Simulator &amp; Sensitivity Engine</strong>: Implement real-time parameter weighting sliders with automated rank-stability testing ($\pm 15\%$ perturbation analysis).</li>
+</ol>
+      </article>
+
+      <!-- Footer -->
+      <footer class="docs-footer">
+        <div class="docs-footer-brand">
+          <img src="/images/earth_analogs_logo.png" alt="EARTH ANALOGS / TERRA-X" class="docs-footer-logo" onerror="this.onerror=null; if(this.src.indexOf('images/')===-1) this.src='images/earth_analogs_logo.png'; else if(this.src.indexOf('screenshots/')===-1) this.src='screenshots/earth_analogs_logo.png';">
+          <div class="docs-footer-info">
+            <span class="docs-footer-title">TERRA-X • Planetary Intelligence &amp; Earth Analogs</span>
+            <span class="docs-footer-sub">NASA Space Apps Challenge 2026 Reference Specification</span>
+          </div>
+        </div>
+        <div class="docs-footer-meta">
+          <div>Built for Autonomous Planetary Exploration &amp; Grounding</div>
+          <div>NASA Planetary Data System (PDS) &amp; Astrobiology Literature Grounded</div>
+        </div>
+      </footer>
+    </main>
+
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="this.classList.remove('active')">
+    <img src="" alt="Enlarged view" class="lightbox-img" id="lightboxImg">
+  </div>
+
+  <!-- Interactive Client Script -->
+  <script>
+    // Generate Sidebar TOC dynamically from h1, h2, h3
+    document.addEventListener("DOMContentLoaded", function() {
+      const content = document.getElementById("mainContent");
+      const headings = content.querySelectorAll("h1, h2, h3");
+      const tocList = document.getElementById("sidebarToc");
+
+      headings.forEach((h, index) => {
+        if (!h.id) {
+          h.id = "sec-" + index + "-" + h.textContent.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+        }
+        
+        // Skip document main title
+        if (h.classList.contains("docs-title")) return;
+
+        const li = document.createElement("li");
+        li.className = "toc-item";
+        if (h.tagName === "H3") li.style.paddingLeft = "14px";
+        if (h.tagName === "H1") li.style.fontWeight = "600";
+
+        const a = document.createElement("a");
+        a.href = "#" + h.id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      // Wrap image tags into interactive cards
+      const images = content.querySelectorAll("img");
+      images.forEach(img => {
+        if (img.classList.contains("brand-logo") || img.classList.contains("lightbox-img")) return;
+        
+        img.addEventListener("click", () => {
+          const modal = document.getElementById("lightboxModal");
+          const modalImg = document.getElementById("lightboxImg");
+          modalImg.src = img.src;
+          modal.classList.add("active");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

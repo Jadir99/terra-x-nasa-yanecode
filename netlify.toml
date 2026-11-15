@@ -1,0 +1,49 @@
+"$schema" = "https://open-api.netlify.com/netlify.schema.json"
+
+[build]
+  publish = "static"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  included_files = ["data/scientific_catalog.json"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/signin"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/workbench"
+  to = "/workbench.html"
+  status = 200
+
+[[redirects]]
+  from = "/app"
+  to = "/workbench.html"
+  status = 200
+
+[[redirects]]
+  from = "/doc"
+  to = "/doc/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/docs"
+  to = "/doc/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/atlas"
+  to = "/atlas/index.html"
+  status = 200

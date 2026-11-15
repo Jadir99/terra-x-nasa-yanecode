@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TERRA-X — Planetary Intelligence &amp; Earth Analogs Discovery</title>
+  <link rel="icon" type="image/png" href="/images/earth_analogs_logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <!-- Immediate Auth Guard -->
+  <script type="module">
+    import { requireAuth } from "/js/auth.js";
+    window.currentAuthUser = requireAuth();
+  </script>
+  <!-- Leaflet 2D Map (CDN with graceful offline canvas fallback) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <!-- Plotly for 3D Terrain Digital Twin, Heatmaps & Elevation Profiles -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="/styles.css?v=light_nasa" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header & 8-Step Workflow Bar -->
+    <header class="topbar">
+      <div class="brand">
+        <a href="/" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit;">
+          <img src="/images/earth_analogs_logo.png" alt="EARTH ANALOGS" style="height: 38px; width: auto; object-fit: contain;" />
+          <div>
+            <div class="brand-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.4px;">EARTH ANALOGS <span style="font-size: 13px; font-weight: 600; color: var(--cyan); margin-left: 4px;">TERRA-X</span></div>
+            <div class="brand-sub" data-i18n="subtitle">Planetary Intelligence &amp; Earth Analogs Discovery</div>
+          </div>
+        </a>
+      </div>
+
+      <nav class="journey-bar" aria-label="Analysis workflow">
+        <span class="step active" data-step="1">1. Target</span>
+        <span class="step-arrow">→</span>
+        <span class="step active" data-step="2">2. AOI</span>
+        <span class="step-arrow">→</span>
+        <span class="step active" data-step="3">3. Layers</span>
+        <span class="step-arrow">→</span>
+        <span class="step active" data-step="4">4. Discover</span>
+        <span class="step-arrow">→</span>
+        <span class="step active" data-step="5">5. Score</span>
+        <span class="step-arrow">→</span>
+        <span class="step" data-step="6">6. Simulate</span>
+        <span class="step-arrow">→</span>
+        <span class="step" data-step="7">7. Evidence</span>
+        <span class="step-arrow">→</span>
+        <span class="step" data-step="8">8. Report</span>
+      </nav>
+
+      <div class="topbar-actions">
+        <a href="/" class="btn btn-ghost" style="text-decoration:none;display:flex;align-items:center;gap:4px;">← Overview</a>
+        <a href="/doc/" class="btn btn-ghost" style="text-decoration:none;display:flex;align-items:center;gap:4px;" title="View Documentation & Scientific Report">📖 Docs</a>
+        <a href="/atlas/index.html" class="btn btn-secondary" style="text-decoration:none;display:flex;align-items:center;gap:5px;font-weight:600;color:var(--cyan);background:var(--primary-light);border:1px solid #BEE3F8;" title="Ouvrir l'Atlas Planétaire Autonome · Soutenance Jury en 3 minutes">
+          ◉ <span>Atlas Démo Jury</span>
+        </a>
+        <button id="btn-demo-flow" class="btn btn-accent" title="Run the 3-minute demonstration scenario">
+          ▶ <span data-i18n="demoBtn">3-Min Demo</span>
+        </button>
+        <button id="btn-lang-toggle" class="btn btn-ghost" title="Switch EN / FR">EN / FR</button>
+
+        <!-- Authenticated User Profile Badge & Logout -->
+        <div class="user-session-widget" id="userSessionWidget">
+          <div class="user-badge" id="userBadge" title="Active Research Session">
+            <div class="user-avatar" id="userAvatar">SC</div>
+            <div class="user-details">
+              <span class="user-name" id="userName">Dr. Sarah Chen</span>
+              <span class="user-clearance" id="userClearance">Level 3 • Astrobiology</span>
+            </div>
+          </div>
+          <button id="btnLogout" class="btn-signout" title="Sign out of Dashboard">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main 3-Column Workbench -->
+    <main class="workbench">
+      <!-- LEFT SIDEBAR: Modules 01, 02, 03, 07 -->
+      <aside class="sidebar-left">
+        <!-- Module 01: Planetary Explorer -->
+        <section class="panel-card">
+          <div class="panel-header">
+            <span class="mod-tag">01</span>
+            <h2 data-i18n="mod1Title">Planetary Explorer</h2>
+          </div>
+          <div class="segmented" id="planet-toggle">
+            <button class="seg-btn active" data-body="mars">Mars</button>
+            <button class="seg-btn" data-body="moon">Moon</button>
+          </div>
+          <label class="field-label" for="aoi-select" data-i18n="aoiLabel">Target Region (AOI)</label>
+          <select id="aoi-select" class="select-input"></select>
+          <div id="aoi-summary" class="mini-desc"></div>
+          <div class="meta-pills" id="aoi-meta-pills"></div>
+        </section>
+
+        <!-- Module 02: Earth Discovery Mode -->
+        <section class="panel-card">
+          <div class="panel-header">
+            <span class="mod-tag">02</span>
+            <h2 data-i18n="mod2Title">Earth Discovery</h2>
+          </div>
+          <div class="segmented" id="discovery-toggle">
+            <button class="seg-btn active" data-mode="global" data-i18n="modeGlobal">Global</button>
+            <button class="seg-btn" data-mode="regional" data-i18n="modeRegional">Morocco / NA</button>
+            <button class="seg-btn" data-mode="benchmark" data-i18n="modeTriad">Triad</button>
+          </div>
+          <button id="btn-discover" class="btn btn-secondary full-width" style="margin-top:8px;" data-i18n="runDiscovery">
+            Run Candidate Discovery
+          </button>
+        </section>
+
+        <!-- Module 03: Geospatial Layers -->
+        <section class="panel-card">
+          <div class="panel-header">
+            <span class="mod-tag">03</span>
+            <h2 data-i18n="mod3Title">Geospatial Layers</h2>
+          </div>
+          <div id="layers-list" class="layers-list"></div>
+          <div id="guardrail-banner" class="guardrail-box"></div>
+        </section>
+
+        <!-- Module 07: Mission Scenario Simulator -->
+        <section class="panel-card">
+          <div class="panel-header">
+            <span class="mod-tag">07</span>
+            <h2 data-i18n="mod7Title">Mission Simulator</h2>
+          </div>
+          <div class="mission-grid" id="mission-presets"></div>
+          <div class="weights-header">
+            <span data-i18n="weightsLabel">What-If Weights (Σ = 1.00)</span>
+            <button id="btn-reset-weights" class="link-btn" data-i18n="resetBtn">Reset</button>
+          </div>
+          <div id="weight-sliders" class="sliders-list"></div>
+        </section>
+      </aside>
+
+      <!-- CENTER STAGE: Interactive Views (2D, Matrix, 3D Twin, Report) -->
+      <section class="center-stage">
+        <div class="stage-tabs">
+          <button class="tab-btn active" data-tab="view-maps">
+            <span class="mod-num">01–03</span> <span data-i18n="tabMaps">2D Explorer &amp; Discovery</span>
+          </button>
+          <button class="tab-btn" data-tab="view-matrix">
+            <span class="mod-num">04</span> <span data-i18n="tabMatrix">Similarity &amp; Decision</span>
+          </button>
+          <button class="tab-btn" data-tab="view-3d">
+            <span class="mod-num">05</span> <span data-i18n="tab3D">3D Terrain Digital Twin</span>
+          </button>
+          <button class="tab-btn" data-tab="view-report">
+            <span class="mod-num">08</span> <span data-i18n="tabReport">Report Generator</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: 2D EXPLORER & DISCOVERY -->
+        <div id="view-maps" class="tab-panel active">
+          <div class="maps-split">
+            <div class="map-box">
+              <div class="map-box-header">
+                <div>
+                  <strong id="planetary-map-title">Mars — Jezero Crater</strong>
+                  <span id="planetary-layer-badge" class="clean-meta-badge">• ALTIMETRY</span>
+                </div>
+                <div class="map-tools" style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                  <button id="btn-aoi-full" class="btn-xs active" title="Emprise entière">Emprise entière</button>
+                  <button id="btn-aoi-west" class="btn-xs" title="Moitié Ouest">Moitié Ouest</button>
+                  <button id="btn-aoi-east" class="btn-xs" title="Moitié Est">Moitié Est</button>
+                  <button id="btn-draw-aoi" class="btn-xs" title="Tracé personnalisé par rectangle">⬚ Tracer AOI</button>
+                  <button id="btn-reset-aoi" class="btn-xs" title="Réinitialiser">↺</button>
+                </div>
+              </div>
+              <div class="canvas-wrap">
+                <canvas id="planetary-canvas" width="540" height="280"></canvas>
+                <div class="canvas-overlay-coords" id="planetary-coords">Initializing coordinates...</div>
+              </div>
+            </div>
+
+            <div class="map-box" id="earth-map-box">
+              <div class="map-box-header">
+                <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                  <strong data-i18n="earthMapTitle">Earth Analog Discovery Map</strong>
+                  <span id="earth-count-badge" class="clean-count-badge">(9 verified sites)</span>
+                </div>
+                <div class="map-tools" style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;">
+                  <!-- Quick-jump site dropdown -->
+                  <select id="map-quick-select" class="map-select-xs" title="Sauter directement à un site analogue">
+                    <option value="">📍 Aller au site...</option>
+                  </select>
+                  <div class="map-search-wrap" style="position:relative;">
+                    <input type="text" id="map-site-search" placeholder="Rechercher..." style="padding:4px 8px 4px 22px;font-size:11px;border-radius:4px;border:1px solid var(--border);outline:none;background:#FFFFFF;width:105px;color:var(--text);" title="Filtrer ou centrer sur un site analogue" />
+                    <span style="position:absolute;left:6px;top:5px;font-size:10px;color:var(--text-muted);pointer-events:none;">🔍</span>
+                  </div>
+                  <button id="btn-toggle-map-size" class="btn-xs" title="Agrandir / Réduire la hauteur de la carte (320px ↔ 480px)">⛶ Agrandir</button>
+                  <button id="btn-map-fit-all" class="btn-xs" title="Voir tous les sites (Vue mondiale)">🌍 Monde</button>
+                </div>
+              </div>
+
+              <!-- Quick Site Navigation Carousel Strip -->
+              <div class="map-quick-nav-bar" id="earth-quick-nav-bar">
+                <button id="btn-nav-prev-site" class="btn-nav-arrow" title="Site précédent (Touche ←)">◀</button>
+                <div class="map-nav-pills-scroll" id="earth-nav-pills">
+                  <!-- Dynamically rendered pills -->
+                </div>
+                <button id="btn-nav-next-site" class="btn-nav-arrow" title="Site suivant (Touche →)">▶</button>
+              </div>
+
+              <!-- Region Filter Bar -->
+              <div class="map-region-filter-bar">
+                <span class="region-filter-label">Filtres régionaux:</span>
+                <button class="region-filter-btn active" data-region="all">Tous (9)</button>
+                <button class="region-filter-btn" data-region="sahara">🇲🇦 Maroc / Sahara (3)</button>
+                <button class="region-filter-btn" data-region="deserts">🏜️ Hyperarides (2)</button>
+                <button class="region-filter-btn" data-region="polar">❄️ Polaires (2)</button>
+                <button class="region-filter-btn" data-region="volcanic">🌋 Volcaniques (2)</button>
+              </div>
+
+              <div id="map-offline-alert" class="map-alert-banner hidden" style="background:#FFFBEB;color:#B45309;padding:6px 12px;font-size:11px;border-bottom:1px solid #FDE68A;display:flex;align-items:center;gap:6px;">
+                <span>⚠️ Tuiles satellite réseau inaccessibles — Mode vectoriel local actif. L'inspection des coordonnées reste 100% opérationnelle.</span>
+              </div>
+              <div id="earth-map" class="earth-leaflet"></div>
+              <canvas id="earth-fallback-canvas" class="earth-fallback hidden" width="540" height="320"></canvas>
+              <!-- Real-color Cartographic Legend -->
+              <div class="map-legend-bar" style="display:flex;gap:10px;align-items:center;justify-content:flex-start;padding:6px 10px;background:#F8FAFC;border-top:1px solid var(--border);font-size:11px;color:#536273;flex-wrap:wrap;">
+                <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#E87532;box-shadow:0 0 4px #E87532;"></span><strong>Sélectionné (Halo)</strong></span>
+                <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#078FE0;"></span>Match fort (≥75%)</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#43B5F5;"></span>Match modéré (&lt;75%)</span>
+                <span style="display:inline-flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#94A3B8;"></span>Analyse à lancer</span>
+                <span class="hint-text" style="margin-left:auto;font-size:10.5px;color:#71849A;">💡 Utilisez ◀ / ▶ pour naviguer d'un site à l'autre</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Ranked Candidates Strip -->
+          <div class="panel-card" style="margin-top: 10px;">
+            <div class="strip-header">
+              <h3 data-i18n="rankedTitle">Ranked Earth Candidate Analogs</h3>
+              <span id="stability-pill" class="clean-stability-badge">Stability: 100%</span>
+            </div>
+            <div id="candidate-cards" class="candidate-cards-grid"></div>
+          </div>
+        </div>
+
+        <!-- TAB 2: SIMILARITY ENGINE & PROVENANCE -->
+        <div id="view-matrix" class="tab-panel">
+          <div class="panel-card">
+            <div class="strip-header">
+              <div>
+                <h3 data-i18n="matrixTitle">Multicriteria Similarity Matrix (Sⱼ = Σ wᵢ × sᵢⱼ)</h3>
+                <p class="mini-desc" data-i18n="matrixSub">
+                  Scores reflect only physically comparable criteria. Missing data reduces Confidence rather than inflating Similarity.
+                </p>
+              </div>
+              <div class="formula-badge">Sⱼ = Σ wᵢ · sᵢⱼ</div>
+            </div>
+            <div id="similarity-heatmap" class="plot-area" style="height:310px;"></div>
+          </div>
+
+          <div class="two-col-grid" style="margin-top:12px;">
+            <div class="panel-card">
+              <h3 data-i18n="threePillarsTitle">3-Score Decision Breakdown (Selected Candidate)</h3>
+              <div id="selected-site-breakdown" class="breakdown-body"></div>
+            </div>
+            <div class="panel-card">
+              <h3 data-i18n="sensitivityTitle">What-If Weight Perturbation (±15%)</h3>
+              <div id="sensitivity-table" class="sensitivity-body"></div>
+            </div>
+          </div>
+
+          <div class="panel-card" style="margin-top:12px;">
+            <h3 data-i18n="provenanceTitle">Dataset Catalog &amp; Scientific Provenance</h3>
+            <div class="table-scroll">
+              <table class="data-table" id="provenance-table">
+                <thead>
+                  <tr>
+                    <th>Body</th>
+                    <th>Product / Instrument</th>
+                    <th>Source</th>
+                    <th>Resolution</th>
+                    <th>Units</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: 3D TERRAIN DIGITAL TWIN -->
+        <div id="view-3d" class="tab-panel">
+          <div class="panel-card">
+            <div class="strip-header">
+              <div>
+                <h3 data-i18n="twinTitle">3D Terrain Digital Twin — Relief &amp; Roughness Comparison</h3>
+                <p class="mini-desc" data-i18n="twinSub">
+                  Compares DEM elevation range, mean slope, and surface roughness—never pretends to replicate planetary gravity or atmosphere.
+                </p>
+              </div>
+              <div class="twin-controls">
+                <label class="field-label-inline" for="twin-site-select">Earth Site:</label>
+                <select id="twin-site-select" class="select-input compact"></select>
+              </div>
+            </div>
+
+            <div class="twin-grid">
+              <div class="twin-pane">
+                <div class="twin-pane-head" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                  <span id="twin-aoi-name">Planetary AOI</span>
+                  <span id="twin-aoi-badge" class="badge-source" style="font-size:11px;padding:3px 8px;border-radius:4px;background:#e2f4df;color:#286324;font-weight:700;">[Mesure Réelle MOLA]</span>
+                  <span id="twin-aoi-metrics" class="mono-tag"></span>
+                </div>
+                <div id="plot-3d-aoi" class="plot-3d"></div>
+              </div>
+              <div class="twin-pane">
+                <div class="twin-pane-head" style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+                  <span id="twin-earth-name">Earth Candidate</span>
+                  <span id="twin-earth-badge" class="badge-source" style="font-size:11px;padding:3px 8px;border-radius:4px;background:#e2f4df;color:#286324;font-weight:700;">[Mesure Réelle Copernicus DEM]</span>
+                  <span id="twin-earth-metrics" class="mono-tag"></span>
+                </div>
+                <div id="plot-3d-earth" class="plot-3d"></div>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <h4 class="sub-heading" data-i18n="transectTitle">Cross-Section Elevation Profile (m)</h4>
+              <div id="plot-transect" style="height:210px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: REPORT GENERATOR -->
+        <div id="view-report" class="tab-panel">
+          <div class="panel-card">
+            <div class="strip-header">
+              <div>
+                <h3 data-i18n="reportTitle">Scientific Report Generator</h3>
+                <p class="mini-desc" data-i18n="reportSub">
+                  Traceable deliverable including AOI context, provenance, normalized scores, limits, and peer-reviewed bibliography.
+                </p>
+              </div>
+              <div class="export-buttons">
+                <button class="btn btn-accent" id="export-pdf">PDF (Print)</button>
+                <button class="btn btn-secondary" id="export-doc">Word (.doc)</button>
+                <button class="btn btn-secondary" id="export-csv">CSV</button>
+                <button class="btn btn-secondary" id="export-geojson">GeoJSON</button>
+              </div>
+            </div>
+            <div id="report-preview" class="report-preview"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: Module 06 Scientific AI Copilot -->
+      <aside class="sidebar-right">
+        <section class="panel-card copilot-card">
+          <div class="panel-header">
+            <span class="mod-tag">06</span>
+            <div>
+              <h2 data-i18n="mod6Title">Scientific AI Copilot</h2>
+              <div class="copilot-sub" data-i18n="copilotPrinciple">LLM explains; scientific engine measures.</div>
+            </div>
+          </div>
+
+          <div class="quick-prompts" id="quick-prompts">
+            <button class="chip-btn" data-q="Why Tindouf?">Why Tindouf?</button>
+            <button class="chip-btn" data-q="Compare Tindouf, Atacama, and McMurdo">Compare Triad</button>
+            <button class="chip-btn" data-q="What are the limits and confidence?">Confidence &amp; Limits</button>
+            <button class="chip-btn" data-q="Why Lake Iriqui in Morocco?">Morocco (Iriqui)</button>
+          </div>
+
+          <div id="copilot-feed" class="copilot-feed"></div>
+
+          <form id="copilot-form" class="copilot-input-bar">
+            <input id="copilot-input" type="text" placeholder="Ask about scores, evidence, or limits..." autocomplete="off" />
+            <button type="submit" class="btn btn-accent">Send</button>
+          </form>
+
+          <details class="optional-llm">
+            <summary data-i18n="llmToggle">Optional: Gemini API synthesis</summary>
+            <p class="mini-desc">
+              By default the Copilot runs 100% locally against computed metrics &amp; DOIs. Optionally add a Gemini API key in browser memory only to rephrase grounded evidence.
+            </p>
+            <input id="gemini-key-input" type="password" class="select-input" placeholder="AIza... (optional, session only)" />
+          </details>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script type="module" src="/js/app.js"></script>
+  <script type="module">
+    import { getCurrentUser, logout } from "/js/auth.js";
+    
+    // Bind session details
+    const user = getCurrentUser();
+    if (user) {
+      const avatarEl = document.getElementById("userAvatar");
+      const nameEl = document.getElementById("userName");
+      const clearanceEl = document.getElementById("userClearance");
+      if (avatarEl) avatarEl.textContent = user.avatar || user.username.slice(0, 2).toUpperCase();
+      if (nameEl) nameEl.textContent = user.name || user.username;
+      if (clearanceEl) clearanceEl.textContent = user.clearance || `${user.role || 'Analyst'}`;
+    }
+
+    // Bind logout button
+    const btnLogout = document.getElementById("btnLogout");
+    if (btnLogout) {
+      btnLogout.addEventListener("click", () => {
+        logout();
+      });
+    }
+  </script>
+</body>
+</html>

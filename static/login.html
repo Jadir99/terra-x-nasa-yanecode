@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analyst Authentication — EARTH ANALOGS</title>
+  <link rel="icon" type="image/png" href="/images/earth_analogs_logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #078FE0;
+      --primary-glow: #43B5F5;
+      --primary-dark: #0566A8;
+      --orange: #E87532;
+      --ink: #101820;
+      --ink-muted: #536273;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-border: rgba(220, 229, 236, 0.85);
+      --input-bg: #FFFFFF;
+      --input-border: #DCE5EC;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+      font-family: "Inter", sans-serif;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: #040914;
+    }
+
+    /* =========================================================================
+       01. Cinematic Space Video Background & Floating Particle Overlay
+       ========================================================================= */
+    .video-bg-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .video-bg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.85) contrast(1.08);
+      opacity: 0.95;
+    }
+
+    /* Orbital Scrim & Star Dust Vignette */
+    .video-scrim {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 50% 50%, rgba(7, 27, 50, 0.35) 0%, rgba(4, 9, 20, 0.78) 100%),
+        linear-gradient(180deg, rgba(4, 9, 20, 0.45) 0%, rgba(4, 9, 20, 0.65) 100%);
+      backdrop-filter: blur(2px);
+    }
+
+    /* Ambient Drifting Star Dust Animation */
+    .cosmic-particles {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        radial-gradient(1.5px 1.5px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 80px 120px, #43B5F5, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 150px 70px, #ffffff, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 220px 240px, #E87532, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 310px 180px, #ffffff, rgba(0,0,0,0));
+      background-repeat: repeat;
+      background-size: 380px 380px;
+      animation: particleDrift 60s linear infinite;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    @keyframes particleDrift {
+      from { transform: translateY(0) rotate(0deg); }
+      to { transform: translateY(-380px) rotate(1deg); }
+    }
+
+    /* Back to Overview Floating Pill */
+    .floating-back-link {
+      position: fixed;
+      top: 24px;
+      left: 28px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 16px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(220, 229, 236, 0.9);
+      backdrop-filter: blur(14px);
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 12.5px;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      transition: all 0.25s ease;
+    }
+
+    .floating-back-link:hover {
+      background: #FFFFFF;
+      color: var(--primary);
+      transform: translateX(-2px);
+      box-shadow: 0 6px 20px rgba(7, 143, 224, 0.25);
+    }
+
+    /* =========================================================================
+       02. Animated Floating Terminal Card (3D Tilt & Celestial Aura)
+       ========================================================================= */
+    .auth-stage {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      padding: 24px 16px;
+      perspective: 1200px;
+    }
+
+    .auth-card-aura-wrapper {
+      position: relative;
+      border-radius: 22px;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(7, 143, 224, 0.7), rgba(67, 181, 245, 0.3), rgba(232, 117, 50, 0.65), rgba(7, 143, 224, 0.7));
+      background-size: 300% 300%;
+      animation: auraRotate 8s ease infinite, cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      box-shadow: 
+        0 20px 50px -10px rgba(0, 0, 0, 0.5),
+        0 0 35px -5px rgba(7, 143, 224, 0.3);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+    }
+
+    @keyframes auraRotate {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes cardEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Ambient Gentle Float (Movement) */
+    .card-float-anim {
+      animation: ambientFloat 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-7px); }
+    }
+
+    .auth-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      border-radius: 20px;
+      padding: 34px 30px;
+      width: 100%;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Sleek Card Top Bar */
+    .card-top-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-glow) 50%, var(--orange) 100%);
+    }
+
+    /* Brand Header */
+    .card-brand {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .card-brand img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 4px 12px rgba(7, 143, 224, 0.25));
+      animation: logoPulse 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes logoPulse {
+      0% { filter: drop-shadow(0 4px 10px rgba(7, 143, 224, 0.2)); }
+      100% { filter: drop-shadow(0 6px 18px rgba(7, 143, 224, 0.45)); }
+    }
+
+    .card-title {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    /* Mode Segmented Switch */
+    .auth-tabs {
+      display: flex;
+      background: #EDF5FA;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 22px;
+      gap: 3px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 8px 12px;
+      font-family: "Inter", sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .auth-tab.active {
+      background: #FFFFFF;
+      color: var(--ink);
+      box-shadow: 0 2px 6px rgba(16, 24, 32, 0.08);
+    }
+
+    /* Input Fields */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      color: var(--ink-muted);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s ease;
+    }
+
+    .auth-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 40px 0 38px;
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      background: var(--input-bg);
+      font-family: "Inter", sans-serif;
+      font-size: 13.5px;
+      color: var(--ink);
+      transition: all 0.25s ease;
+    }
+
+    .auth-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3.5px rgba(7, 143, 224, 0.18);
+      background: #FFFFFF;
+    }
+
+    .auth-input:focus + .input-icon,
+    .input-wrapper:focus-within .input-icon {
+      color: var(--primary);
+    }
+
+    .toggle-pass-btn {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--ink-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .toggle-pass-btn:hover {
+      color: var(--ink);
+    }
+
+    /* Sub-Actions Strip */
+    .form-sub-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    .remember-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      user-select: none;
+      color: var(--ink-muted);
+      font-weight: 500;
+    }
+
+    .remember-label input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+
+    .quick-demo-link {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .quick-demo-link:hover {
+      color: var(--primary-dark);
+      background: rgba(7, 143, 224, 0.08);
+      text-decoration: underline;
+    }
+
+    /* Submit CTA Button with Kinetic Sheen Wave */
+    .btn-submit {
+      width: 100%;
+      height: 46px;
+      background: linear-gradient(135deg, var(--primary) 0%, #067BC2 100%);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(7, 143, 224, 0.32);
+      transition: all 0.25s ease;
+    }
+
+    /* Animated light sheen wave passing over button */
+    .btn-submit::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 50%;
+      height: 200%;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.35) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      animation: btnSheenSweep 4s ease-in-out infinite;
+    }
+
+    @keyframes btnSheenSweep {
+      0% { left: -60%; }
+      30% { left: 140%; }
+      100% { left: 140%; }
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, #067BC2 0%, var(--primary-dark) 100%);
+      box-shadow: 0 8px 24px rgba(7, 143, 224, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Alert / Validation Box */
+    .alert-box {
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      animation: alertSlideDown 0.25s ease forwards;
+    }
+
+    @keyframes alertSlideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .alert-box.error {
+      display: flex;
+      background: #FEE2E2;
+      border: 1px solid #FCA5A5;
+      color: #991B1B;
+    }
+
+    .alert-box.success {
+      display: flex;
+      background: #DEF7EC;
+      border: 1px solid #84E1BC;
+      color: #03543F;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================================
+       Background: Cosmic Space Video (189457-885804464_medium.mp4)
+       ========================================================================= -->
+  <div class="video-bg-container" aria-hidden="true">
+    <video id="loginSpaceVideo" class="video-bg" autoplay muted loop playsinline preload="auto" poster="/images/planet_earth_view.jpg">
+      <source src="/videos/189457-885804464_medium.mp4" type="video/mp4" />
+    </video>
+    <div class="video-scrim"></div>
+    <div class="cosmic-particles"></div>
+  </div>
+
+  <!-- Floating Navigation link back to landing page -->
+  <a href="/" class="floating-back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    <span>Overview</span>
+  </a>
+
+  <!-- =========================================================================
+       Floating Authentication Card (Uncluttered, Minimal, Moving)
+       ========================================================================= -->
+  <main class="auth-stage">
+    <div class="card-float-anim">
+      <div class="auth-card-aura-wrapper" id="cardAuraWrapper">
+        <div class="auth-card">
+          <div class="card-top-glow"></div>
+
+          <!-- Clean Brand Header: Official Logo + Title -->
+          <div class="card-brand">
+            <img src="/images/earth_analogs_logo.png" alt="EARTH ANALOGS" />
+            <h1 class="card-title" id="authTitle">Sign In</h1>
+          </div>
+
+          <!-- Mode Switcher: Sign In vs Create Account -->
+          <div class="auth-tabs" role="tablist">
+            <button class="auth-tab active" id="tabSignIn" type="button" role="tab" aria-selected="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+              </svg>
+              <span>Sign In</span>
+            </button>
+            <button class="auth-tab" id="tabRegister" type="button" role="tab" aria-selected="false">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+              </svg>
+              <span>Create Account</span>
+            </button>
+          </div>
+
+          <!-- Alert Message Area -->
+          <div class="alert-box" id="alertBox" role="alert">
+            <svg id="alertIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+            <span id="alertMessage"></span>
+          </div>
+
+          <!-- Authentication Form -->
+          <form id="authForm" novalidate>
+            <!-- Name (shown only in register mode) -->
+            <div class="form-group" id="groupFullName" style="display: none;">
+              <label class="form-label" for="inputFullName">Analyst Name</label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </span>
+                <input type="text" id="inputFullName" class="auth-input" placeholder="e.g. Dr. Jane Doe" autocomplete="name" />
+              </div>
+            </div>
+
+            <!-- Username -->
+            <div class="form-group">
+              <label class="form-label" for="inputUsername">Username</label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                </span>
+                <input type="text" id="inputUsername" class="auth-input" placeholder="Enter username (e.g. analyst)" required autocomplete="username" />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label class="form-label" for="inputPassword">Password</label>
+              <div class="input-wrapper">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <input type="password" id="inputPassword" class="auth-input" placeholder="Enter password (e.g. earth-analogs)" required autocomplete="current-password" />
+                <button type="button" class="toggle-pass-btn" id="btnTogglePass" aria-label="Toggle password visibility">
+                  <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Sub-actions: Remember + Quick Demo Link -->
+            <div class="form-sub-actions">
+              <label class="remember-label">
+                <input type="checkbox" id="checkRemember" checked />
+                <span>Remember session</span>
+              </label>
+              <button type="button" class="quick-demo-link" id="btnQuickDemo">
+                <span>⚡ 1-Click Demo</span>
+              </button>
+            </div>
+
+            <!-- Submit CTA -->
+            <button type="submit" class="btn-submit" id="btnSubmit">
+              <span id="btnSubmitText">Enter Dashboard</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { login, registerUser, isAuthenticated } from "/js/auth.js";
+
+    let currentMode = "signin";
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get("redirect") || "/workbench.html";
+
+    // If already authenticated and not explicitly logging out, redirect straight to dashboard
+    if (isAuthenticated() && !urlParams.get("logged_out")) {
+      window.location.href = redirectUrl;
+    }
+
+    const tabSignIn = document.getElementById("tabSignIn");
+    const tabRegister = document.getElementById("tabRegister");
+    const groupFullName = document.getElementById("groupFullName");
+    const authTitle = document.getElementById("authTitle");
+    const btnSubmitText = document.getElementById("btnSubmitText");
+    const btnQuickDemo = document.getElementById("btnQuickDemo");
+    const authForm = document.getElementById("authForm");
+    const inputUsername = document.getElementById("inputUsername");
+    const inputPassword = document.getElementById("inputPassword");
+    const inputFullName = document.getElementById("inputFullName");
+    const checkRemember = document.getElementById("checkRemember");
+    const alertBox = document.getElementById("alertBox");
+    const alertMessage = document.getElementById("alertMessage");
+    const alertIcon = document.getElementById("alertIcon");
+    const btnTogglePass = document.getElementById("btnTogglePass");
+    const cardAuraWrapper = document.getElementById("cardAuraWrapper");
+
+    // Interactive 3D Card Parallax Tilt on Mouse Move
+    document.addEventListener("mousemove", (e) => {
+      if (!cardAuraWrapper) return;
+      const x = (window.innerWidth / 2 - e.pageX) / 35;
+      const y = (window.innerHeight / 2 - e.pageY) / 35;
+      cardAuraWrapper.style.transform = `rotateY(${-x}deg) rotateX(${y}deg)`;
+    });
+
+    // Reset tilt on mouseleave
+    document.addEventListener("mouseleave", () => {
+      if (!cardAuraWrapper) return;
+      cardAuraWrapper.style.transform = "rotateY(0deg) rotateX(0deg)";
+    });
+
+    function showAlert(text, type = "error") {
+      alertBox.className = `alert-box ${type}`;
+      alertMessage.textContent = text;
+      alertBox.style.display = "flex";
+      if (type === "error") {
+        alertIcon.innerHTML = `<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>`;
+      } else {
+        alertIcon.innerHTML = `<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>`;
+      }
+    }
+
+    function hideAlert() {
+      alertBox.style.display = "none";
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      hideAlert();
+      if (mode === "signin") {
+        tabSignIn.classList.add("active");
+        tabRegister.classList.remove("active");
+        groupFullName.style.display = "none";
+        authTitle.textContent = "Sign In";
+        btnSubmitText.textContent = "Enter Dashboard";
+      } else {
+        tabSignIn.classList.remove("active");
+        tabRegister.classList.add("active");
+        groupFullName.style.display = "block";
+        authTitle.textContent = "Create Account";
+        btnSubmitText.textContent = "Create & Enter";
+      }
+    }
+
+    tabSignIn.addEventListener("click", () => setMode("signin"));
+    tabRegister.addEventListener("click", () => setMode("register"));
+
+    // Quick demo 1-click fill & enter
+    btnQuickDemo.addEventListener("click", () => {
+      inputUsername.value = "analyst";
+      inputPassword.value = "earth-analogs";
+      hideAlert();
+      const res = login("analyst", "earth-analogs", true);
+      if (res.success) {
+        showAlert("Authentication verified. Loading dashboard...", "success");
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 350);
+      }
+    });
+
+    // Password visibility toggle
+    let passVisible = false;
+    btnTogglePass.addEventListener("click", () => {
+      passVisible = !passVisible;
+      inputPassword.type = passVisible ? "text" : "password";
+      btnTogglePass.innerHTML = passVisible
+        ? `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`
+        : `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    });
+
+    // Form submission
+    authForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      hideAlert();
+
+      const username = inputUsername.value.trim();
+      const password = inputPassword.value.trim();
+      const remember = checkRemember.checked;
+
+      if (!username || !password) {
+        showAlert("Please fill in both username and password.");
+        return;
+      }
+
+      if (currentMode === "signin") {
+        const res = login(username, password, remember);
+        if (res.success) {
+          showAlert("Authentication verified. Redirecting...", "success");
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 350);
+        } else {
+          showAlert(res.error);
+        }
+      } else {
+        const fullName = inputFullName.value.trim();
+        const regRes = registerUser(username, password, fullName);
+        if (!regRes.success) {
+          showAlert(regRes.error);
+          return;
+        }
+        const loginRes = login(username, password, remember);
+        if (loginRes.success) {
+          showAlert("Account created! Entering dashboard...", "success");
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 400);
+        }
+      }
+    });
+
+    if (urlParams.get("logged_out")) {
+      showAlert("You have successfully signed out.", "success");
+    }
+  </script>
+</body>
+</html>

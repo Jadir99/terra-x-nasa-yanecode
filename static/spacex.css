@@ -1,0 +1,1808 @@
+/* ==========================================================================
+   TERRA-X — SPACEX HIGH-FIDELITY DESIGN SYSTEM
+   Theme: SpaceX Indigo / Pure Canvas Black / Precision Engineering
+   Derived from SpaceX Design Tokens & Terrestrial-Planetary Cockpit Architecture
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   01. TYPOGRAPHY IMPORTS & LOCAL FALLBACKS
+   -------------------------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Roboto+Mono:wght@400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'D-DIN-Bold';
+  src: local('D-DIN-Bold'), local('D-DIN Bold'), local('Barlow-Bold'), local('Barlow');
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'D-DIN';
+  src: local('D-DIN'), local('Barlow');
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   02. DESIGN SYSTEM TOKENS (:root)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Colors */
+  --color-primary: #5e6ad2;
+  --color-on-primary: #ffffff;
+  --color-primary-hover: #7882d9;
+  --color-primary-focus: #5662c1;
+  --color-ink: #f0f0fa;
+  --color-ink-muted: #808080;
+  --color-ink-subtle: #000000;
+  --color-ink-tertiary: #5b5b5f;
+  --color-canvas: #000000;
+  --color-surface-1: #252628;
+  --color-surface-2: #1f1f1f;
+  --color-surface-3: #2e2e2e;
+  --color-footer: #000000;
+
+  /* Borders & Dividers */
+  --color-hairline: rgba(240, 240, 250, 0.14);
+  --color-hairline-card: rgba(240, 240, 250, 0.12);
+  --color-hairline-strong: rgba(240, 240, 250, 0.40);
+
+  /* Font Families */
+  --font-display: 'D-DIN-Bold', 'Barlow', 'Arial Black', sans-serif;
+  --font-headline: 'D-DIN-Bold', 'Barlow', sans-serif;
+  --font-body: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Roboto Mono', ui-monospace, monospace;
+
+  /* Layout & Metrics */
+  --topbar-height: 70px;
+  --container-max-width: 1660px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+
+  /* Spacing Scale */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 100px;
+
+  /* Motion */
+  --transition-fast: 150ms ease;
+  --transition-base: 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   03. RESET & BASE ELEMENTS
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Subtle Starfield & Ambient Gradient Overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(94, 106, 210, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 90% 75%, rgba(94, 106, 210, 0.04) 0%, transparent 40%),
+    #000000;
+  pointer-events: none;
+  z-index: -1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* --------------------------------------------------------------------------
+   04. TYPOGRAPHY SYSTEM (EXACT DESIGN TOKENS)
+   -------------------------------------------------------------------------- */
+
+/* display-xl: D-DIN-Bold, 'Barlow', 'Arial Black', sans-serif, 80px, lineHeight 0.95, letterSpacing 1.6px, uppercase */
+.display-xl {
+  font-family: 'D-DIN-Bold', 'Barlow', 'Arial Black', sans-serif;
+  font-size: 80px;
+  line-height: 0.95;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* display-lg: 60px, lineHeight 1.2, letterSpacing 1.2px, uppercase */
+.display-lg {
+  font-family: var(--font-display);
+  font-size: 60px;
+  line-height: 1.2;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* display-md: 48px, lineHeight 1.0, letterSpacing 0.96px, uppercase */
+.display-md {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 1.0;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+/* headline: 28px, 600, lineHeight 1.2, letterSpacing 0px, uppercase */
+.headline {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+/* card-title: 22px, 500, lineHeight 1.2, letterSpacing 0px, uppercase */
+.card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+
+/* subhead: 16px, 400, lineHeight 1.5, letterSpacing 0px */
+.subhead {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  color: var(--color-ink-muted);
+}
+
+/* body: 16px, 400, lineHeight 1.5, letterSpacing 0px */
+.body,
+.body-default {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  color: var(--color-ink);
+}
+
+.body-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  color: var(--color-ink-muted);
+}
+
+.body-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0px;
+  color: var(--color-ink-muted);
+}
+
+/* caption / eyebrow: 13px, 400, lineHeight 1.4, letterSpacing 0px, uppercase */
+.caption,
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-primary);
+}
+
+/* mono: 'Roboto Mono', ui-monospace, monospace, 13px, 400, lineHeight 1.4 */
+.mono,
+.mono-meta {
+  font-family: 'Roboto Mono', ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0px;
+  color: var(--color-ink-tertiary);
+}
+
+/* Text Accent Utility */
+.accent {
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   05. LAYOUT & CONTAINERS
+   -------------------------------------------------------------------------- */
+.esa-container,
+.container {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+.esa-section,
+.section {
+  padding: var(--spacing-section) 0;
+  position: relative;
+}
+
+.esa-section-title,
+.section-title {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.section-sub {
+  margin-top: var(--spacing-sm);
+  max-width: 860px;
+  color: var(--color-ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   06. TOPBAR NAVIGATION (~70px, Sticky, Canvas #000000, Hairline Border)
+   -------------------------------------------------------------------------- */
+.top-nav,
+.topbar {
+  height: var(--topbar-height);
+  background-color: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-xs);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-hairline);
+  color: var(--color-ink);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  transition: all var(--transition-fast);
+}
+
+.brand-icon:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  box-shadow: 0 0 12px rgba(94, 106, 210, 0.4);
+}
+
+.brand-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title-esa,
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: rgba(94, 106, 210, 0.12);
+  border: 1px solid rgba(94, 106, 210, 0.35);
+  padding: 1px 7px;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.brand-desc-esa,
+.brand-desc {
+  font-size: 11px;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 6px 0;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.nav-links a:hover {
+  color: var(--color-ink);
+}
+
+.nav-links a:hover::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
+}
+
+.nav-cta-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* --------------------------------------------------------------------------
+   07. BUTTONS & INTERACTIVE CONTROLS
+   -------------------------------------------------------------------------- */
+
+/* button-primary:
+   background #f0f0fa, text #000000, border-radius 9999px (pill),
+   padding 16px 36px, font-weight 700, uppercase, letter-spacing 1px.
+   Hover: background #7882d9, text #ffffff.
+*/
+.button-primary,
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #f0f0fa;
+  color: #000000;
+  border: 1px solid #f0f0fa;
+  border-radius: 9999px;
+  padding: 16px 36px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-base), color var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-fast);
+}
+
+.button-primary:hover,
+.btn-primary:hover {
+  background-color: #7882d9;
+  color: #ffffff;
+  border-color: #7882d9;
+  box-shadow: 0 0 24px rgba(120, 130, 217, 0.45);
+  transform: translateY(-1px);
+}
+
+.button-primary:focus-visible,
+.btn-primary:focus-visible {
+  outline: none;
+  background-color: var(--color-primary-focus);
+  color: #ffffff;
+  border-color: var(--color-primary-focus);
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.5);
+}
+
+.button-primary:active,
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* button-secondary:
+   background transparent, border 1px solid #f0f0fa, text #f0f0fa,
+   border-radius 4px, padding 14px 28px, font-weight 600, uppercase.
+*/
+.button-secondary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: transparent;
+  color: #f0f0fa;
+  border: 1px solid #f0f0fa;
+  border-radius: 4px;
+  padding: 14px 28px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-base);
+}
+
+.button-secondary:hover,
+.btn-secondary:hover {
+  background-color: rgba(240, 240, 250, 0.10);
+  border-color: #7882d9;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(120, 130, 217, 0.25);
+  transform: translateY(-1px);
+}
+
+.button-secondary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: none;
+  border-color: var(--color-primary-focus);
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.4);
+}
+
+/* button-tertiary (Ghost / Link Action) */
+.button-tertiary,
+.btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: transparent;
+  color: var(--color-ink-muted);
+  border: 1px solid var(--color-hairline);
+  border-radius: 4px;
+  padding: 12px 22px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.button-tertiary:hover,
+.btn-tertiary:hover {
+  color: var(--color-ink);
+  border-color: var(--color-primary);
+  background-color: rgba(94, 106, 210, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   08. CARDS SYSTEM
+   background #000000 with border 1px solid rgba(240, 240, 250, 0.12),
+   border-radius 12px, hover lift with border-color #5e6ad2 or rgba(240, 240, 250, 0.4)
+   -------------------------------------------------------------------------- */
+.card,
+.module-card,
+.analog-card,
+.vision-card,
+.step-card {
+  background-color: #000000;
+  border: 1px solid rgba(240, 240, 250, 0.12);
+  border-radius: 12px;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
+  position: relative;
+}
+
+.card:hover,
+.module-card:hover,
+.analog-card:hover,
+.vision-card:hover,
+.step-card:hover {
+  transform: translateY(-4px);
+  border-color: #5e6ad2;
+  box-shadow: 0 12px 32px rgba(94, 106, 210, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   09. HERO SECTION & FULL-BLEED BACKGROUND VIDEO
+   -------------------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+  min-height: calc(100vh - var(--topbar-height));
+  display: flex;
+  align-items: center;
+  padding: 60px 0 var(--spacing-section);
+  overflow: hidden;
+  background-color: var(--color-canvas);
+}
+
+/* Hero Full-Bleed Video Container */
+.hero-video-container,
+.hero-bg-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* <video class="hero-bg-video" autoplay muted loop playsinline> */
+video.hero-bg-video,
+.hero-bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.75;
+}
+
+/* Overlay gradient scrim */
+.hero-scrim,
+.hero-video-scrim,
+.hero-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35) 0%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.9) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   09B. NASA EYES 3D INTERACTIVE HERO EXPERIENCE
+   -------------------------------------------------------------------------- */
+.hero-eyes-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: auto;
+  background: radial-gradient(ellipse at 65% 45%, #071933 0%, #030c1c 45%, #000206 85%, #000000 100%);
+}
+
+#heroEyesCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+#heroEyesCanvas:active {
+  cursor: grabbing;
+}
+
+/* Soft radial depth vignette matching light-mode & dark-mode seamless blend */
+.hero-eyes-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(circle at 65% 50%, rgba(7, 143, 224, 0.06) 0%, rgba(2, 7, 16, 0.35) 55%, rgba(0, 0, 0, 0.82) 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 15%, transparent 80%, rgba(0, 0, 0, 0.95) 100%);
+  z-index: 2;
+}
+
+/* NASA Eyes Interactive Hover Reticle */
+.hero-eyes-reticle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 5;
+  transform: translate(-999px, -999px);
+  transition: transform 70ms linear;
+}
+
+.hero-eyes-reticle .reticle-box {
+  width: 36px;
+  height: 36px;
+  border: 1px dashed #078fe0;
+  border-radius: 50%;
+  box-shadow: 0 0 14px rgba(7, 143, 224, 0.65);
+  animation: reticlePulse 2s infinite ease-in-out;
+}
+
+.hero-eyes-reticle .reticle-label {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #6dcff6;
+  background: rgba(2, 7, 16, 0.88);
+  border: 1px solid rgba(7, 143, 224, 0.45);
+  border-radius: var(--radius-xs);
+  padding: 3px 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+@keyframes reticlePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+    border-color: #6dcff6;
+  }
+}
+
+/* NASA Eyes Scientific HUD Control Bar */
+.hero-eyes-hud {
+  position: relative;
+  z-index: 10;
+  margin-top: var(--spacing-xl);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  padding: 12px 20px;
+  background: rgba(2, 7, 16, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(7, 143, 224, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.75), 0 0 24px rgba(7, 143, 224, 0.14);
+}
+
+.hud-target-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hud-section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: #6dcff6;
+  margin-right: 6px;
+}
+
+.hud-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-sm);
+  color: var(--color-ink);
+  font-family: var(--font-headline);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  cursor: pointer;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.hud-btn:hover {
+  background: rgba(7, 143, 224, 0.16);
+  border-color: rgba(7, 143, 224, 0.55);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.hud-btn.active {
+  background: rgba(7, 143, 224, 0.28);
+  border-color: #078fe0;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(7, 143, 224, 0.45);
+}
+
+.hud-btn[data-target="mars"].active {
+  background: rgba(232, 117, 50, 0.28);
+  border-color: #e87532;
+  box-shadow: 0 0 14px rgba(232, 117, 50, 0.45);
+}
+
+.hud-telemetry-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.hud-telemetry-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  background: rgba(7, 143, 224, 0.14);
+  border: 1px solid rgba(7, 143, 224, 0.35);
+  border-radius: var(--radius-xs);
+}
+
+.telemetry-live-dot {
+  width: 7px;
+  height: 7px;
+  background: #078fe0;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #078fe0;
+  animation: livePulse 1.8s infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+.telemetry-source {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #6dcff6;
+}
+
+.hud-telemetry-text {
+  color: var(--color-ink);
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+@media (max-width: 900px) {
+  .hero-eyes-hud {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .hud-target-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .hud-btn {
+    flex: 1 1 auto;
+    justify-content: center;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .hud-telemetry-strip {
+    font-size: 11px;
+  }
+}
+
+/* Make sure container content stays above scrim */
+.hero-section .esa-container,
+.hero-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--spacing-xxl);
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.hero-eyebrow {
+  margin-bottom: var(--spacing-xs);
+}
+
+.hero-headline {
+  color: var(--color-ink);
+}
+
+.hero-headline span.accent {
+  color: var(--color-primary);
+}
+
+.hero-subhead {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--color-ink-muted);
+  max-width: 640px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+/* Telemetry Status Strip in Hero */
+.hero-telemetry-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  width: fit-content;
+}
+
+.telemetry-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-ink-muted);
+}
+
+.telemetry-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  box-shadow: 0 0 8px var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   10. COCKPIT TELEMETRY HUD (PRODUCT FRAME)
+   -------------------------------------------------------------------------- */
+.cockpit-frame {
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline-card);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 1px rgba(94, 106, 210, 0.2);
+  position: relative;
+  transition: border-color var(--transition-base);
+}
+
+.cockpit-frame:hover {
+  border-color: var(--color-hairline-strong);
+}
+
+.cockpit-header {
+  height: 48px;
+  background: var(--color-surface-2);
+  border-bottom: 1px solid var(--color-hairline);
+  padding: 0 var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cockpit-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+}
+
+.cockpit-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+  animation: pulse-indigo 2.4s infinite ease-in-out;
+}
+
+@keyframes pulse-indigo {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+    box-shadow: 0 0 4px var(--color-primary);
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+    box-shadow: 0 0 14px var(--color-primary-hover);
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.6;
+    box-shadow: 0 0 4px var(--color-primary);
+  }
+}
+
+.cockpit-body {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.cockpit-display-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+}
+
+.cockpit-screen {
+  background: #000000;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.screen-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ink);
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--color-hairline);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  z-index: 3;
+  letter-spacing: 0.5px;
+}
+
+.screen-canvas-holder {
+  height: 200px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.screen-canvas-holder.mars-target {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%),
+    url('/images/mars_exploration.jpg') center/cover no-repeat;
+}
+
+.screen-canvas-holder.earth-analog {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%),
+    url('/images/tindouf_sebkha.jpg') center/cover no-repeat;
+}
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(240, 240, 250, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(240, 240, 250, 0.05) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.hud-reticle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border: 1px dashed rgba(240, 240, 250, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hud-reticle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+}
+
+.screen-telemetry {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-muted);
+  padding: 8px 10px;
+  background: var(--color-surface-2);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.cockpit-score-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.score-chip-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.score-chip {
+  display: flex;
+  flex-direction: column;
+}
+
+.score-chip-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--color-ink-tertiary);
+  letter-spacing: 0.5px;
+}
+
+.score-chip-val {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.score-chip-val.azure,
+.score-chip-val.primary {
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   11. VISION & SCIENTIFIC PRINCIPLES SECTION
+   -------------------------------------------------------------------------- */
+.vision-section {
+  background-color: var(--color-surface-1);
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.vision-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.vision-card {
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.vision-card-num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 1px;
+}
+
+.vision-card-title {
+  color: var(--color-ink);
+}
+
+.vision-card-text {
+  color: var(--color-ink-muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.vision-principle-banner {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-surface-3);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.vision-principle-banner span.tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --------------------------------------------------------------------------
+   12. THE 8 MODULES ARCHITECTURE GRID
+   -------------------------------------------------------------------------- */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.module-card {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  overflow: hidden;
+}
+
+.module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.module-id {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: rgba(94, 106, 210, 0.12);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(94, 106, 210, 0.3);
+}
+
+.module-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.5px;
+}
+
+.module-title {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.module-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-ink-muted);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.module-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--spacing-xs);
+  padding-top: var(--spacing-xs);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.tech-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-ink-tertiary);
+  background: rgba(240, 240, 250, 0.04);
+  border: 1px solid rgba(240, 240, 250, 0.08);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+/* --------------------------------------------------------------------------
+   13. CANDIDATE ANALOGS SHOWCASE
+   -------------------------------------------------------------------------- */
+.analogs-showcase {
+  background: var(--color-surface-1);
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.analogs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.analog-card {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.analog-media {
+  height: 200px;
+  width: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+.analog-media.tindouf {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.85) 100%),
+    url('/images/tindouf_sebkha.jpg') center/cover no-repeat;
+}
+
+.analog-media.iriqui {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.85) 100%),
+    url('/images/lake_iriqui.jpg') center/cover no-repeat;
+}
+
+.analog-media.atacama {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.85) 100%),
+    url('/images/atacama_yungay.jpg') center/cover no-repeat;
+}
+
+.analog-media.mcmurdo {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.85) 100%),
+    url('/images/mcmurdo_valleys.jpg') center/cover no-repeat;
+}
+
+.analog-media.hawaii {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.85) 100%),
+    url('/images/hawaii_maunakea.jpg') center/cover no-repeat;
+}
+
+.analog-media.iceland {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.85) 100%),
+    url('/images/iceland_highlands.jpg') center/cover no-repeat;
+}
+
+.analog-media-badge {
+  position: absolute;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-hairline-strong);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+}
+
+.analog-content {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.analog-title {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.analog-country {
+  font-size: 13px;
+  color: var(--color-ink-muted);
+}
+
+.analog-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: var(--spacing-xs) 0;
+  padding: var(--spacing-xs) 0;
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.analog-metric-item {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.analog-metric-item .val {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.analog-metric-item .lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.analog-doi {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--transition-fast);
+}
+
+.analog-doi:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   14. SCIENTIFIC RIGOR SECTION (FORMULA & 3 PILLARS)
+   -------------------------------------------------------------------------- */
+.rigor-box {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-hairline-card);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: center;
+}
+
+.rigor-formula-card {
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.formula-display {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  color: var(--color-primary);
+  background: rgba(94, 106, 210, 0.08);
+  border: 1px solid rgba(94, 106, 210, 0.3);
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.three-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.pillar-item {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.pillar-indicator {
+  width: 4px;
+  background: var(--color-primary);
+  border-radius: var(--radius-xs);
+  flex-shrink: 0;
+}
+
+.pillar-indicator.pillar-2 {
+  background: var(--color-ink);
+}
+
+.pillar-indicator.pillar-3 {
+  background: var(--color-ink-tertiary);
+}
+
+.pillar-content h4 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-ink);
+  margin-bottom: 4px;
+}
+
+.pillar-content p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   15. 3-MINUTE DEMO WORKFLOW STEPPER
+   -------------------------------------------------------------------------- */
+.demo-workflow-wrapper {
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+}
+
+.stepper-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.step-card {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.step-card-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
+}
+
+.step-card-title {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.step-card-desc {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   16. DATA SOURCES & SCIENTIFIC PARTNERS STRIP
+   -------------------------------------------------------------------------- */
+.partners-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+  padding: var(--spacing-xl) 0;
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.partner-logo-item {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-ink-muted);
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.partner-logo-item span.accent {
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   17. FOOTER (#000000 Canvas, Hairline Border, 64px padding)
+   -------------------------------------------------------------------------- */
+.esa-footer,
+.site-footer,
+footer {
+  background-color: var(--color-footer);
+  border-top: 1px solid var(--color-hairline);
+  padding: 64px 0 32px;
+  color: var(--color-ink-muted);
+  position: relative;
+  z-index: 10;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--spacing-xxl);
+  margin-bottom: var(--spacing-xxl);
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.footer-brand-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-brand-desc {
+  font-size: 14px;
+  color: var(--color-ink-muted);
+  max-width: 380px;
+  line-height: 1.5;
+}
+
+.footer-col h5 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col a {
+  font-size: 14px;
+  color: var(--color-ink-muted);
+  transition: color var(--transition-fast);
+}
+
+.footer-col a:hover {
+  color: var(--color-primary);
+}
+
+.footer-bottom {
+  padding-top: var(--spacing-lg);
+  border-top: 1px solid var(--color-hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--color-ink-tertiary);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+
+.footer-bottom a {
+  color: var(--color-primary);
+}
+
+.footer-bottom a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   18. RESPONSIVE BREAKPOINTS & MOBILE OPTIMIZATIONS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1280px) {
+  .modules-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stepper-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --spacing-section: 70px;
+  }
+  .display-xl {
+    font-size: 54px;
+    letter-spacing: 1.2px;
+  }
+  .display-lg {
+    font-size: 42px;
+    letter-spacing: 1.0px;
+  }
+  .display-md {
+    font-size: 34px;
+    letter-spacing: 0.8px;
+  }
+  .headline {
+    font-size: 24px;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+  .vision-cards-grid,
+  .analogs-grid {
+    grid-template-columns: 1fr;
+  }
+  .rigor-box {
+    grid-template-columns: 1fr;
+  }
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --topbar-height: 64px;
+  }
+  .display-xl {
+    font-size: 38px;
+    letter-spacing: 1.0px;
+    line-height: 1.05;
+  }
+  .display-lg {
+    font-size: 30px;
+    letter-spacing: 0.8px;
+    line-height: 1.15;
+  }
+  .display-md {
+    font-size: 26px;
+    letter-spacing: 0.6px;
+  }
+  .headline {
+    font-size: 20px;
+  }
+  .nav-links {
+    display: none;
+  }
+  .modules-grid,
+  .stepper-grid {
+    grid-template-columns: 1fr;
+  }
+  .cockpit-display-pair {
+    grid-template-columns: 1fr;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+  .button-primary,
+  .btn-primary {
+    padding: 14px 28px;
+    font-size: 13px;
+    width: 100%;
+  }
+  .button-secondary,
+  .btn-secondary {
+    padding: 12px 24px;
+    font-size: 13px;
+    width: 100%;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions > * {
+    width: 100%;
+    text-align: center;
+  }
+  .partners-strip {
+    justify-content: center;
+    gap: var(--spacing-lg);
+  }
+}
