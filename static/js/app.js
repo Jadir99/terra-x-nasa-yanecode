@@ -1,5 +1,6 @@
 /** TERRA-X Workbench Main Orchestrator */
 
+import "./static_backend.js";
 import { applyLanguage } from "./i18n.js";
 import {
   renderEarthMap,
