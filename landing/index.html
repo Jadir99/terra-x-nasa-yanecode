@@ -16,6 +16,9 @@
   <!-- Design System CSS -->
   <link rel="stylesheet" href="css/earth-analogs.css?v=3" />
 
+  <!-- Leaflet Map CSS for Workbench 2D Discovery Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
   <style>
     /* Specific styles for YaneCode & Dr. Jamal Ettousy contact & partner cards */
     .partner-pill {
@@ -52,6 +55,915 @@
       color: #FFFFFF;
       transform: translateY(-2px);
     }
+
+    /* =========================================================================
+       WORKBENCH COCKPIT (127.0.0.1 Light Design Token System Specification)
+       Primary: #e87532 (Vivid Orange) | Canvas: #ffffff | Surface-1: #eff6fa | Surface-2: #fff0e7
+       Ink: #101820 | Ink-Muted: #536273 | Ink-Subtle: #0566a8 | Hairline: #dce5ec
+       ========================================================================= */
+    #workbench-cockpit {
+      background-color: #EFF6FA; /* Surface-1 */
+      padding: 72px 0 104px 0;   /* spacing.section */
+    }
+    .cockpit-frame {
+      background: #FFFFFF;       /* Canvas */
+      border: 1px solid #DCE5EC; /* Hairline */
+      border-radius: 20px;       /* rounded.xl */
+      box-shadow: 0 1px 3px rgba(16, 24, 32, 0.05); /* Level 1 card lift */
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .cockpit-nav {
+      background: #FFFFFF;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid #DCE5EC;
+    }
+    .cockpit-tabs-group {
+      display: inline-flex;
+      background: #EFF6FA;       /* Surface-1 */
+      padding: 4px;
+      border-radius: 9999px;     /* rounded.pill */
+      border: 1px solid #DCE5EC;
+      gap: 4px;
+    }
+    .cockpit-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 22px;
+      background: transparent;
+      border: none;
+      border-radius: 9999px;     /* rounded.pill */
+      color: #536273;            /* Ink-muted */
+      font-size: 13.5px;
+      font-weight: 550;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .cockpit-tab-btn:hover {
+      color: #101820;            /* Ink */
+      background: rgba(232, 117, 50, 0.08); /* Surface-2 hint */
+    }
+    .cockpit-tab-btn.active {
+      background: #E87532;       /* Colors.primary (Vivid Orange) */
+      color: #FFFFFF;            /* On-primary */
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(232, 117, 50, 0.32);
+    }
+    .cockpit-tab-pill {
+      font-size: 10.5px;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+    .cockpit-tab-btn.active .cockpit-tab-pill {
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+    }
+    .cockpit-tab-btn:not(.active) .cockpit-tab-pill {
+      background: #FFFFFF;
+      color: #536273;
+      border: 1px solid #DCE5EC;
+    }
+    .cockpit-status-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: #FFFFFF;
+      border: 1px solid #DCE5EC;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      box-shadow: 0 1px 3px rgba(16, 24, 32, 0.04);
+      white-space: nowrap;
+    }
+    .cockpit-status-tag .status-prefix {
+      color: #536273;            /* Ink-muted */
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .cockpit-status-tag .status-val {
+      color: #059669;            /* Nominal emerald green */
+      font-weight: 700;
+      letter-spacing: 0.6px;
+    }
+    .cockpit-pulse {
+      position: relative;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10B981;       /* Crisp Emerald live core */
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .cockpit-pulse::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.35);
+      animation: statusPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+    @keyframes statusPing {
+      0% { transform: scale(0.6); opacity: 1; }
+      70%, 100% { transform: scale(2.2); opacity: 0; }
+    }
+    .cockpit-cta-btn {
+      background: #E7F5FF;       /* button-primary from YAML */
+      color: #0566A8;            /* textColor #0566a8 from YAML */
+      border: 0.8px solid rgba(5, 102, 168, 0.3);
+      padding: 9px 18px;
+      border-radius: 9px;        /* rounded.md */
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.25s ease;
+    }
+    .cockpit-cta-btn:hover {
+      background: #D36B2F;       /* button-primary-hover from YAML */
+      color: #FFFFFF;
+      border-color: #D36B2F;
+      box-shadow: 0 2px 8px rgba(232, 117, 50, 0.35);
+    }
+    .cockpit-content {
+      padding: 24px;
+      background: #FFFFFF;
+    }
+    .cockpit-panel {
+      display: none;
+    }
+    .cockpit-panel.active {
+      display: block;
+    }
+    /* 3D Tab View */
+    .terrain3d-cockpit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 860px) {
+      .terrain3d-cockpit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .canvas-3d-box {
+      background: #FFFFFF;
+      border-radius: 9px;        /* rounded.lg */
+      overflow: hidden;
+      position: relative;
+      border: 1px solid #DCE5EC; /* Hairline */
+      height: 450px;
+      box-shadow: 0 1px 3px rgba(16, 24, 32, 0.05); /* Level 1 card lift */
+    }
+    .canvas-3d-header {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      z-index: 10;
+      pointer-events: none;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 10px 14px;
+      border-radius: 9px;        /* rounded.lg */
+      border: 1px solid #DCE5EC;
+      box-shadow: 0 1px 3px rgba(16, 24, 32, 0.05);
+    }
+    .canvas-3d-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: left;
+    }
+    .canvas-3d-main-title {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #101820;            /* Ink */
+      font-family: 'Space Grotesk', sans-serif;
+      letter-spacing: -0.2px;
+    }
+    .canvas-3d-sub-title {
+      font-size: 11px;
+      font-weight: 500;
+      color: #536273;
+    }
+    .badge-scientific-real {
+      display: inline-block;
+      background: #EAF8EF;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.2px;
+    }
+    .canvas-3d-telemetry-box {
+      background: #EFF6FA;       /* Surface-1 */
+      border: 1px solid #BAE6FD;
+      border-radius: 6px;        /* rounded.xs */
+      padding: 5px 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      color: #0369A1;
+      white-space: nowrap;
+    }
+    .telemetry-sep {
+      color: #7DD3FC;
+      margin: 0 1px;
+    }
+    /* Interactive 3D Surface Scanner Tooltip */
+    .scanner-tooltip-box {
+      position: absolute;
+      z-index: 20;
+      background: rgba(35, 40, 50, 0.94);
+      border: 1.5px solid #FFFFFF;
+      border-radius: 4px;
+      padding: 7px 12px;
+      color: #FFFFFF;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+      transform: translate(14px, -50%);
+      transition: opacity 0.15s ease;
+      white-space: nowrap;
+    }
+    .scanner-tooltip-box.flip-left {
+      transform: translate(calc(-100% - 14px), -50%);
+    }
+    .scanner-pointer-arrow {
+      position: absolute;
+      top: 50%;
+      left: -7px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-right: 7px solid #FFFFFF;
+    }
+    .scanner-tooltip-box.flip-left .scanner-pointer-arrow {
+      left: auto;
+      right: -7px;
+      border-right: none;
+      border-left: 7px solid #FFFFFF;
+    }
+    .scanner-pointer-arrow::after {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 2px;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right: 6px solid #232832;
+    }
+    .scanner-tooltip-box.flip-left .scanner-pointer-arrow::after {
+      left: auto;
+      right: 2px;
+      border-right: none;
+      border-left: 6px solid #232832;
+    }
+    .scanner-line {
+      display: flex;
+      gap: 6px;
+    }
+    .scanner-label {
+      color: #94A3B8;
+      font-weight: 600;
+    }
+    .scanner-val {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+    .controls-3d-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+      padding: 12px 20px;
+      background: #EFF6FA;       /* Surface-1 */
+      border: 1px solid #DCE5EC; /* Hairline */
+      border-radius: 9px;        /* rounded.lg */
+      font-size: 13px;
+    }
+    .btn-3d-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      background: #FFFFFF;       /* button-secondary */
+      border: 1px solid #DCE5EC;
+      border-radius: 9px;        /* rounded.md */
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0566A8;            /* ink-subtle */
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .btn-3d-control:hover {
+      border-color: #E87532;
+      color: #E87532;
+      background: #FFF0E7;       /* Surface-2 */
+    }
+    .btn-3d-control.btn-active-state {
+      background: #E87532;       /* Vivid Orange */
+      color: #FFFFFF;
+      border-color: #E87532;
+      box-shadow: 0 2px 8px rgba(232, 117, 50, 0.3);
+    }
+    .cockpit-profile-wrapper {
+      margin-top: 18px;
+      background: #EFF6FA;       /* Surface-1 */
+      border: 1px solid #DCE5EC;
+      border-radius: 9px;        /* rounded.lg */
+      padding: 16px 20px;
+      box-shadow: 0 1px 3px rgba(16, 24, 32, 0.03);
+    }
+    /* 2D Map Tab View */
+    .map-cockpit-grid {
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 20px;
+      align-items: stretch;
+      min-height: 580px;
+    }
+    @media (max-width: 992px) {
+      .map-cockpit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .map-viewport-wrapper {
+      position: relative;
+      border-radius: 9px;        /* rounded.lg */
+      overflow: hidden;
+      border: 1px solid #DCE5EC;
+      background: #EFF6FA;
+      height: 100%;
+      min-height: 580px;
+      box-shadow: 0 1px 3px rgba(16, 24, 32, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    #cockpitMapCanvas {
+      width: 100%;
+      height: 100%;
+      min-height: 580px;
+      flex: 1 1 100%;
+      background: #EFF6FA;
+    }
+    .map-top-hud {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      z-index: 400;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .map-quick-filters, .map-basemap-switch {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      pointer-events: auto;
+    }
+    .map-filter-chip {
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid #DCE5EC;
+      border-radius: 9999px;
+      color: #101820;            /* ink */
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(16, 24, 32, 0.06);
+    }
+    .map-filter-chip:hover {
+      border-color: #E87532;
+      color: #E87532;
+      background: #FFF0E7;       /* Surface-2 */
+    }
+    .map-filter-chip.active {
+      background: #E87532;       /* Vivid Orange */
+      border-color: #E87532;
+      color: #FFFFFF;
+      box-shadow: 0 2px 10px rgba(232, 117, 50, 0.35);
+    }
+    .basemap-pill {
+      padding: 5px 12px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid #DCE5EC;
+      border-radius: 9999px;
+      color: #536273;            /* ink-muted */
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(16, 24, 32, 0.06);
+    }
+    .basemap-pill:hover {
+      color: #101820;
+      border-color: #E87532;
+    }
+    .basemap-pill.active {
+      background: #E87532;       /* Vivid Orange */
+      border-color: #E87532;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(232, 117, 50, 0.3);
+    }
+    .map-bottom-telemetry {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      z-index: 400;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      border: 1px solid #DCE5EC;
+      border-radius: 6px;        /* rounded.xs */
+      padding: 6px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #536273;            /* ink-muted */
+      pointer-events: none;
+      box-shadow: 0 2px 8px rgba(16, 24, 32, 0.06);
+    }
+    .telemetry-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hud-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #E87532;       /* Vivid Orange */
+      display: inline-block;
+      box-shadow: 0 0 6px #E87532;
+    }
+    /* Clean, Readable Map Pins */
+    .custom-pin-wrapper {
+      background: transparent;
+      border: none;
+    }
+    .tactical-map-pin {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .pin-radar-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 44px;
+      height: 44px;
+      margin-left: -22px;
+      margin-top: -22px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(232, 117, 50, 0.4);
+      animation: radarPulse 2s infinite ease-out;
+      pointer-events: none;
+    }
+    .pin-radar-ring-2 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 24px;
+      height: 24px;
+      margin-left: -12px;
+      margin-top: -12px;
+      border-radius: 50%;
+      background: rgba(232, 117, 50, 0.15);
+      pointer-events: none;
+    }
+    .pin-core-badge {
+      position: relative;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: #FFFFFF;
+      border: 1.5px solid #0566A8;
+      border-radius: 9999px;
+      color: #101820;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(16, 24, 32, 0.12);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .pin-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #101820;
+    }
+    .pin-score-chip {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #0566A8;
+      background: #EFF6FA;
+      padding: 1px 6px;
+      border-radius: 9999px;
+    }
+    .tactical-map-pin:hover .pin-core-badge,
+    .tactical-map-pin.active-pin .pin-core-badge {
+      background: #E87532;       /* Vivid Orange */
+      border-color: #E87532;
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(232, 117, 50, 0.45);
+      transform: scale(1.05);
+    }
+    .tactical-map-pin:hover .pin-title,
+    .tactical-map-pin.active-pin .pin-title {
+      color: #FFFFFF;
+    }
+    .tactical-map-pin:hover .pin-score-chip,
+    .tactical-map-pin.active-pin .pin-score-chip {
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+    }
+    .tactical-map-pin.active-pin .pin-radar-ring {
+      border-color: rgba(232, 117, 50, 0.7);
+    }
+    .tactical-map-pin.active-pin .pin-radar-ring-2 {
+      background: rgba(232, 117, 50, 0.2);
+    }
+    @keyframes radarPulse {
+      0% { transform: scale(0.3); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    /* Leaflet Styled Zoom Controls */
+    .leaflet-control-zoom {
+      border: 1px solid #DCE5EC !important;
+      border-radius: 8px !important;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(16, 24, 32, 0.08) !important;
+      margin-bottom: 14px !important;
+      margin-right: 14px !important;
+    }
+    .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+      background: #FFFFFF !important;
+      color: #101820 !important;
+      border-bottom: 1px solid #DCE5EC !important;
+      width: 32px !important;
+      height: 32px !important;
+      line-height: 30px !important;
+      font-size: 16px !important;
+      transition: all 0.2s ease !important;
+    }
+    .leaflet-control-zoom-in:hover, .leaflet-control-zoom-out:hover {
+      background: #E87532 !important;
+      color: #FFFFFF !important;
+    }
+    .inspector-card {
+      background: var(--color-canvas-soft);
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .inspector-thumb-box {
+      width: 100%;
+      height: 145px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 14px;
+      position: relative;
+      border: 1px solid var(--color-hairline);
+    }
+    .inspector-thumb-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .inspector-badge-floating {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(16, 24, 32, 0.88);
+      backdrop-filter: blur(6px);
+      color: var(--color-primary-focus);
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      padding: 4px 10px;
+      border-radius: var(--radius-xs);
+      border: 1px solid rgba(67, 181, 245, 0.4);
+    }
+    .scores-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .score-mini-card {
+      background: var(--color-surface-1);
+      border: 1px solid var(--color-hairline);
+      border-radius: var(--radius-sm);
+      padding: 8px 6px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .score-mini-val {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-ink);
+      font-family: var(--font-display);
+      display: block;
+    }
+    .score-mini-label {
+      font-size: 10px;
+      color: var(--color-ink-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .score-progress-track {
+      width: 100%;
+      height: 4px;
+      background: var(--color-surface-2);
+      border-radius: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .score-progress-bar {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+    .cockpit-banner-cta {
+      background: linear-gradient(135deg, #F5F9FC 0%, #EBF4FB 100%);
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-top: 1px solid var(--color-hairline);
+    }
+
+    /* =========================================================================
+       Responsive Mobile Optimizations for Planetary Analog Cockpit (Section 03B)
+       ========================================================================= */
+    @media (max-width: 680px) {
+      #workbench-cockpit {
+        padding: 40px 0 60px 0;
+      }
+      #workbench-cockpit .section-header {
+        margin-bottom: 22px !important;
+        text-align: left;
+      }
+      #workbench-cockpit .section-header .eyebrow {
+        font-size: 11.5px !important;
+        margin-bottom: 6px !important;
+      }
+      #workbench-cockpit .display-lg {
+        font-size: 22px !important;
+        letter-spacing: -1px !important;
+        line-height: 1.18 !important;
+        margin-top: 4px !important;
+      }
+      #workbench-cockpit .subhead {
+        font-size: 13.5px !important;
+        line-height: 1.5 !important;
+        margin-top: 6px !important;
+      }
+      .cockpit-frame {
+        border-radius: 14px;
+        margin-top: 8px;
+      }
+      .cockpit-nav {
+        padding: 12px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .cockpit-tabs-group {
+        width: 100%;
+        display: flex;
+        border-radius: 8px;
+        padding: 3px;
+      }
+      .cockpit-tab-btn {
+        flex: 1 1 50%;
+        justify-content: center;
+        padding: 8px 6px;
+        font-size: 12px;
+        gap: 5px;
+        border-radius: 6px;
+      }
+      .cockpit-tab-pill {
+        font-size: 9px;
+        padding: 1px 5px;
+      }
+      .cockpit-nav-actions {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .cockpit-status-tag {
+        font-size: 9.5px;
+        padding: 5px 9px;
+        gap: 5px;
+      }
+      .cockpit-cta-btn {
+        font-size: 11.5px;
+        padding: 7px 11px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .cockpit-content {
+        padding: 12px 10px;
+      }
+      .terrain3d-cockpit-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .canvas-3d-box {
+        height: 380px;
+        border-radius: 8px;
+      }
+      .canvas-3d-header {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        padding: 7px 10px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        background: rgba(255, 255, 255, 0.95);
+      }
+      .canvas-3d-title-group {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+      }
+      .canvas-3d-main-title {
+        font-size: 11.5px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .canvas-3d-sub-title {
+        display: none !important;
+      }
+      .badge-scientific-real {
+        font-size: 9px;
+        padding: 2px 5px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .canvas-3d-telemetry-box {
+        width: 100%;
+        font-size: 9.5px;
+        padding: 3px 6px;
+        gap: 4px;
+        justify-content: space-between;
+      }
+      .scanner-tooltip-box {
+        font-size: 11.5px;
+        padding: 5px 9px;
+      }
+      .controls-3d-bar {
+        padding: 10px 12px;
+        margin-top: 12px;
+        gap: 8px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .controls-3d-bar > div:first-child {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+      }
+      .btn-3d-control {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+      .cockpit-profile-wrapper {
+        padding: 10px 12px;
+        margin-top: 12px;
+      }
+      .cockpit-profile-wrapper span {
+        font-size: 10px !important;
+      }
+      #cockpitProfileCanvas {
+        height: 65px !important;
+      }
+      .map-viewport-wrapper {
+        min-height: 390px;
+        height: 390px;
+      }
+      #cockpitMapCanvas {
+        min-height: 390px;
+        height: 390px;
+      }
+      .map-top-hud {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        gap: 6px;
+      }
+      .map-quick-filters {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        max-width: 100%;
+        padding-bottom: 2px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .map-filter-chip {
+        padding: 4px 10px;
+        font-size: 11px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .basemap-pill {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+      .map-bottom-telemetry {
+        bottom: 8px;
+        left: 8px;
+        right: 8px;
+        padding: 4px 8px;
+        font-size: 9px;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .inspector-card {
+        padding: 14px;
+      }
+      .scores-row {
+        gap: 6px;
+        margin: 10px 0;
+      }
+      .score-mini-card {
+        padding: 6px 4px;
+      }
+      .score-mini-val {
+        font-size: 14px;
+      }
+      .score-mini-label {
+        font-size: 9px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -75,6 +987,7 @@
         <ul class="nav-menu" id="navMenu">
           <li class="nav-item"><a href="#hero" class="active">Home</a></li>
           <li class="nav-item"><a href="#about">About</a></li>
+          <li class="nav-item"><a href="#workbench-cockpit">Cockpit</a></li>
           <li class="nav-item"><a href="#research">Research</a></li>
           <li class="nav-item"><a href="#missions">Missions</a></li>
           <li class="nav-item"><a href="#analogs">Analogs</a></li>
@@ -253,6 +1166,274 @@
           <span class="stat-label">PDS Grounded</span>
           <p class="stat-desc">All mineral indices and terrain slopes fully grounded in peer-reviewed scientific citations.</p>
         </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       03B. INTERACTIVE PLANETARY ANALOG COCKPIT (Hybrid 3D Terrain + 2D Map)
+       ========================================================================= -->
+  <section class="section" id="workbench-cockpit">
+    <div class="container">
+      
+      <div class="section-header" style="text-align: center; max-width: 840px; margin: 0 auto 36px auto;">
+        <span class="eyebrow" style="color: #E87532; margin-bottom: 10px; font-weight: 650; display: inline-flex; align-items: center; gap: 8px;">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #E87532; display: inline-block;"></span>
+          INTERACTIVE WORKBENCH ENGINE
+        </span>
+        <h2 class="display-lg" style="color: #101820; font-family: 'Space Grotesk', sans-serif; letter-spacing: -2.2px; font-weight: 700; margin-top: 8px;">TERRESTRIAL ANALOG COCKPIT &amp; 3D TERRAIN TWIN</h2>
+        <p class="subhead" style="color: #536273; font-family: 'Inter', sans-serif;">
+          Explore high-fidelity 3D elevation digital twins and multi-parametric analog match scores directly calibrated against NASA Planetary Data System orbital baselines.
+        </p>
+      </div>
+
+      <!-- Cockpit Frame -->
+      <div class="cockpit-frame">
+        
+        <!-- Top Cockpit Control Navigation -->
+        <div class="cockpit-nav">
+          <div class="cockpit-tabs-group" role="tablist" aria-label="Cockpit Modes">
+            <button class="cockpit-tab-btn active" id="tabBtn3D" onclick="switchCockpitTab('3d')" role="tab" aria-selected="true" aria-controls="cockpitView3D">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>3D Terrain Digital Twin</span>
+              <span class="cockpit-tab-pill">WebGL</span>
+            </button>
+            <button class="cockpit-tab-btn" id="tabBtnMap" onclick="switchCockpitTab('map')" role="tab" aria-selected="false" aria-controls="cockpitViewMap">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>2D Discovery Map</span>
+              <span class="cockpit-tab-pill">9 Sites</span>
+            </button>
+          </div>
+
+          <div class="cockpit-nav-actions">
+            <div class="cockpit-status-tag">
+              <span class="cockpit-pulse"></span>
+              <span class="status-prefix">ORBITAL STREAM:</span>
+              <span class="status-val">CALIBRATED</span>
+            </div>
+            <a href="https://drettousyjamal.com/contact" target="_blank" rel="noopener noreferrer" class="cockpit-cta-btn">
+              <span>Full Access Demo →</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Cockpit Body Content -->
+        <div class="cockpit-content">
+          
+          <!-- TAB 1 (SHOWN FIRST): Interactive 3D WebGL Digital Twin -->
+          <div id="cockpitView3D" class="cockpit-panel active" role="tabpanel" aria-labelledby="tabBtn3D" style="display: block;">
+            
+            <div class="terrain3d-cockpit-grid">
+              
+              <!-- Left 3D Canvas: Mars Target -->
+              <div class="canvas-3d-box" id="canvas3dMars">
+                <div class="canvas-3d-header">
+                  <div class="canvas-3d-title-group">
+                    <div class="canvas-3d-main-title">
+                      MARS — Jezero Crater <span class="canvas-3d-sub-title">— Western Delta &amp; Margin</span>
+                    </div>
+                    <div class="badge-scientific-real">
+                      [Mesure Réelle • NASA MGS • MOLA MEGDR]
+                    </div>
+                  </div>
+                  <div class="canvas-3d-telemetry-box">
+                    <span>Relief: <strong>99.6m</strong></span>
+                    <span class="telemetry-sep">|</span>
+                    <span>Pente: <strong>0.61°</strong></span>
+                    <span class="telemetry-sep">|</span>
+                    <span>RMS: <strong>25m</strong></span>
+                  </div>
+                </div>
+
+                <!-- Interactive 3D Surface Scanner Tooltip (x, y, z) -->
+                <div class="scanner-tooltip-box" id="scannerTooltipMars" style="display: none;">
+                  <div class="scanner-pointer-arrow"></div>
+                  <div class="scanner-line"><span class="scanner-label">x:</span> <span class="scanner-val" id="scannerXMars">15</span></div>
+                  <div class="scanner-line"><span class="scanner-label">y:</span> <span class="scanner-val" id="scannerYMars">15</span></div>
+                  <div class="scanner-line"><span class="scanner-label">z:</span> <span class="scanner-val" id="scannerZMars">-2,630.69</span></div>
+                </div>
+              </div>
+
+              <!-- Right 3D Canvas: Earth Analog Twin -->
+              <div class="canvas-3d-box" id="canvas3dEarth">
+                <div class="canvas-3d-header">
+                  <div class="canvas-3d-title-group">
+                    <div class="canvas-3d-main-title">
+                      EARTH — Tindouf Basin <span class="canvas-3d-sub-title">— Sebkha &amp; Evaporite Margin</span>
+                    </div>
+                    <div class="badge-scientific-real">
+                      [Mesure Réelle • NASA • NASADEM HGT v001]
+                    </div>
+                  </div>
+                  <div class="canvas-3d-telemetry-box">
+                    <span>Relief: <strong>6.2m</strong></span>
+                    <span class="telemetry-sep">|</span>
+                    <span>Pente: <strong>0.05°</strong></span>
+                    <span class="telemetry-sep">|</span>
+                    <span>RMS: <strong>25m</strong></span>
+                  </div>
+                </div>
+
+                <!-- Interactive 3D Surface Scanner Tooltip (x, y, z) -->
+                <div class="scanner-tooltip-box" id="scannerTooltipEarth" style="display: none;">
+                  <div class="scanner-pointer-arrow"></div>
+                  <div class="scanner-line"><span class="scanner-label">x:</span> <span class="scanner-val" id="scannerXEarth">15</span></div>
+                  <div class="scanner-line"><span class="scanner-label">y:</span> <span class="scanner-val" id="scannerYEarth">15</span></div>
+                  <div class="scanner-line"><span class="scanner-label">z:</span> <span class="scanner-val" id="scannerZEarth">428.50</span></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- 3D Elevation Cross-Section Chart -->
+            <div class="cockpit-profile-wrapper">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11.5px; font-weight: 700; color: var(--color-ink); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.5px;">Comparative Topographic Cross-Section (Normalized Elevation Profile)</span>
+                <span class="mono" style="font-size: 11px; color: var(--color-ink-muted);">Z-Scale Exaggeration: 2.4x</span>
+              </div>
+              <canvas id="cockpitProfileCanvas" style="width: 100%; height: 96px;"></canvas>
+            </div>
+
+            <!-- 3D Controls Toolbar -->
+            <div class="controls-3d-bar">
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span style="font-weight: 600; color: var(--color-ink); font-size: 12.5px;">Interactive Controls:</span>
+                <button type="button" id="btnToggleRotate" onclick="toggle3DAutoRotate()" class="btn-3d-control btn-active-state">
+                  Auto-Rotate: ON
+                </button>
+                <button type="button" id="btnToggleWireframe" onclick="toggle3DWireframe()" class="btn-3d-control">
+                  Wireframe Mode
+                </button>
+                <span style="font-size: 12px; color: var(--color-ink-muted); margin-left: 4px;">(Click &amp; drag either terrain to rotate in sync; auto-rotate resumes automatically)</span>
+              </div>
+
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <span class="mono" style="font-size: 11.5px; color: var(--color-primary); font-weight: 600;">Resolution: 48×48 DEM Grid</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TAB 2: 2D Discovery Map + Site Inspector -->
+          <div id="cockpitViewMap" class="cockpit-panel" role="tabpanel" aria-labelledby="tabBtnMap" style="display: none;">
+            <div class="map-cockpit-grid">
+              
+              <!-- Left Map Viewport (Aerospace Mission Control View) -->
+              <div class="map-viewport-wrapper">
+                
+                <!-- Top HUD Controls: Regional Filters + Basemap Switcher -->
+                <div class="map-top-hud">
+                  <div class="map-quick-filters" aria-label="Map Region Filters">
+                    <button type="button" class="map-filter-chip active" data-cat="all" onclick="filterMapCategory('all')">🌍 Global All (9)</button>
+                    <button type="button" class="map-filter-chip" data-cat="sahara" onclick="filterMapCategory('sahara')">🇲🇦 Morocco Analogs</button>
+                    <button type="button" class="map-filter-chip" data-cat="deserts" onclick="filterMapCategory('deserts')">🏜️ Hyperarid Deserts</button>
+                    <button type="button" class="map-filter-chip" data-cat="polar" onclick="filterMapCategory('polar')">❄️ Cryogenic Polar</button>
+                  </div>
+
+                  <div class="map-basemap-switch" aria-label="Basemap Layer Toggle">
+                    <button type="button" class="basemap-pill active" id="btnBaseNormal" onclick="setCockpitBasemap('normal')">🗺️ Normal Map</button>
+                    <button type="button" class="basemap-pill" id="btnBaseSat" onclick="setCockpitBasemap('satellite')">🛰️ Satellite HD</button>
+                  </div>
+                </div>
+
+                <!-- Leaflet High-Res Map Canvas (Fills 100% of Available Viewport) -->
+                <div id="cockpitMapCanvas"></div>
+
+                <!-- Bottom Tactical Telemetry Bar -->
+                <div class="map-bottom-telemetry">
+                  <span class="telemetry-item"><span class="hud-dot"></span> PDS GEODETIC GRID</span>
+                  <span class="telemetry-item mono" id="mapHudCoords">TARGET: 27.6700°N, -8.1400°W • Tindouf Basin</span>
+                  <span class="telemetry-item mono" style="color: #64748B;">DATUM: WGS84 / MOLA</span>
+                </div>
+
+              </div>
+
+              <!-- Right Real-Time Site Inspector Card -->
+              <div class="inspector-card" id="inspectorCard">
+                <div>
+                  <div class="inspector-thumb-box">
+                    <img id="inspectorThumb" src="images/tindouf_sebkha.jpg" alt="Tindouf Basin Sebkha" />
+                    <span class="inspector-badge-floating" id="inspectorRankBadge">85.2% Planetary Match</span>
+                  </div>
+
+                  <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span id="inspectorFlag" style="font-size: 18px;">🇲🇦</span>
+                    <span id="inspectorCountry" style="font-size: 11.5px; font-weight: 700; color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.5px;">Morocco / Algeria Border</span>
+                  </div>
+
+                  <h3 id="inspectorSiteName" style="font-size: 18px; font-weight: 700; color: var(--color-ink); line-height: 1.3; margin-bottom: 6px;">Tindouf Basin — Sebkha &amp; Evaporite Margin</h3>
+                  <div class="mono" id="inspectorCoords" style="font-size: 11px; color: var(--color-ink-muted); margin-bottom: 12px;">27.6700° Lat, -8.1400° Lon (420 m)</div>
+
+                  <!-- 3-Score Decision Pillars with Micro Progress Bars -->
+                  <div class="scores-row">
+                    <div class="score-mini-card">
+                      <span class="score-mini-val" id="valSimilarity" style="color: var(--color-primary);">85.2%</span>
+                      <span class="score-mini-label">Similarity (S)</span>
+                      <div class="score-progress-track">
+                        <div class="score-progress-bar" id="barSimilarity" style="width: 85.2%; background: var(--color-primary);"></div>
+                      </div>
+                    </div>
+                    <div class="score-mini-card">
+                      <span class="score-mini-val" id="valAptitude" style="color: #10B981;">81.8%</span>
+                      <span class="score-mini-label">Aptitude (A)</span>
+                      <div class="score-progress-track">
+                        <div class="score-progress-bar" id="barAptitude" style="width: 81.8%; background: #10B981;"></div>
+                      </div>
+                    </div>
+                    <div class="score-mini-card">
+                      <span class="score-mini-val" id="valConfidence" style="color: #6366F1;">78.7%</span>
+                      <span class="score-mini-label">Confidence (C)</span>
+                      <div class="score-progress-track">
+                        <div class="score-progress-bar" id="barConfidence" style="width: 78.7%; background: #6366F1;"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Scientific Description -->
+                  <div style="margin-top: 10px;">
+                    <span style="font-size: 10.5px; font-weight: 700; color: var(--color-ink-muted); text-transform: uppercase; letter-spacing: 0.4px;">Primary Target:</span>
+                    <div id="inspectorTargetPlanet" style="font-size: 12.5px; font-weight: 600; color: var(--color-accent-orange); margin-bottom: 8px;">Mars (Jezero Crater Western Delta)</div>
+                    
+                    <span style="font-size: 10.5px; font-weight: 700; color: var(--color-ink-muted); text-transform: uppercase; letter-spacing: 0.4px;">Analog Driver:</span>
+                    <div id="inspectorDriver" style="font-size: 12.5px; color: var(--color-ink); margin-bottom: 8px;">Soil Geochemistry &amp; Soluble Salts</div>
+
+                    <p id="inspectorDesc" style="font-size: 12px; color: var(--color-ink-muted); line-height: 1.5; margin-bottom: 12px;">
+                      Hyperarid Saharan evaporite basin with documented soluble salt assemblages (chlorides, sulfates, nitrates, perchlorates) directly analogous to Martian lacustrine evaporitic sequences investigated by NASA Perseverance.
+                    </p>
+
+                    <div style="background: rgba(7, 143, 224, 0.05); border-left: 2px solid var(--color-primary); padding: 8px 10px; border-radius: 0 6px 6px 0; margin-bottom: 14px;">
+                      <span style="font-size: 10px; font-family: var(--font-mono); font-weight: 700; color: var(--color-primary); text-transform: uppercase;">Scientific Citation:</span>
+                      <div id="inspectorCitation" style="font-size: 11px; color: var(--color-ink); font-style: italic; margin-top: 2px;">
+                        Oberlin et al. (2018), Astrobiology, DOI: 10.1089/ast.2016.1557
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="https://drettousyjamal.com/contact" target="_blank" rel="noopener noreferrer" class="inspector-action-btn">
+                  <span>Deploy Model For This Site →</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Cockpit Bottom Action Strip (Cohesive Light Scientific Theme) -->
+        <div class="cockpit-banner-cta">
+          <div>
+            <h4 style="color: var(--color-ink); font-size: 16px; font-family: var(--font-display); font-weight: 700; margin-bottom: 4px;">Need Custom Planetary Target Ingestion?</h4>
+            <p style="color: var(--color-ink-muted); font-size: 13.5px; margin: 0;">Connect your custom rover traverse coordinates or mineral target criteria with Dr. Jamal Ettousy &amp; YaneCode Digital.</p>
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="https://drettousyjamal.com/contact" target="_blank" rel="noopener noreferrer" class="button-primary btn-primary" style="padding: 10px 22px; font-size: 13.5px; border-radius: var(--radius-sm); white-space: nowrap;">
+              <span>Request Full Live Demo →</span>
+            </a>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -882,6 +2063,10 @@
 
   <!-- NASA Eyes-Inspired 3D Celestial Engine -->
   <script src="js/hero-eyes-3d.js"></script>
+
+  <!-- Interactive Workbench Cockpit Engine (Leaflet Map + 3D Terrain Digital Twin) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/workbench-cockpit.js"></script>
 
   <!-- Mobile Navigation Drawer Handler -->
   <script>
